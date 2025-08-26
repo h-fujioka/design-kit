@@ -212,6 +212,84 @@ MIT License - 詳細は [LICENSE](LICENSE) ファイルを参照してくださ�
 - 一貫したレイアウトには拡張スペーシングスケールを活用
 - すべてのコンポーネントは完全にアクセシブルでキーボードナビゲーション対応
 
+## 🚀 プロトタイプ作成ルール
+
+### ディレクトリ構造
+```
+src/app/
+├── page.tsx                    # プロトタイプ一覧（ホーム）
+├── styleguide/
+│   └── page.tsx               # デザインシステム展示
+├── prototypes/                # プロトタイプ専用ディレクトリ
+│   ├── admin-dashboard/
+│   │   └── page.tsx
+│   ├── e-commerce/
+│   │   └── page.tsx
+│   └── user-profile/
+│       └── page.tsx
+```
+
+### ファイル命名ルール
+- **ディレクトリ名**: kebab-case（例: `admin-dashboard`, `user-profile`）
+- **コンポーネント名**: PascalCase（例: `AdminDashboard`, `UserProfile`）
+- **ページファイル**: `page.tsx`（Next.js App Router規約）
+
+### コンポーネント使用ルール
+```typescript
+// ✅ 推奨: ブランドバリアントを優先使用
+<Button variant="brand">Primary Action</Button>
+<Card variant="brand">Content</Card>
+<Badge variant="brand">Status</Badge>
+
+// ❌ 避ける: デフォルトバリアントの多用
+<Button>Primary Action</Button>
+<Card>Content</Card>
+```
+
+### レイアウトルール
+```typescript
+// ✅ 推奨: PageShellとHeader/Footerの使用
+export default function PrototypePage() {
+  return (
+    <>
+      <Header />
+      <PageShell>
+        {/* プロトタイプコンテンツ */}
+      </PageShell>
+      <Footer />
+    </>
+  );
+}
+```
+
+### スタイリングルール
+- **4pxグリッドスペーシング**: `space-4`, `gap-4`, `p-4`などを使用
+- **ブランドカラー優先**: `brand-*`クラスを積極的に使用
+- **レスポンシブデザイン**: `md:`, `lg:`プレフィックスを使用
+- **ダークモード対応**: すべてのコンポーネントでダークモードを考慮
+
+### プロトタイプ追加手順
+1. **ディレクトリ作成**: `src/app/prototypes/[prototype-name]/`
+2. **ページ作成**: `page.tsx`ファイルを作成
+3. **ルート画面更新**: プロトタイプ一覧に追加
+4. **README更新**: プロトタイプの説明を追加
+
+### アクセシビリティルール
+- **ARIA属性**: 適切な`aria-*`属性を使用
+- **キーボードナビゲーション**: フォーカス管理を考慮
+- **セマンティックHTML**: 適切なHTML要素を使用
+- **コントラスト比**: ブランドカラーでも十分なコントラストを確保
+
+### Git管理ルール
+```bash
+# プロトタイプ追加時
+git add src/app/prototypes/[prototype-name]/
+git commit -m "feat: [PrototypeName]プロトタイプを追加"
+
+# スタイル更新時
+git commit -m "style: [PrototypeName]のスタイルを改善"
+```
+
 ---
 
 **モダンなWeb開発のために ❤️ で構築**
