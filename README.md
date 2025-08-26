@@ -7,7 +7,7 @@ Apple/Shopify風のデザイン原則に基づいた、洗練されたデザイ�
 - **フレームワーク**: Next.js 15+ with App Router
 - **スタイリング**: Tailwind CSS v4 + カスタムブランドカラーシステム
 - **UIコンポーネント**: shadcn/ui + ブランドカラーバリアント
-- **タイポグラフィ**: Inter フォントによる読みやすいテキスト
+- **タイポグラフィ**: システムフォントスタックによる読みやすいテキスト
 - **アイコン**: Lucide React による一貫したアイコン
 - **アニメーション**: Framer Motion 対応のスムーズなインタラクション
 - **開発者体験**: TypeScript, ESLint, Prettier with Tailwind plugin
@@ -60,7 +60,7 @@ Apple/Shopify風のデザイン原則に基づいた、洗練されたデザイ�
 - **shadcn/ui** - 美しくアクセシブルなUIコンポーネント
 - **Lucide React** - クリーンで一貫したアイコン
 - **Framer Motion** - 本番対応のモーションライブラリ
-- **Inter** - モダンで読みやすいフォントファミリー
+- **システムフォントスタック** - 各OSに最適化されたフォントファミリー
 
 ## 📁 プロジェクト構造
 
@@ -144,9 +144,12 @@ Shopify Polaris風の4pxベーススペーシング:
 
 ## 📝 タイポグラフィ
 
-16px基準のクリーンなタイポグラフィスケール:
+16px基準のクリーンなタイポグラフィスケール（システムフォントスタック）:
 
 ```css
+/* システムフォントスタック */
+--font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
 /* タイポグラフィスケール - 16px基準 */
 --text-xs: 0.75rem;    /* 12px */
 --text-sm: 0.875rem;   /* 14px */

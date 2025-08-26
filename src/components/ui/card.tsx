@@ -11,6 +11,7 @@ const cardVariants = cva(
         default: 'bg-card text-card-foreground',
         brand: 'bg-brand-50/50 border-brand-100 text-brand-900 dark:bg-brand-900/10 dark:border-brand-800/50 dark:text-brand-100',
         brandAccent: 'bg-brand-50 border-brand-200 text-brand-900 dark:bg-brand-900/20 dark:border-brand-800 dark:text-brand-100',
+        outline: 'bg-transparent border-gray-200 text-gray-900 dark:border-gray-700 dark:text-gray-100',
       },
     },
     defaultVariants: {

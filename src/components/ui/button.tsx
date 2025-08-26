@@ -10,23 +10,23 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
+          'bg-gray-900 text-white shadow-xs hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200',
         brand:
-          'bg-brand-600 text-white shadow-xs hover:bg-brand-700 focus-visible:ring-brand-500/20 dark:focus-visible:ring-brand-400/40',
+          'bg-[oklch(0.4_0.06_240)] text-white shadow-xs hover:bg-[oklch(0.32_0.05_240)] focus-visible:ring-[oklch(0.5_0.05_240)/0.2] dark:focus-visible:ring-[oklch(0.67_0.04_240)/0.4]',
         destructive:
           'bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
         outline:
           'border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50',
         brandOutline:
-          'border border-brand-200 bg-background text-brand-700 shadow-xs hover:bg-brand-50 hover:text-brand-800 dark:border-brand-800 dark:text-brand-300 dark:hover:bg-brand-900/50',
+          'border border-[oklch(0.87_0.02_240)] bg-background text-[oklch(0.32_0.05_240)] shadow-xs hover:bg-[oklch(0.97_0.005_240)] hover:text-[oklch(0.25_0.04_240)] dark:border-[oklch(0.25_0.04_240)] dark:text-[oklch(0.8_0.03_240)] dark:hover:bg-[oklch(0.18_0.03_240/0.5)]',
         secondary:
           'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
         ghost:
           'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
         brandGhost:
-          'text-brand-700 hover:bg-brand-50 hover:text-brand-800 dark:text-brand-300 dark:hover:bg-brand-900/50',
+          'text-[oklch(0.32_0.05_240)] hover:bg-[oklch(0.97_0.005_240)] hover:text-[oklch(0.25_0.04_240)] dark:text-[oklch(0.8_0.03_240)] dark:hover:bg-[oklch(0.18_0.03_240/0.5)]',
         link: 'text-primary underline-offset-4 hover:underline',
-        brandLink: 'text-brand-600 underline-offset-4 hover:underline hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300',
+        brandLink: 'text-[oklch(0.4_0.06_240)] underline-offset-4 hover:underline hover:text-[oklch(0.32_0.05_240)] dark:text-[oklch(0.67_0.04_240)] dark:hover:text-[oklch(0.8_0.03_240)]',
       },
       size: {
         default: 'h-9 px-4 py-2 has-[>svg]:px-3',
