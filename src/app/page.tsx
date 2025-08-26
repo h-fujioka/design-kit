@@ -1,103 +1,172 @@
-import Image from "next/image";
+import PageShell from '@/components/page-shell';
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      <Header />
+      <PageShell>
+        <section className="space-y-8">
+          <div className="space-y-4">
+            <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">
+              Clean Starter
+            </h1>
+            <p className="text-muted-foreground">
+              Next.js + Tailwind + shadcn/ui + lucide + framer-motion
+            </p>
+          </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <Card className="card-soft">
+            <CardHeader>
+              <CardTitle>Component Preview</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Buttons */}
+              <div className="space-y-3">
+                <h3 className="text-lg font-medium">Buttons</h3>
+                <div className="flex flex-wrap gap-3">
+                  <Button>Primary</Button>
+                  <Button variant="secondary">Secondary</Button>
+                  <Button variant="outline">Outline</Button>
+                  <Button variant="ghost">Ghost</Button>
+                  <Button variant="destructive">Destructive</Button>
+                </div>
+              </div>
+
+              {/* Badges */}
+              <div className="space-y-3">
+                <h3 className="text-lg font-medium">Badges</h3>
+                <div className="flex flex-wrap gap-3">
+                  <Badge>Default</Badge>
+                  <Badge variant="secondary">Secondary</Badge>
+                  <Badge variant="outline">Outline</Badge>
+                  <Badge variant="destructive">Destructive</Badge>
+                </div>
+              </div>
+
+              {/* Form Elements */}
+              <div className="space-y-3">
+                <h3 className="text-lg font-medium">Form Elements</h3>
+                <div className="grid max-w-md grid-cols-1 gap-4 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Name</Label>
+                    <Input id="name" placeholder="Enter your name" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Enter your email"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Tabs */}
+              <div className="space-y-3">
+                <h3 className="text-lg font-medium">Tabs</h3>
+                <Tabs defaultValue="overview" className="w-full">
+                  <TabsList>
+                    <TabsTrigger value="overview">Overview</TabsTrigger>
+                    <TabsTrigger value="analytics">Analytics</TabsTrigger>
+                    <TabsTrigger value="settings">Settings</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="overview" className="space-y-4">
+                    <Card>
+                      <CardContent className="p-6">
+                        <p>
+                          Overview tab content with clean layout and proper
+                          spacing.
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </TabsContent>
+                  <TabsContent value="analytics">
+                    <Card>
+                      <CardContent className="p-6">
+                        <p>Analytics data and charts would go here.</p>
+                      </CardContent>
+                    </Card>
+                  </TabsContent>
+                  <TabsContent value="settings">
+                    <Card>
+                      <CardContent className="p-6">
+                        <p>Configuration options and preferences.</p>
+                      </CardContent>
+                    </Card>
+                  </TabsContent>
+                </Tabs>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Spacing Scale Preview</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-muted-foreground">
+                Shopify-inspired spacing scale for consistent layouts
+              </p>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                {[
+                  { size: '4', value: '1rem' },
+                  { size: '6', value: '1.5rem' },
+                  { size: '8', value: '2rem' },
+                  { size: '10', value: '2.5rem' },
+                  { size: '12', value: '3rem' },
+                  { size: '13', value: '3.25rem' },
+                  { size: '15', value: '3.75rem' },
+                  { size: '18', value: '4.5rem' },
+                ].map((item) => (
+                  <div key={item.size} className="flex items-center gap-4">
+                    <div className="text-muted-foreground w-20 font-mono text-sm">
+                      p-{item.size}
+                    </div>
+                    <div className="text-muted-foreground text-sm">
+                      {item.value}
+                    </div>
+                    <div
+                      className={`bg-accent rounded-lg p-${item.size} text-xs`}
+                    >
+                      box
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Typography Scale</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <h1 className="text-4xl font-bold">Heading 1</h1>
+                <h2 className="text-3xl font-semibold">Heading 2</h2>
+                <h3 className="text-2xl font-medium">Heading 3</h3>
+                <h4 className="text-xl font-medium">Heading 4</h4>
+                <p className="text-base">
+                  Regular paragraph text with proper line height and spacing.
+                </p>
+                <p className="text-muted-foreground text-sm">
+                  Small text for secondary information.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+      </PageShell>
+      <Footer />
+    </>
   );
 }
