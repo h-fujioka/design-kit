@@ -66,30 +66,124 @@ Apple/Shopify風のデザイン原則に基づいた、洗練されたデザイ�
 
 ```
 src/
-├── app/                 # Next.js App Router
-│   ├── globals.css     # グローバルスタイルとテーマ
-│   ├── layout.tsx      # フォント設定を含むルートレイアウト
-│   ├── page.tsx        # コンポーネントプレビュー付きホームページ
-│   └── styleguide/     # スタイルガイドページ
-│       └── page.tsx    # デザインシステムのデモ
+├── app/                           # Next.js App Router
+│   ├── globals.css               # グローバルスタイルとテーマ
+│   ├── layout.tsx                # フォント設定を含むルートレイアウト
+│   ├── page.tsx                  # プロトタイプ一覧（ホーム）
+│   ├── styleguide/               # デザインシステム展示
+│   │   └── page.tsx
+│   └── prototypes/               # 各プロトタイプアプリケーション
+│       ├── ecommerce/            # ECサイトプロトタイプ
+│       │   ├── page.tsx
+│       │   ├── products/
+│       │   ├── cart/
+│       │   └── checkout/
+│       ├── dashboard/            # ダッシュボードプロトタイプ
+│       │   ├── page.tsx
+│       │   ├── analytics/
+│       │   └── settings/
+│       ├── blog/                 # ブログプロトタイプ
+│       │   ├── page.tsx
+│       │   ├── posts/
+│       │   └── admin/
+│       └── mobile/               # モバイルUIプロトタイプ
+│           ├── page.tsx
+│           ├── home/
+│           └── profile/
 ├── components/
-│   ├── ui/             # shadcn/uiコンポーネント
-│   │   ├── button.tsx  # ブランドカラーバリアント対応
-│   │   ├── card.tsx    # ブランドカラーバリアント対応
-│   │   ├── badge.tsx   # ブランドカラーバリアント対応
-│   │   ├── input.tsx   # ブランドカラーバリアント対応
-│   │   ├── label.tsx   # ブランドカラーバリアント対応
-│   │   ├── tabs.tsx    # ブランドカラーバリアント対応
-│   │   ├── separator.tsx # ブランドカラーバリアント対応
-│   │   ├── skeleton.tsx # ブランドカラーバリアント対応
-│   │   └── dialog.tsx  # ブランドカラーバリアント対応
-│   ├── container.tsx   # レイアウトコンテナ
-│   ├── header.tsx      # ナビゲーションヘッダー
-│   ├── footer.tsx      # サイトフッター
-│   ├── page-shell.tsx  # ページラッパー
-│   └── theme-toggle.tsx # ダークモード切り替え
+│   ├── ui/                       # shadcn/uiコンポーネント
+│   │   ├── button.tsx           # ブランドカラーバリアント対応
+│   │   ├── card.tsx             # ブランドカラーバリアント対応
+│   │   ├── badge.tsx            # ブランドカラーバリアント対応
+│   │   ├── input.tsx            # ブランドカラーバリアント対応
+│   │   ├── label.tsx            # ブランドカラーバリアント対応
+│   │   ├── tabs.tsx             # ブランドカラーバリアント対応
+│   │   ├── separator.tsx        # ブランドカラーバリアント対応
+│   │   ├── skeleton.tsx         # ブランドカラーバリアント対応
+│   │   └── dialog.tsx           # ブランドカラーバリアント対応
+│   ├── prototypes/              # プロトタイプ固有コンポーネント
+│   │   ├── ecommerce/           # ECサイト用コンポーネント
+│   │   │   ├── ProductCard.tsx
+│   │   │   ├── CartItem.tsx
+│   │   │   └── CheckoutForm.tsx
+│   │   ├── dashboard/           # ダッシュボード用コンポーネント
+│   │   │   ├── Chart.tsx
+│   │   │   ├── StatCard.tsx
+│   │   │   └── DataTable.tsx
+│   │   ├── blog/                # ブログ用コンポーネント
+│   │   │   ├── PostCard.tsx
+│   │   │   ├── CommentForm.tsx
+│   │   │   └── Editor.tsx
+│   │   └── mobile/              # モバイル用コンポーネント
+│   │       ├── BottomNav.tsx
+│   │       ├── SwipeCard.tsx
+│   │       └── PullToRefresh.tsx
+│   ├── shared/                  # 共有レイアウトコンポーネント
+│   │   ├── container.tsx        # レイアウトコンテナ
+│   │   ├── header.tsx           # ナビゲーションヘッダー
+│   │   ├── footer.tsx           # サイトフッター
+│   │   ├── page-shell.tsx       # ページラッパー
+│   │   └── theme-toggle.tsx     # ダークモード切り替え
+│   └── layout/                  # レイアウト関連
+│       ├── sidebar.tsx
+│       ├── navigation.tsx
+│       └── breadcrumb.tsx
 └── lib/
-    └── utils.ts        # ユーティリティ関数
+    ├── api/                     # API関連（バックエンド対応準備）
+    │   ├── routes/              # Next.js API Routes
+    │   │   ├── auth/
+    │   │   │   └── route.ts     # 認証API
+    │   │   ├── users/
+    │   │   │   └── route.ts     # ユーザー管理API
+    │   │   ├── products/
+    │   │   │   └── route.ts     # 商品管理API
+    │   │   ├── orders/
+    │   │   │   └── route.ts     # 注文管理API
+    │   │   └── posts/
+    │   │       └── route.ts     # 投稿管理API
+    │   ├── types/               # API型定義
+    │   │   ├── auth.ts          # 認証関連型
+    │   │   ├── user.ts          # ユーザー関連型
+    │   │   ├── product.ts       # 商品関連型
+    │   │   ├── order.ts         # 注文関連型
+    │   │   └── post.ts          # 投稿関連型
+    │   ├── mock-data/           # モックデータ
+    │   │   ├── users.ts
+    │   │   ├── products.ts
+    │   │   ├── orders.ts
+    │   │   └── posts.ts
+    │   ├── client.ts            # APIクライアント
+    │   ├── middleware.ts        # APIミドルウェア
+    │   └── utils.ts             # APIユーティリティ
+    ├── db/                      # データベース関連（将来対応）
+    │   ├── schema/              # データスキーマ
+    │   │   ├── user.ts
+    │   │   ├── product.ts
+    │   │   ├── order.ts
+    │   │   └── post.ts
+    │   ├── migrations/          # マイグレーション
+    │   ├── seeds/               # 初期データ
+    │   ├── connection.ts        # DB接続
+    │   └── index.ts             # DBエクスポート
+    ├── auth/                    # 認証関連（将来対応）
+    │   ├── session.ts           # セッション管理
+    │   ├── middleware.ts        # 認証ミドルウェア
+    │   └── utils.ts             # 認証ユーティリティ
+    ├── hooks/                   # カスタムフック
+    │   ├── use-api.ts           # API呼び出しフック
+    │   ├── use-auth.ts          # 認証フック
+    │   ├── use-local-storage.ts # ローカルストレージフック
+    │   └── use-debounce.ts      # デバウンスフック
+    ├── constants/               # 定数定義
+    │   ├── api.ts               # API定数
+    │   ├── routes.ts            # ルート定数
+    │   └── config.ts            # 設定定数
+    ├── utils.ts                 # ユーティリティ関数
+    └── validations/             # バリデーション
+        ├── auth.ts
+        ├── user.ts
+        ├── product.ts
+        └── order.ts
 ```
 
 ## 🎨 ブランドカラーシステム
@@ -193,46 +287,23 @@ pnpm dlx shadcn@latest add [component-name]
 - スペーシングシステム
 - レイアウト例
 
-## 🤝 コントリビューション
-
-1. リポジトリをフォーク
-2. 機能ブランチを作成 (`git checkout -b feature/amazing-feature`)
-3. 変更をコミット (`git commit -m 'Add some amazing feature'`)
-4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
-5. プルリクエストを作成
-
-## 📄 ライセンス
-
-MIT License - 詳細は [LICENSE](LICENSE) ファイルを参照してください。
-
-## 💡 ヒント
-
-- 一貫したページマージンには `Container` コンポーネントを使用
-- `card-soft` クラスでApple風の繊細なシャドウを実現
-- 一貫したレイアウトには拡張スペーシングスケールを活用
-- すべてのコンポーネントは完全にアクセシブルでキーボードナビゲーション対応
-
 ## 🚀 プロトタイプ作成ルール
 
 ### ディレクトリ構造
 ```
-src/app/
-├── page.tsx                    # プロトタイプ一覧（ホーム）
-├── styleguide/
-│   └── page.tsx               # デザインシステム展示
-├── prototypes/                # プロトタイプ専用ディレクトリ
-│   ├── admin-dashboard/
-│   │   └── page.tsx
-│   ├── e-commerce/
-│   │   └── page.tsx
-│   └── user-profile/
-│       └── page.tsx
+src/app/prototypes/
+├── [prototype-name]/             # プロトタイプ専用ディレクトリ
+│   ├── page.tsx                  # メインページ
+│   ├── components/               # プロトタイプ固有コンポーネント
+│   ├── hooks/                    # プロトタイプ固有フック
+│   └── utils/                    # プロトタイプ固有ユーティリティ
 ```
 
 ### ファイル命名ルール
-- **ディレクトリ名**: kebab-case（例: `admin-dashboard`, `user-profile`）
-- **コンポーネント名**: PascalCase（例: `AdminDashboard`, `UserProfile`）
+- **ディレクトリ名**: kebab-case（例: `ecommerce`, `admin-dashboard`）
+- **コンポーネント名**: PascalCase（例: `ProductCard`, `UserProfile`）
 - **ページファイル**: `page.tsx`（Next.js App Router規約）
+- **API Routes**: `route.ts`（Next.js API Routes規約）
 
 ### コンポーネント使用ルール
 ```typescript
@@ -271,8 +342,9 @@ export default function PrototypePage() {
 ### プロトタイプ追加手順
 1. **ディレクトリ作成**: `src/app/prototypes/[prototype-name]/`
 2. **ページ作成**: `page.tsx`ファイルを作成
-3. **ルート画面更新**: プロトタイプ一覧に追加
-4. **README更新**: プロトタイプの説明を追加
+3. **コンポーネント作成**: `src/components/prototypes/[prototype-name]/`
+4. **ルート画面更新**: プロトタイプ一覧に追加
+5. **README更新**: プロトタイプの説明を追加
 
 ### アクセシビリティルール
 - **ARIA属性**: 適切な`aria-*`属性を使用
@@ -289,6 +361,47 @@ git commit -m "feat: [PrototypeName]プロトタイプを追加"
 # スタイル更新時
 git commit -m "style: [PrototypeName]のスタイルを改善"
 ```
+
+## 🔄 バックエンド対応計画
+
+### Phase 1: モックデータ基盤（現在）
+- Next.js API Routes
+- モックデータ管理
+- 型定義整備
+
+### Phase 2: データ永続化（将来）
+- Prisma + SQLite/PostgreSQL
+- マイグレーション管理
+- シードデータ
+
+### Phase 3: 認証・セキュリティ（将来）
+- NextAuth.js / Clerk
+- セッション管理
+- 認証ミドルウェア
+
+### Phase 4: 本格運用（将来）
+- Supabase / PlanetScale
+- リアルタイム機能
+- ファイルアップロード
+
+## 🤝 コントリビューション
+
+1. リポジトリをフォーク
+2. 機能ブランチを作成 (`git checkout -b feature/amazing-feature`)
+3. 変更をコミット (`git commit -m 'Add some amazing feature'`)
+4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
+5. プルリクエストを作成
+
+## 📄 ライセンス
+
+MIT License - 詳細は [LICENSE](LICENSE) ファイルを参照してください。
+
+## 💡 ヒント
+
+- 一貫したページマージンには `Container` コンポーネントを使用
+- `card-soft` クラスでApple風の繊細なシャドウを実現
+- 一貫したレイアウトには拡張スペーシングスケールを活用
+- すべてのコンポーネントは完全にアクセシブルでキーボードナビゲーション対応
 
 ---
 

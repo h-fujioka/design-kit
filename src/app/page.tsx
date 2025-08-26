@@ -1,9 +1,12 @@
-import { PageShell } from '@/components/page-shell';
-import { Header } from '@/components/header';
-import { Footer } from '@/components/footer';
+import { PageShell } from '@/components/shared/page-shell';
+import { Header } from '@/components/shared/header';
+import { Footer } from '@/components/shared/footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
+import { APP_ROUTES } from '@/lib/constants/routes';
+
+
 
 export default function HomePage() {
   return (
@@ -20,7 +23,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-1 max-w-2xl">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 max-w-4xl">
             <Card variant="brand">
               <CardHeader>
                 <CardTitle>Styleguide</CardTitle>
@@ -30,8 +33,24 @@ export default function HomePage() {
                   Comprehensive design system showcase with all components and variants.
                 </p>
                 <Button variant="brand" asChild>
-                  <Link href="/styleguide">
+                  <Link href={APP_ROUTES.STYLEGUIDE}>
                     View Styleguide
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card variant="brand">
+              <CardHeader>
+                <CardTitle>VC Compass</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-muted-foreground">
+                  Venture Capital Investment Dashboard & Analytics prototype.
+                </p>
+                <Button variant="brand" asChild>
+                  <Link href="/prototypes/vc-compass">
+                    View Prototype
                   </Link>
                 </Button>
               </CardContent>
