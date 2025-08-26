@@ -6,8 +6,18 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  
+  /* Typography scale - 16px base */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
 
   /* Brand colors - Apple/Shopify inspired */
   --color-brand-50: oklch(0.97 0.005 240);
@@ -21,16 +31,67 @@
   --color-brand-800: oklch(0.25 0.04 240);
   --color-brand-900: oklch(0.18 0.03 240);
 
-  /* Extended spacing scale - Shopify inspired */
-  --spacing-13: 3.25rem;
-  --spacing-15: 3.75rem;
-  --spacing-18: 4.5rem;
-  --spacing-22: 5.5rem;
+  /* Brand color aliases for Tailwind */
+  --color-primary: var(--color-brand-600);
+  --color-primary-foreground: oklch(0.98 0.005 240);
+  --color-secondary: var(--color-brand-100);
+  --color-secondary-foreground: var(--color-brand-900);
+  --color-accent: var(--color-brand-100);
+  --color-accent-foreground: var(--color-brand-900);
+  --color-muted: var(--color-brand-50);
+  --color-muted-foreground: var(--color-brand-700);
+  --color-destructive: oklch(0.6 0.2 25);
+  --color-destructive-foreground: oklch(0.98 0.005 240);
+  --color-border: var(--color-brand-200);
+  --color-input: var(--color-brand-100);
+  --color-ring: var(--color-brand-500);
+  --color-card: oklch(0.98 0.005 240);
+  --color-card-foreground: var(--color-brand-900);
+  --color-popover: oklch(0.98 0.005 240);
+  --color-popover-foreground: var(--color-brand-900);
+
+  /* Shopify Polaris 4px-based spacing scale */
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;   /* 4px */
+  --spacing-2: 0.5rem;    /* 8px */
+  --spacing-3: 0.75rem;   /* 12px */
+  --spacing-4: 1rem;      /* 16px */
+  --spacing-5: 1.25rem;   /* 20px */
+  --spacing-6: 1.5rem;    /* 24px */
+  --spacing-7: 1.75rem;   /* 28px */
+  --spacing-8: 2rem;      /* 32px */
+  --spacing-9: 2.25rem;   /* 36px */
+  --spacing-10: 2.5rem;   /* 40px */
+  --spacing-11: 2.75rem;  /* 44px */
+  --spacing-12: 3rem;     /* 48px */
+  --spacing-13: 3.25rem;  /* 52px */
+  --spacing-14: 3.5rem;   /* 56px */
+  --spacing-15: 3.75rem;  /* 60px */
+  --spacing-16: 4rem;     /* 64px */
+  --spacing-17: 4.25rem;  /* 68px */
+  --spacing-18: 4.5rem;   /* 72px */
+  --spacing-19: 4.75rem;  /* 76px */
+  --spacing-20: 5rem;     /* 80px */
+  --spacing-21: 5.25rem;  /* 84px */
+  --spacing-22: 5.5rem;   /* 88px */
+  --spacing-23: 5.75rem;  /* 92px */
+  --spacing-24: 6rem;     /* 96px */
+
+  /* Shopify Polaris spacing tokens */
+  --spacing-100: 0.25rem;  /* 4px */
+  --spacing-200: 0.5rem;   /* 8px */
+  --spacing-300: 0.75rem;  /* 12px */
+  --spacing-400: 1rem;     /* 16px */
+  --spacing-600: 1.5rem;   /* 24px */
+  --spacing-800: 2rem;     /* 32px */
+  --spacing-1000: 2.5rem;  /* 40px */
+  --spacing-1600: 4rem;    /* 64px */
 
   /* Apple-inspired border radius */
-  --radius-lg: 0.875rem;
-  --radius-xl: 1.125rem;
-  --radius-2xl: 1.375rem;
+  --radius: 0.5rem;        /* 8px - 控えめ〜中の角丸 */
+  --radius-lg: 0.75rem;    /* 12px */
+  --radius-xl: 1rem;       /* 16px */
+  --radius-2xl: 1.25rem;   /* 20px */
 
   /* Soft shadow */
   --box-shadow-soft: 0 10px 30px oklch(0 0 0 / 0.06);
@@ -63,101 +124,214 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* Apple寄りの明るいトーン */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 5%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 7%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 7%;
+  --primary: 0 0% 5%;           /* 黒 */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 96%;        /* グレー */
+  --secondary-foreground: 0 0% 5%;
+  --muted: 0 0% 97%;
+  --muted-foreground: 0 0% 40%;
+  --accent: 0 0% 96%;           /* グレー */
+  --accent-foreground: 0 0% 5%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 210 16% 90%;
+  --input: 210 16% 90%;
+  --ring: 0 0% 5%;              /* 黒 */
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 0 0% 5%;
+  --sidebar-primary: 0 0% 5%;   /* 黒 */
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 0 0% 96%;   /* グレー */
+  --sidebar-accent-foreground: 0 0% 5%;
+  --sidebar-border: 210 16% 90%;
+  --sidebar-ring: 0 0% 5%;      /* 黒 */
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: 0 0% 5%;        /* 黒背景 */
+  --foreground: 0 0% 100%;      /* 白テキスト */
+  --card: 0 0% 10%;             /* 少し明るい黒 */
+  --card-foreground: 0 0% 100%;
+  --popover: 0 0% 10%;
+  --popover-foreground: 0 0% 100%;
+  --primary: 0 0% 100%;         /* 白（プライマリー） */
+  --primary-foreground: 0 0% 5%;
+  --secondary: 0 0% 15%;        /* グレー */
+  --secondary-foreground: 0 0% 100%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 70%;
+  --accent: 0 0% 15%;           /* グレー */
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 20%;
+  --input: 0 0% 20%;
+  --ring: 0 0% 100%;            /* 白 */
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+  --sidebar: 0 0% 10%;
+  --sidebar-foreground: 0 0% 100%;
+  --sidebar-primary: 0 0% 100%; /* 白 */
+  --sidebar-primary-foreground: 0 0% 5%;
+  --sidebar-accent: 0 0% 15%;   /* グレー */
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 0 0% 20%;
+  --sidebar-ring: 0 0% 100%;    /* 白 */
+
+  /* Dark mode brand color overrides */
+  --color-primary: var(--color-brand-400);
+  --color-primary-foreground: oklch(0.05 0.005 240);
+  --color-secondary: var(--color-brand-900);
+  --color-secondary-foreground: var(--color-brand-100);
+  --color-accent: var(--color-brand-900);
+  --color-accent-foreground: var(--color-brand-100);
+  --color-muted: var(--color-brand-900);
+  --color-muted-foreground: var(--color-brand-300);
+  --color-destructive: oklch(0.7 0.25 25);
+  --color-destructive-foreground: oklch(0.05 0.005 240);
+  --color-border: var(--color-brand-800);
+  --color-input: var(--color-brand-900);
+  --color-ring: var(--color-brand-400);
+  --color-card: oklch(0.05 0.005 240);
+  --color-card-foreground: var(--color-brand-100);
+  --color-popover: oklch(0.05 0.005 240);
+  --color-popover-foreground: var(--color-brand-100);
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-[hsl(var(--border))] outline-ring/50;
   }
   html {
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-[hsl(var(--background))] text-[hsl(var(--foreground))] antialiased;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
 }
 
 @layer components {
   /* Container with Shopify-inspired padding */
+  .container {
+    @apply mx-auto px-400 md:px-600 lg:px-800;
+    max-width: 1200px;
+  }
+  
   .container-py {
-    @apply py-8 md:py-12 lg:py-16;
+    @apply py-400 md:py-600 lg:py-800;
   }
 
   /* Soft card style */
   .card-soft {
-    @apply bg-card rounded-2xl shadow-[0_10px_30px_oklch(0_0_0_/_0.06)];
+    @apply bg-card rounded-lg shadow-[0_10px_30px_oklch(0_0_0_/_0.06)];
+  }
+
+  /* Shopify Polaris spacing utilities */
+  .polaris-spacing-tight {
+    @apply p-100;
+  }
+  
+  .polaris-spacing-base {
+    @apply p-400;
+  }
+  
+  .polaris-spacing-loose {
+    @apply p-600;
+  }
+  
+  .polaris-spacing-extra-loose {
+    @apply p-800;
+  }
+  
+  /* Shopify Polaris component spacing */
+  .polaris-card {
+    @apply p-400 md:p-600;
+  }
+  
+  .polaris-button {
+    @apply px-400 py-200;
+  }
+  
+  .polaris-form {
+    @apply space-y-400;
+  }
+  
+  .polaris-section {
+    @apply space-y-600;
+  }
+  
+  .polaris-page {
+    @apply p-400 md:p-600 lg:p-800;
+  }
+
+  /* Shopify Polaris layout components */
+  .polaris-container {
+    @apply mx-auto px-400 md:px-600 lg:px-800;
+  }
+
+  .polaris-header {
+    @apply border-b border-[hsl(var(--border))];
+  }
+
+  .polaris-main {
+    @apply py-800;
+  }
+
+  .polaris-grid {
+    @apply grid gap-600;
+  }
+
+  .polaris-grid-cols-2 {
+    @apply grid-cols-1 md:grid-cols-2;
+  }
+
+  .polaris-grid-cols-3 {
+    @apply grid-cols-1 md:grid-cols-3;
+  }
+
+  .polaris-grid-cols-4 {
+    @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-4;
+  }
+
+  .polaris-aside {
+    @apply grid gap-600;
+  }
+
+  .polaris-table-container {
+    @apply rounded-lg border bg-card;
+  }
+
+  .polaris-table-header {
+    @apply p-400 border-b border-[hsl(var(--border))];
+  }
+
+  .polaris-table-body {
+    @apply p-400;
+  }
+
+  .polaris-table-footer {
+    @apply p-400 border-t border-[hsl(var(--border))] flex justify-end;
   }
 }

@@ -7,9 +7,17 @@ export function Header() {
     <header className="bg-background/60 supports-[backdrop-filter]:bg-background/50 sticky top-0 z-40 border-b backdrop-blur">
       <Container className="flex items-center justify-between py-4">
         <Link href="/" className="font-medium tracking-tight">
-          Starter
+          Design Kit
         </Link>
-        <ModeToggle />
+        <nav className="flex items-center gap-6">
+          <Link 
+            href="/styleguide" 
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Styleguide
+          </Link>
+          <ModeToggle />
+        </nav>
       </Container>
     </header>
   );

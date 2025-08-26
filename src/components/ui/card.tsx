@@ -1,15 +1,33 @@
 import * as React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
 
-function Card({ className, ...props }: React.ComponentProps<'div'>) {
+const cardVariants = cva(
+  'flex flex-col gap-6 rounded-xl border py-6 shadow-sm',
+  {
+    variants: {
+      variant: {
+        default: 'bg-card text-card-foreground',
+        brand: 'bg-brand-50/50 border-brand-100 text-brand-900 dark:bg-brand-900/10 dark:border-brand-800/50 dark:text-brand-100',
+        brandAccent: 'bg-brand-50 border-brand-200 text-brand-900 dark:bg-brand-900/20 dark:border-brand-800 dark:text-brand-100',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+    },
+  },
+);
+
+function Card({ 
+  className, 
+  variant,
+  ...props 
+}: React.ComponentProps<'div'> & VariantProps<typeof cardVariants>) {
   return (
     <div
       data-slot="card"
-      className={cn(
-        'bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm',
-        className,
-      )}
+      className={cn(cardVariants({ variant, className }))}
       {...props}
     />
   );
@@ -28,11 +46,21 @@ function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<'div'>) {
+function CardTitle({ 
+  className, 
+  size = 'default',
+  ...props 
+}: React.ComponentProps<'div'> & { size?: 'sm' | 'default' | 'lg' }) {
+  const sizeClasses = {
+    sm: 'text-sm font-medium',
+    default: 'text-base font-semibold',
+    lg: 'text-lg font-semibold',
+  };
+
   return (
     <div
       data-slot="card-title"
-      className={cn('leading-none font-semibold', className)}
+      className={cn('leading-none', sizeClasses[size], className)}
       {...props}
     />
   );
