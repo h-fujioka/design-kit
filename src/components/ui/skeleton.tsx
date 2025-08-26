@@ -7,10 +7,10 @@ const skeletonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-accent',
-        brand: 'bg-brand-200 dark:bg-brand-800',
-        muted: 'bg-muted',
-        subtle: 'bg-muted/50',
+        default: 'bg-accent dark:bg-accent/80',
+        brand: 'bg-brand-200 dark:bg-brand-600',
+        muted: 'bg-muted dark:bg-muted/80',
+        subtle: 'bg-muted/50 dark:bg-muted/60',
       },
     },
     defaultVariants: {
