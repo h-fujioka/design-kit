@@ -26,6 +26,35 @@ export default function StyleguidePage() {
             </p>
           </div>
 
+          <div className="grid gap-6 md:grid-cols-2">
+            <Card variant="brand">
+              <CardHeader>
+                <CardTitle>Design System</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-muted-foreground">
+                  Explore our comprehensive design system featuring Shopify Polaris-inspired components, 
+                  4px grid spacing, and Apple-style color palette.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card variant="brandAccent">
+              <CardHeader>
+                <CardTitle>Features</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>• 4px-based spacing system</li>
+                  <li>• Shopify Polaris layout components</li>
+                  <li>• Apple-inspired color palette</li>
+                  <li>• Responsive design patterns</li>
+                  <li>• Accessibility-first approach</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+
           <Separator />
 
           <div className="grid gap-6">
@@ -41,16 +70,6 @@ export default function StyleguidePage() {
                     <Button variant="brandOutline">Brand Outline</Button>
                     <Button variant="brandGhost">Brand Ghost</Button>
                     <Button variant="brandLink">Brand Link</Button>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">Alternative Variants - 代替バリアント</h4>
-                  <div className="flex flex-wrap gap-3">
-                    <Button>Default</Button>
-                    <Button variant="secondary">Secondary</Button>
-                    <Button variant="outline">Outline</Button>
-                    <Button variant="ghost">Ghost</Button>
-                    <Button variant="destructive">Destructive</Button>
                   </div>
                 </div>
                 <div className="space-y-3">
@@ -77,15 +96,6 @@ export default function StyleguidePage() {
                     <Badge variant="brandOutline">Brand Outline</Badge>
                   </div>
                 </div>
-                <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">Alternative Variants - 代替バリアント</h4>
-                  <div className="flex flex-wrap gap-3">
-                    <Badge>Default</Badge>
-                    <Badge variant="secondary">Secondary</Badge>
-                    <Badge variant="outline">Outline</Badge>
-                    <Badge variant="destructive">Destructive</Badge>
-                  </div>
-                </div>
               </CardContent>
             </Card>
 
@@ -104,19 +114,6 @@ export default function StyleguidePage() {
                     <div className="space-y-2">
                       <Label variant="brand" htmlFor="brand-password">Brand Password</Label>
                       <Input id="brand-password" variant="brand" type="password" />
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">Alternative Inputs - 代替入力</h4>
-                  <div className="grid max-w-md grid-cols-1 gap-4 md:grid-cols-2">
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input id="email" placeholder="Enter your email" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label variant="required" htmlFor="required-field">Required Field</Label>
-                      <Input id="required-field" variant="error" placeholder="This field is required" />
                     </div>
                   </div>
                 </div>
@@ -161,41 +158,6 @@ export default function StyleguidePage() {
                     </TabsContent>
                   </Tabs>
                 </div>
-
-                <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">Alternative Tabs - 代替タブ</h4>
-                  <Tabs defaultValue="overview" className="w-full">
-                    <TabsList>
-                      <TabsTrigger value="overview">Overview</TabsTrigger>
-                      <TabsTrigger value="analytics">Analytics</TabsTrigger>
-                      <TabsTrigger value="settings">Settings</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="overview" className="space-y-4">
-                      <Card>
-                        <CardContent className="p-6">
-                          <p>
-                            Overview tab content with clean layout and proper
-                            spacing.
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </TabsContent>
-                    <TabsContent value="analytics">
-                      <Card>
-                        <CardContent className="p-6">
-                          <p>Analytics data and charts would go here.</p>
-                        </CardContent>
-                      </Card>
-                    </TabsContent>
-                    <TabsContent value="settings">
-                      <Card>
-                        <CardContent className="p-6">
-                          <p>Configuration options and preferences.</p>
-                        </CardContent>
-                      </Card>
-                    </TabsContent>
-                  </Tabs>
-                </div>
               </CardContent>
             </Card>
 
@@ -214,15 +176,6 @@ export default function StyleguidePage() {
                     <div className="space-y-2">
                       <p className="text-sm">Strong separator</p>
                       <Separator variant="strong" />
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">Alternative Separators - 代替セパレーター</h4>
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <p className="text-sm">Default separator</p>
-                      <Separator />
                     </div>
                     <div className="flex items-center space-x-4">
                       <span className="text-sm">Vertical</span>
@@ -244,13 +197,6 @@ export default function StyleguidePage() {
                   <div className="space-y-2">
                     <Skeleton variant="brand" className="h-4 w-[250px]" />
                     <Skeleton variant="brand" className="h-4 w-[200px]" />
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">Alternative Skeletons - 代替スケルトン</h4>
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-[250px]" />
-                    <Skeleton className="h-4 w-[200px]" />
                   </div>
                 </div>
                 <div className="space-y-3">
@@ -288,28 +234,6 @@ export default function StyleguidePage() {
                         <DialogFooter>
                           <Button variant="brandOutline">Cancel</Button>
                           <Button variant="brand">Save</Button>
-                        </DialogFooter>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">Alternative Dialog - 代替ダイアログ</h4>
-                  <div className="flex flex-wrap gap-3">
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button>Default Dialog</Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Default Dialog</DialogTitle>
-                          <DialogDescription>
-                            This is a default dialog with standard styling.
-                          </DialogDescription>
-                        </DialogHeader>
-                        <DialogFooter>
-                          <Button variant="outline">Cancel</Button>
-                          <Button>Save</Button>
                         </DialogFooter>
                       </DialogContent>
                     </Dialog>
@@ -468,27 +392,6 @@ export default function StyleguidePage() {
                       </CardHeader>
                       <CardContent>
                         <p>This card uses the brand accent variant with more prominent brand colors.</p>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">Alternative Cards - 代替カード</h4>
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Default Card</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p>This is a default card with standard styling.</p>
-                      </CardContent>
-                    </Card>
-                    <Card variant="outline">
-                      <CardHeader>
-                        <CardTitle>Outline Card</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p>This card uses the outline variant with a border.</p>
                       </CardContent>
                     </Card>
                   </div>

@@ -13,24 +13,23 @@ export default function HomePage() {
         <section className="space-y-8">
           <div className="space-y-2">
             <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
-              Welcome to Design Kit
+              Design Kit Prototypes
             </h1>
             <p className="text-muted-foreground">
-              A Shopify Polaris-inspired design system with 4px grid spacing
+              Explore our design system through various prototype applications
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
-            <Card>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <Card variant="brand">
               <CardHeader>
-                <CardTitle>Design System</CardTitle>
+                <CardTitle>Styleguide</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-muted-foreground">
-                  Explore our comprehensive design system featuring Shopify Polaris-inspired components, 
-                  4px grid spacing, and Apple-style color palette.
+                  Comprehensive design system showcase with all components and variants.
                 </p>
-                <Button asChild>
+                <Button variant="brand" asChild>
                   <Link href="/styleguide">
                     View Styleguide
                   </Link>
@@ -38,20 +37,111 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card variant="brandAccent">
               <CardHeader>
-                <CardTitle>Features</CardTitle>
+                <CardTitle>Admin Dashboard</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>• 4px-based spacing system</li>
-                  <li>• Shopify Polaris layout components</li>
-                  <li>• Apple-inspired color palette</li>
-                  <li>• Responsive design patterns</li>
-                  <li>• Accessibility-first approach</li>
-                </ul>
+                <p className="text-muted-foreground">
+                  Shopify Polaris-inspired admin interface with data tables and analytics.
+                </p>
+                <Button variant="brandOutline" asChild>
+                  <Link href="/admin">
+                    View Dashboard
+                  </Link>
+                </Button>
               </CardContent>
             </Card>
+
+            <Card variant="brand">
+              <CardHeader>
+                <CardTitle>E-commerce</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-muted-foreground">
+                  Product catalog and shopping experience with modern UI patterns.
+                </p>
+                <Button variant="brandOutline" asChild>
+                  <Link href="/shop">
+                    Browse Products
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card variant="brandAccent">
+              <CardHeader>
+                <CardTitle>User Profile</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-muted-foreground">
+                  User account management with settings and preferences.
+                </p>
+                <Button variant="brandOutline" asChild>
+                  <Link href="/profile">
+                    View Profile
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card variant="brand">
+              <CardHeader>
+                <CardTitle>Onboarding</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-muted-foreground">
+                  User onboarding flow with step-by-step guidance.
+                </p>
+                <Button variant="brandOutline" asChild>
+                  <Link href="/onboarding">
+                    Start Onboarding
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card variant="brandAccent">
+              <CardHeader>
+                <CardTitle>Settings</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-muted-foreground">
+                  Application settings with form layouts and configuration options.
+                </p>
+                <Button variant="brandOutline" asChild>
+                  <Link href="/settings">
+                    Open Settings
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="rounded-lg border bg-muted/50 p-6">
+            <h3 className="text-lg font-semibold mb-2">About This Design System</h3>
+            <p className="text-muted-foreground mb-4">
+              Built with Next.js 15+, Tailwind CSS v4, and shadcn/ui components. 
+              Features a Shopify Polaris-inspired design with 4px grid spacing and 
+              Apple-style color palette using OKLCH color space.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <span className="inline-flex items-center rounded-md bg-brand-50 px-2 py-1 text-xs font-medium text-brand-700 ring-1 ring-inset ring-brand-700/10">
+                Next.js 15+
+              </span>
+              <span className="inline-flex items-center rounded-md bg-brand-50 px-2 py-1 text-xs font-medium text-brand-700 ring-1 ring-inset ring-brand-700/10">
+                Tailwind CSS v4
+              </span>
+              <span className="inline-flex items-center rounded-md bg-brand-50 px-2 py-1 text-xs font-medium text-brand-700 ring-1 ring-inset ring-brand-700/10">
+                shadcn/ui
+              </span>
+              <span className="inline-flex items-center rounded-md bg-brand-50 px-2 py-1 text-xs font-medium text-brand-700 ring-1 ring-inset ring-brand-700/10">
+                Shopify Polaris
+              </span>
+              <span className="inline-flex items-center rounded-md bg-brand-50 px-2 py-1 text-xs font-medium text-brand-700 ring-1 ring-inset ring-brand-700/10">
+                OKLCH Colors
+              </span>
+            </div>
           </div>
         </section>
       </PageShell>
