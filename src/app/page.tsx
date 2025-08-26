@@ -20,7 +20,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-1 max-w-2xl">
             <Card variant="brand">
               <CardHeader>
                 <CardTitle>Styleguide</CardTitle>
@@ -32,86 +32,6 @@ export default function HomePage() {
                 <Button variant="brand" asChild>
                   <Link href="/styleguide">
                     View Styleguide
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card variant="brandAccent">
-              <CardHeader>
-                <CardTitle>Admin Dashboard</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-muted-foreground">
-                  Shopify Polaris-inspired admin interface with data tables and analytics.
-                </p>
-                <Button variant="brandOutline" asChild>
-                  <Link href="/admin">
-                    View Dashboard
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card variant="brand">
-              <CardHeader>
-                <CardTitle>E-commerce</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-muted-foreground">
-                  Product catalog and shopping experience with modern UI patterns.
-                </p>
-                <Button variant="brandOutline" asChild>
-                  <Link href="/shop">
-                    Browse Products
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card variant="brandAccent">
-              <CardHeader>
-                <CardTitle>User Profile</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-muted-foreground">
-                  User account management with settings and preferences.
-                </p>
-                <Button variant="brandOutline" asChild>
-                  <Link href="/profile">
-                    View Profile
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card variant="brand">
-              <CardHeader>
-                <CardTitle>Onboarding</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-muted-foreground">
-                  User onboarding flow with step-by-step guidance.
-                </p>
-                <Button variant="brandOutline" asChild>
-                  <Link href="/onboarding">
-                    Start Onboarding
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card variant="brandAccent">
-              <CardHeader>
-                <CardTitle>Settings</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-muted-foreground">
-                  Application settings with form layouts and configuration options.
-                </p>
-                <Button variant="brandOutline" asChild>
-                  <Link href="/settings">
-                    Open Settings
                   </Link>
                 </Button>
               </CardContent>
