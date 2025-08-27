@@ -13,7 +13,7 @@ export default function HomePage() {
     <>
       <Header />
       <PageShell>
-        <section className="space-y-8">
+        <section className="space-y-6">
           <div className="space-y-2">
             <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
               Design Kit Prototypes
@@ -28,7 +28,7 @@ export default function HomePage() {
               <CardHeader>
                 <CardTitle>Styleguide</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3">
                 <p className="text-muted-foreground">
                   Comprehensive design system showcase with all components and variants.
                 </p>
@@ -44,7 +44,7 @@ export default function HomePage() {
               <CardHeader>
                 <CardTitle>VC Compass</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3">
                 <p className="text-muted-foreground">
                   Venture Capital Investment Dashboard & Analytics prototype.
                 </p>
@@ -59,7 +59,7 @@ export default function HomePage() {
 
           <div className="rounded-lg border bg-muted/50 p-6">
             <h3 className="text-lg font-semibold mb-2">About This Design System</h3>
-            <p className="text-muted-foreground mb-4">
+            <p className="text-muted-foreground mb-3">
               Built with Next.js 15+, Tailwind CSS v4, and shadcn/ui components. 
               Features a Shopify Polaris-inspired design with 4px grid spacing and 
               Apple-style color palette using OKLCH color space.

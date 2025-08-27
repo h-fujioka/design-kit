@@ -1709,6 +1709,7 @@ export function CompassDashboard() {
                           <div className="flex items-center gap-2">
                             {investor.isPriority && (
                               <Badge variant="brand" className="text-xs px-1.5 py-0.5">
+                                <span className="text-yellow-400 mr-1">⭐</span>
                                 おすすめ
                               </Badge>
                             )}
