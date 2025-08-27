@@ -4,6 +4,8 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { 
   Search,
   Target,
@@ -406,6 +408,9 @@ export function CompassDashboard() {
   });
   const [selectedInvestor, setSelectedInvestor] = useState<Investor | null>(null);
   const [showInvestorDetails, setShowInvestorDetails] = useState(false);
+  const [selectedInvestorIds, setSelectedInvestorIds] = useState<Set<string>>(new Set());
+  const [isInvestorSelectionComplete, setIsInvestorSelectionComplete] = useState(false);
+  const [confirmedInvestors, setConfirmedInvestors] = useState<Investor[]>([]);
 
   // refs
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -454,10 +459,76 @@ export function CompassDashboard() {
     return filteredInvestorData.slice(0, 10);
   }, [filteredInvestorData]);
 
+  // 統合された投資家リスト（優先フラグ付き）
+  const combinedInvestorList = useMemo(() => {
+    const priorityIds = new Set(priorityInvestors.map(inv => inv.id));
+    return filteredInvestorData.map(investor => ({
+      ...investor,
+      isPriority: priorityIds.has(investor.id)
+    }));
+  }, [filteredInvestorData, priorityInvestors]);
+
   // その他の投資家リスト（優先10社以外）
   const otherInvestors = useMemo(() => {
     return filteredInvestorData.slice(10);
   }, [filteredInvestorData]);
+
+  // チェックボックス操作関数
+  const handleInvestorSelection = (investorId: string, checked: boolean) => {
+    setSelectedInvestorIds(prev => {
+      const newSet = new Set(prev);
+      if (checked) {
+        newSet.add(investorId);
+      } else {
+        newSet.delete(investorId);
+      }
+      return newSet;
+    });
+  };
+
+  // リスト確定処理
+  const handleConfirmList = () => {
+    const selectedInvestors = combinedInvestorList.filter(inv => 
+      selectedInvestorIds.has(inv.id)
+    );
+    
+    // 選択された投資家の情報をチャットに追加
+    const confirmMessage = `${selectedInvestors.length}社の投資家を選定しました。次のアクションを選択してください。\n\n選定投資家:\n${selectedInvestors.map(inv => `• ${inv.name}`).join('\n')}`;
+    
+    const newMessage: ChatMessage = {
+      id: `confirmed-${Date.now()}`,
+      type: 'ai',
+      content: confirmMessage,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, newMessage]);
+    setShowSideCanvas(false);
+    setSelectedInvestorIds(new Set());
+    setConfirmedInvestors(selectedInvestors);
+    setIsInvestorSelectionComplete(true);
+  };
+
+  // やり直しハンドラー
+  const handleRetry = () => {
+    setShowSideCanvas(true);
+    setIsInvestorSelectionComplete(false);
+  };
+
+  // ピッチ構成作成ハンドラー
+  const handleCreatePitch = () => {
+    const pitchMessage = `ピッチ構成作成を開始します。選定いただいた${confirmedInvestors.length}社の投資家向けのピッチデックを作成いたします。\n\n対象投資家：${confirmedInvestors.map(inv => inv.name).join('、')}\n\nどのような内容を重点的に盛り込みたいですか？`;
+    
+    const newMessage: ChatMessage = {
+      id: `pitch-${Date.now()}`,
+      type: 'ai',
+      content: pitchMessage,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, newMessage]);
+    setIsInvestorSelectionComplete(false);
+  };
 
   const handleCategorySelect = (category: Category) => {
     setSelectedCategory(category);
@@ -826,6 +897,32 @@ export function CompassDashboard() {
                     </div>
                   </div>
                 )}
+
+                {/* 投資家選定完了後のアクションボタン */}
+                {message.type !== 'user' && message.id.startsWith('confirmed-') && isInvestorSelectionComplete && (
+                  <div className="flex justify-start w-full" style={{ marginBottom: '1.5rem' }}>
+                    <div className="max-w-2xl">
+                      <div className="flex gap-3">
+                        <Button
+                          variant="outline"
+                          onClick={handleRetry}
+                          className="flex items-center gap-2"
+                          style={{ letterSpacing: '0.01em' }}
+                        >
+                          <span className="text-sm font-medium">やり直す</span>
+                        </Button>
+                        <Button
+                          variant="brand"
+                          onClick={handleCreatePitch}
+                          className="flex items-center gap-2"
+                          style={{ letterSpacing: '0.01em' }}
+                        >
+                          <span className="text-sm font-medium">ピッチ構成を作成する</span>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
 
@@ -907,14 +1004,14 @@ export function CompassDashboard() {
           </div>
         </div>
 
-        {/* サイドキャンバス - 投資家リスト（ハイブリッド表示） */}
+        {/* サイドキャンバス - 投資家リスト（統合テーブル表示） */}
         {showSideCanvas && (
           <div className={`fixed top-[3.5rem] right-0 w-[65%] h-[calc(100vh-3.5rem)] bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 shadow-lg transform transition-transform duration-300 ${
             showSideCanvas ? 'translate-x-0' : 'translate-x-full'
           } flex flex-col`}>
-            {/* サイドキャンバスヘッダー */}
+            {/* 固定ヘッダー：タイトル & フィルター */}
             <div className="flex-shrink-0 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800" style={{ padding: '1rem 1.25rem' }}>
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center justify-between mb-4">
                 <div>
                   <h2 className="text-base font-bold text-gray-900 dark:text-gray-100" style={{ letterSpacing: '0.025em' }}>
                     投資家リストアップ結果
@@ -930,252 +1027,194 @@ export function CompassDashboard() {
                 </Button>
               </div>
 
-              {/* 検索バー・絞り込みボタン（横並び） */}
-              <div className="mb-3">
-                <div className="flex gap-2 items-center mb-2">
-                  {/* 検索ボックス */}
-                  <div className="flex-1 relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type="text"
-                      placeholder="投資家名、ステージ、過去投資先で検索..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 pr-4 py-1.5 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-sm placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
-                      style={{ letterSpacing: '0.01em' }}
-                    />
-                  </div>
-
-                  {/* 絞り込みボタン */}
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-                    className="flex-shrink-0 justify-center py-1.5 px-3 text-sm"
-                    style={{ letterSpacing: '0.01em' }}
-                  >
-                    <Target className="w-3 h-3 mr-1.5" />
-                    絞り込み
-                  </Button>
-                </div>
-
-                {/* 追加絞り込みフォーム */}
-                {showAdvancedFilters && (
-                  <div className="p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg space-y-2">
-                    <div>
-                      <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-0.5">
-                        ARR帯
-                      </label>
-                      <select
-                        value={advancedFilters.arrRange}
-                        onChange={(e) => setAdvancedFilters({...advancedFilters, arrRange: e.target.value})}
-                        className="w-full px-2 py-1.5 text-sm border border-gray-200 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-                      >
-                        <option value="">全て</option>
-                        <option value="1-5億">1-5億円</option>
-                        <option value="5-10億">5-10億円</option>
-                        <option value="10億">10億円以上</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-0.5">
-                        地域
-                      </label>
-                      <select
-                        value={advancedFilters.region}
-                        onChange={(e) => setAdvancedFilters({...advancedFilters, region: e.target.value})}
-                        className="w-full px-2 py-1.5 text-sm border border-gray-200 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-                      >
-                        <option value="">全て</option>
-                        <option value="東京">東京</option>
-                        <option value="大阪">大阪</option>
-                        <option value="グローバル">グローバル</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-0.5">
-                        リード希望
-                      </label>
-                      <select
-                        value={advancedFilters.leadPreference}
-                        onChange={(e) => setAdvancedFilters({...advancedFilters, leadPreference: e.target.value})}
-                        className="w-full px-2 py-1.5 text-sm border border-gray-200 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-                      >
-                        <option value="">全て</option>
-                        <option value="リード">リード希望</option>
-                        <option value="フォロー">フォロー可</option>
-                      </select>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* メインコンテンツエリア - ハイブリッド表示 */}
-            <div className="flex-1 overflow-hidden">
-              <div className="h-full overflow-y-auto" style={{ padding: '1rem 1.25rem' }}>
-                
-                {/* 優先10社の簡易テーブル表示 */}
-                {priorityInvestors.length > 0 && (
-                  <div className="mb-6">
-                    <h3 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-3">
-                      AIが選定した優先10社
-                    </h3>
-                    
-                    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-                      <table className="w-full">
-                        <thead className="bg-brand-50 dark:bg-brand-900/20 border-b border-gray-200 dark:border-gray-700">
-                          <tr>
-                            <th className="px-3 py-2 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider w-1/4">
-                              投資家名
-                            </th>
-                            <th className="px-3 py-2 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider w-1/4">
-                              過去投資
-                            </th>
-                            <th className="px-3 py-2 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider w-1/2">
-                              強み
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
-                          {priorityInvestors.map((investor, index) => (
-                            <tr 
-                              key={investor.id} 
-                              className="hover:bg-brand-50/50 dark:hover:bg-brand-900/10 transition-colors"
-                            >
-                              <td className="px-3 py-2">
-                                <div className="flex items-center gap-2">
-                                  <span className="w-5 h-5 bg-brand-600 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
-                                    {index + 1}
-                                  </span>
-                                  <button
-                                    onClick={() => {
-                                      setSelectedInvestor(investor);
-                                      setShowInvestorDetails(true);
-                                    }}
-                                    className="text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-brand-600 underline text-left"
-                                    style={{ letterSpacing: '0.01em' }}
-                                  >
-                                    {investor.name}
-                                  </button>
-                                </div>
-                              </td>
-                              <td className="px-3 py-2">
-                                <div className="flex flex-wrap gap-1">
-                                  {investor.pastInvestments.slice(0, 1).map((investment, idx) => (
-                                    <span 
-                                      key={idx}
-                                      className="inline-flex px-2 py-0.5 text-xs rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
-                                    >
-                                      {investment}
-                                    </span>
-                                  ))}
-                                  {investor.pastInvestments.length > 1 && (
-                                    <span className="text-xs text-gray-500 px-1">
-                                      +{investor.pastInvestments.length - 1}
-                                    </span>
-                                  )}
-                                </div>
-                              </td>
-                              <td className="px-3 py-2">
-                                <div className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                                  {investor.strength}
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                )}
-
-                {/* その他の投資家リストのテーブル表示 */}
-                {otherInvestors.length > 0 && (
+              {/* 絞り込みフィルター */}
+              <div className="space-y-3">
+                <div className="grid grid-cols-3 gap-3">
+                  {/* ARR帯フィルター */}
                   <div>
-                    <h3 className="text-md font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center">
-                      その他の投資家リスト
-                      <span className="ml-2 px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full">
-                        {otherInvestors.length}社
-                      </span>
-                    </h3>
-                  
-                  <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-                    <div className="max-h-96 overflow-y-auto">
-                      <table className="w-full">
-                        <thead className="bg-gray-50 dark:bg-gray-800 sticky top-0 border-b border-gray-200 dark:border-gray-700">
-                          <tr>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-1/4">
-                              投資家名
-                            </th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-1/4">
-                              過去投資（抜粋）
-                            </th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-1/2">
-                              強み
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
-                          {otherInvestors.map((investor, index) => (
-                            <tr 
-                              key={investor.id}
-                              className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-                            >
-                              <td className="px-4 py-3">
-                                <div className="flex items-center gap-2">
-                                  <a 
-                                    href={investor.contact} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    className="text-sm font-medium text-gray-900 dark:text-gray-100 underline hover:text-brand-600"
-                                    style={{ letterSpacing: '0.01em' }}
-                                  >
-                                    {investor.name}
-                                  </a>
-                                </div>
-                              </td>
-                              <td className="px-4 py-3">
-                                <div className="flex flex-wrap gap-1">
-                                  {investor.pastInvestments.slice(0, 1).map((investment, idx) => (
-                                    <span 
-                                      key={idx}
-                                      className="inline-flex px-2 py-1 text-xs rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
-                                    >
-                                      {investment}
-                                    </span>
-                                  ))}
-                                  {investor.pastInvestments.length > 1 && (
-                                    <span className="text-xs text-gray-500 px-2 py-1">
-                                      +{investor.pastInvestments.length - 1}
-                                    </span>
-                                  )}
-                                </div>
-                              </td>
-                              <td className="px-4 py-3">
-                                <div className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                                  {investor.strength}
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
+                    <Label variant="brand" size="sm" className="mb-1 block">
+                      ARR帯
+                    </Label>
+                    <select
+                      value={advancedFilters.arrRange}
+                      onChange={(e) => setAdvancedFilters({...advancedFilters, arrRange: e.target.value})}
+                      className="w-full px-2 py-1.5 text-sm border border-gray-200 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
+                    >
+                      <option value="">全て</option>
+                      <option value="3000万円以上">3,000万円以上</option>
+                      <option value="1億円">1億円〜</option>
+                      <option value="5億円">5億円〜</option>
+                    </select>
                   </div>
-                  </div>
-                )}
 
-                {/* 検索結果が0件の場合 */}
-                {filteredInvestorData.length === 0 && (
-                  <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-                    <Search className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                    <p>検索条件に合致する投資家が見つかりませんでした。</p>
-                    <p className="text-sm mt-1">検索キーワードや絞り込み条件を変更してみてください。</p>
+                  {/* 地域フィルター */}
+                  <div>
+                    <Label variant="brand" size="sm" className="mb-1 block">
+                      地域
+                    </Label>
+                    <select
+                      value={advancedFilters.region}
+                      onChange={(e) => setAdvancedFilters({...advancedFilters, region: e.target.value})}
+                      className="w-full px-2 py-1.5 text-sm border border-gray-200 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
+                    >
+                      <option value="">全て</option>
+                      <option value="国内">国内</option>
+                      <option value="北米">北米</option>
+                      <option value="アジア">アジア</option>
+                    </select>
                   </div>
-                )}
+
+                  {/* リード希望フィルター */}
+                  <div className="flex items-end">
+                    <label className="flex items-center space-x-2 pb-1">
+                      <input
+                        type="checkbox"
+                        checked={advancedFilters.leadPreference === 'リード希望'}
+                        onChange={(e) => setAdvancedFilters({
+                          ...advancedFilters, 
+                          leadPreference: e.target.checked ? 'リード希望' : ''
+                        })}
+                        className="w-4 h-4 text-brand-600 border-gray-300 rounded focus:ring-brand-500 dark:border-gray-600"
+                      />
+                      <Label variant="brand" size="sm">
+                        リード希望
+                      </Label>
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
+
+            
+            {/* スクロール可能なメインコンテンツエリア：統合投資家テーブル */}
+            <div className="flex-1 overflow-y-auto">
+              {combinedInvestorList.length > 0 ? (
+                <div className="bg-white dark:bg-gray-900">
+                  <table className="w-full">
+                    <thead className="bg-brand-50 dark:bg-brand-900/20 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+                      <tr>
+                        <th className="px-4 py-3 text-left w-12">
+                          <input
+                            type="checkbox"
+                            onChange={(e) => {
+                              const allIds = new Set(combinedInvestorList.map(inv => inv.id));
+                              if (e.target.checked) {
+                                setSelectedInvestorIds(allIds);
+                              } else {
+                                setSelectedInvestorIds(new Set());
+                              }
+                            }}
+                            checked={selectedInvestorIds.size === combinedInvestorList.length && combinedInvestorList.length > 0}
+                            className="w-4 h-4 text-brand-600 border-gray-300 rounded focus:ring-brand-500"
+                          />
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider w-1/4">
+                          投資家名
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider w-1/4">
+                          過去投資（抜粋）
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider w-1/2">
+                          強み
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                      {combinedInvestorList.map((investor) => (
+                        <tr
+                          key={investor.id}
+                          className={`transition-all duration-150 ${
+                            investor.isPriority 
+                              ? 'bg-brand-50/30 dark:bg-brand-900/10' 
+                              : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
+                          } ${
+                            selectedInvestorIds.has(investor.id) 
+                              ? 'bg-brand-100 dark:bg-brand-900/20 ring-2 ring-brand-500/50' 
+                              : ''
+                          }`}
+                        >
+                          <td className="px-4 py-3">
+                            <input
+                              type="checkbox"
+                              checked={selectedInvestorIds.has(investor.id)}
+                              onChange={(e) => handleInvestorSelection(investor.id, e.target.checked)}
+                              className="w-4 h-4 text-brand-600 border-gray-300 rounded focus:ring-brand-500"
+                            />
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-2">
+                              {investor.isPriority && (
+                                <span className="w-5 h-5 bg-brand-600 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
+                                  ★
+                                </span>
+                              )}
+                              <button
+                                onClick={() => {
+                                  setSelectedInvestor(investor);
+                                  setShowInvestorDetails(true);
+                                }}
+                                className="text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-brand-600 underline text-left"
+                                style={{ letterSpacing: '0.01em' }}
+                              >
+                                {investor.name}
+                              </button>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="flex flex-wrap gap-1">
+                              {investor.pastInvestments.slice(0, 1).map((investment, idx) => (
+                                <span
+                                  key={idx}
+                                  className="inline-flex px-2 py-0.5 text-xs rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+                                >
+                                  {investment}
+                                </span>
+                              ))}
+                              {investor.pastInvestments.length > 1 && (
+                                <span className="text-xs text-gray-500 px-1">
+                                  +{investor.pastInvestments.length - 1}
+                                </span>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                              {investor.strength}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="flex items-center justify-center h-64 text-gray-500 dark:text-gray-400">
+                  フィルター条件に一致する投資家が見つかりません
+                </div>
+              )}
+            </div>
+
+            {/* 固定フッター：確定ボタン */}
+            <div className="flex-shrink-0 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800 p-4">
+              <div className="flex items-center justify-between">
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  {selectedInvestorIds.size > 0 ? `${selectedInvestorIds.size}社選択中` : '投資家を選択してください'}
+                </div>
+                <Button
+                  variant="brand"
+                  size="lg"
+                  onClick={handleConfirmList}
+                  disabled={selectedInvestorIds.size === 0}
+                  className="px-8 py-3 font-semibold"
+                >
+                  このリストを確定する
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+
 
             {/* 投資家詳細ダイアログ */}
             <Dialog open={showInvestorDetails} onOpenChange={(open) => {
@@ -1254,8 +1293,6 @@ export function CompassDashboard() {
                 </DialogFooter>
               </DialogContent>
             </Dialog>
-          </div>
-        )}
       </div>
     );
   };
