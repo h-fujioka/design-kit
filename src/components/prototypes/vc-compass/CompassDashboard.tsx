@@ -1,11 +1,16 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Checkbox } from '@/components/ui/checkbox';
 import { 
   Search,
   Target,
@@ -19,7 +24,25 @@ import {
   FileCheck,
   DollarSign,
   BarChart3,
-  ExternalLink
+  ExternalLink,
+  TrendingUp,
+  Users,
+  Building2,
+  Heart,
+  Rocket,
+  Layers,
+  Smartphone,
+  Megaphone,
+  Edit,
+  Radio,
+  UserCheck,
+  Handshake,
+  Settings,
+  Shield,
+  Lock,
+  Users2,
+  Building,
+  Presentation
 } from 'lucide-react';
 
 // 型定義
@@ -63,6 +86,7 @@ interface Investor {
   philosophy: string;
   strength: string;
   contact: string;
+  isPriority?: boolean;
 }
 
 type Screen = 'categories' | 'skills' | 'task';
@@ -70,33 +94,80 @@ type Screen = 'categories' | 'skills' | 'task';
 // ダミーデータ
 const categories: Category[] = [
   {
+    id: 'strategy',
+    name: '経営戦略・目標設定',
+    description: 'ビジョン策定、戦略立案、目標設定',
+    emoji: '🎯'
+  },
+  {
     id: 'funding',
     name: '資金調達・財務',
     description: '投資家との関係構築や財務戦略',
     emoji: '💰'
   },
   {
-    id: 'organization',
-    name: '組織・人事',
-    description: '採用戦略、組織運営、人材マネジメント',
+    id: 'hiring',
+    name: '採用・組織構築',
+    description: '採用戦略、組織設計、人材マネジメント',
     emoji: '👥'
   },
   {
-    id: 'sales',
-    name: '営業・マーケティング',
-    description: 'セールス戦略、市場拡大、顧客獲得',
-    emoji: '🎯'
+    id: 'product',
+    name: 'プロダクト（PMF維持・拡張）',
+    description: 'プロダクト開発、PMF維持・拡張戦略',
+    emoji: '🚀'
   },
   {
-    id: 'product',
-    name: 'プロダクト・戦略',
-    description: 'プロダクト開発、事業戦略の立案',
-    emoji: '💡'
+    id: 'marketing',
+    name: 'マーケティング・PR・ブランド',
+    description: 'ブランド戦略、PR活動、マーケティング施策',
+    emoji: '📢'
+  },
+  {
+    id: 'sales',
+    name: 'セールス・リテンション・事業開発',
+    description: 'セールス戦略、顧客維持、事業開発',
+    emoji: '💼'
+  },
+  {
+    id: 'operations',
+    name: 'オペレーション・法務',
+    description: '業務効率化、法的リスク管理、コンプライアンス',
+    emoji: '⚖️'
+  },
+  {
+    id: 'governance',
+    name: '文化・ガバナンス・IR',
+    description: '企業文化、コーポレートガバナンス、IR活動',
+    emoji: '🏛️'
   }
 ];
 
 const skills: Skill[] = [
-  // 資金調達・財務フェーズ（6つのカード）
+  // 経営戦略・目標設定
+  {
+    id: 'strategy-1',
+    categoryId: 'strategy',
+    name: 'ビジョン・ミッション策定',
+    description: '企業のビジョンとミッション設定',
+    icon: Target
+  },
+  {
+    id: 'strategy-2',
+    categoryId: 'strategy',
+    name: '事業戦略立案',
+    description: '中長期戦略と競合優位性の構築',
+    icon: TrendingUp
+  },
+  {
+    id: 'strategy-3',
+    categoryId: 'strategy',
+    name: '目標設定・KPI管理',
+    description: 'OKR設定とKPIダッシュボード構築',
+    icon: BarChart3
+  },
+
+  // 資金調達・財務（6つのカード）
   {
     id: 'funding-phase-1',
     categoryId: 'funding',
@@ -138,6 +209,144 @@ const skills: Skill[] = [
     name: '投資家レポート/取締役会',
     description: '定期レポートと取締役会運営',
     icon: BarChart3
+  },
+
+  // 採用・組織構築
+  {
+    id: 'hiring-1',
+    categoryId: 'hiring',
+    name: '採用戦略・JD作成',
+    description: '職種別採用戦略とジョブディスクリプション',
+    icon: Users
+  },
+  {
+    id: 'hiring-2',
+    categoryId: 'hiring',
+    name: '組織設計・評価制度',
+    description: '組織構造設計と人事評価システム',
+    icon: Building2
+  },
+  {
+    id: 'hiring-3',
+    categoryId: 'hiring',
+    name: 'カルチャーフィット判定',
+    description: '企業文化に合う人材の見極め方法',
+    icon: Heart
+  },
+
+  // プロダクト（PMF維持・拡張）
+  {
+    id: 'product-1',
+    categoryId: 'product',
+    name: 'PMF検証・改善',
+    description: 'プロダクトマーケットフィットの測定と改善',
+    icon: Rocket
+  },
+  {
+    id: 'product-2',
+    categoryId: 'product',
+    name: 'プロダクト拡張戦略',
+    description: '新機能開発とプロダクトロードマップ',
+    icon: Layers
+  },
+  {
+    id: 'product-3',
+    categoryId: 'product',
+    name: 'ユーザー体験改善',
+    description: 'UX/UI改善とユーザージャーニー最適化',
+    icon: Smartphone
+  },
+
+  // マーケティング・PR・ブランド
+  {
+    id: 'marketing-1',
+    categoryId: 'marketing',
+    name: 'ブランド戦略構築',
+    description: 'ブランドポジショニングと認知戦略',
+    icon: Megaphone
+  },
+  {
+    id: 'marketing-2',
+    categoryId: 'marketing',
+    name: 'コンテンツマーケティング',
+    description: 'コンテンツ戦略とSEO施策',
+    icon: Edit
+  },
+  {
+    id: 'marketing-3',
+    categoryId: 'marketing',
+    name: 'PR・メディア戦略',
+    description: 'メディア露出とPR活動の企画',
+    icon: Radio
+  },
+
+  // セールス・リテンション・事業開発
+  {
+    id: 'sales-1',
+    categoryId: 'sales',
+    name: 'セールス戦略・プロセス',
+    description: '営業プロセス設計と成約率向上',
+    icon: TrendingUp
+  },
+  {
+    id: 'sales-2',
+    categoryId: 'sales',
+    name: 'カスタマーサクセス',
+    description: '顧客満足度向上とリテンション戦略',
+    icon: UserCheck
+  },
+  {
+    id: 'sales-3',
+    categoryId: 'sales',
+    name: 'パートナーシップ開発',
+    description: '戦略的提携と事業開発',
+    icon: Handshake
+  },
+
+  // オペレーション・法務
+  {
+    id: 'operations-1',
+    categoryId: 'operations',
+    name: '業務効率化・自動化',
+    description: 'オペレーション改善と業務自動化',
+    icon: Settings
+  },
+  {
+    id: 'operations-2',
+    categoryId: 'operations',
+    name: '法務・コンプライアンス',
+    description: '法的リスク管理とコンプライアンス体制',
+    icon: Shield
+  },
+  {
+    id: 'operations-3',
+    categoryId: 'operations',
+    name: 'データ管理・セキュリティ',
+    description: 'データ保護とセキュリティ対策',
+    icon: Lock
+  },
+
+  // 文化・ガバナンス・IR
+  {
+    id: 'governance-1',
+    categoryId: 'governance',
+    name: '企業文化醸成',
+    description: 'カルチャー構築と社内コミュニケーション',
+    icon: Users2
+  },
+  {
+    id: 'governance-2',
+    categoryId: 'governance',
+    name: 'コーポレートガバナンス',
+    description: '取締役会運営と意思決定プロセス',
+    icon: Building
+  },
+  {
+    id: 'governance-3',
+    categoryId: 'governance',
+    name: 'IR・ステークホルダー対応',
+    description: '投資家・株主・パートナーとの関係構築',
+    icon: Presentation
   }
 ];
 
@@ -402,13 +611,14 @@ export function CompassDashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [advancedFilters, setAdvancedFilters] = useState({
-    arrRange: '',
-    region: '',
+    arrRange: 'all',
+    region: 'all',
     leadPreference: ''
   });
   const [selectedInvestor, setSelectedInvestor] = useState<Investor | null>(null);
   const [showInvestorDetails, setShowInvestorDetails] = useState(false);
   const [selectedInvestorIds, setSelectedInvestorIds] = useState<Set<string>>(new Set());
+  const [selectedInvestors, setSelectedInvestors] = useState<Investor[]>([]);
   const [isInvestorSelectionComplete, setIsInvestorSelectionComplete] = useState(false);
   const [confirmedInvestors, setConfirmedInvestors] = useState<Investor[]>([]);
   const [isPitchTaskActive, setIsPitchTaskActive] = useState(false);
@@ -443,13 +653,13 @@ export function CompassDashboard() {
     }
 
     // 追加フィルターでフィルタリング
-    if (advancedFilters.arrRange) {
+    if (advancedFilters.arrRange && advancedFilters.arrRange !== 'all') {
       // ARR範囲でフィルタリング（シンプル実装）
       filtered = filtered.filter(investor => 
         investor.strength.includes(advancedFilters.arrRange)
       );
     }
-    if (advancedFilters.region) {
+    if (advancedFilters.region && advancedFilters.region !== 'all') {
       // 地域でフィルタリング
       filtered = filtered.filter(investor => 
         investor.strength.includes(advancedFilters.region)
@@ -484,25 +694,34 @@ export function CompassDashboard() {
     return filteredInvestorData.slice(10);
   }, [filteredInvestorData]);
 
-  // チェックボックス操作関数
-  const handleInvestorSelection = (investorId: string, checked: boolean) => {
-    setSelectedInvestorIds(prev => {
-      const newSet = new Set(prev);
-      if (checked) {
+
+
+  // 投資家選択ハンドラー
+  const handleInvestorSelection = (investorId: string, isSelected: boolean) => {
+    setSelectedInvestorIds(prevIds => {
+      const newSet = new Set(prevIds);
+      if (isSelected) {
         newSet.add(investorId);
       } else {
         newSet.delete(investorId);
       }
+      
+      // selectedInvestorsも更新
+      const selectedInvestors = combinedInvestorList.filter(inv => newSet.has(inv.id));
+      setSelectedInvestors(selectedInvestors);
+      
       return newSet;
     });
   };
 
+  // 投資家詳細表示ハンドラー（useCallbackでメモ化）
+  const handleInvestorClick = useCallback((investor: Investor) => {
+    setSelectedInvestor(investor);
+    setShowInvestorDetails(true);
+  }, []);
+
   // リスト確定処理
   const handleConfirmList = () => {
-    const selectedInvestors = combinedInvestorList.filter(inv => 
-      selectedInvestorIds.has(inv.id)
-    );
-    
     // 選択された投資家の情報をチャットに追加
     const confirmMessage = `${selectedInvestors.length}社の投資家を選定しました。次のアクションを選択してください。\n\n選定投資家:\n${selectedInvestors.map(inv => `• ${inv.name}`).join('\n')}`;
     
@@ -516,6 +735,7 @@ export function CompassDashboard() {
     setMessages(prev => [...prev, newMessage]);
     setShowSideCanvas(false);
     setSelectedInvestorIds(new Set());
+    setSelectedInvestors([]);
     setConfirmedInvestors(selectedInvestors);
     setIsInvestorSelectionComplete(true);
   };
@@ -649,10 +869,7 @@ export function CompassDashboard() {
     setMessages(initialMessages[skill.id] || []);
   };
 
-  const handleBackToCategories = () => {
-    setSelectedCategory(null);
-    setCurrentScreen('categories');
-  };
+
 
   const handleBackToSkills = () => {
     setCurrentScreen('skills');
@@ -851,15 +1068,15 @@ export function CompassDashboard() {
         {/* 左サイドバー - スキルライブラリ & タスク履歴 */}
         <aside className="w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col">
           {/* スキルライブラリ */}
-          <div className="p-4 border-b border-gray-200 dark:border-gray-800">
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+          <div className="py-4 border-b border-gray-200 dark:border-gray-800">
+            <h3 className="px-4 md:px-6 lg:px-8 text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
               スキルライブラリ
             </h3>
             <div className="space-y-1">
               {categories.map((category) => (
                 <button 
                   key={category.id}
-                  className={`w-full p-2 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors text-left ${
+                  className={`w-full px-4 py-2 md:px-6 lg:px-8 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors text-left ${
                     selectedCategory?.id === category.id 
                       ? 'bg-brand-100 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300' 
                       : 'text-gray-700 dark:text-gray-300'
@@ -879,15 +1096,15 @@ export function CompassDashboard() {
           </div>
 
           {/* 履歴 */}
-          <div className="p-4 flex-1">
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+          <div className="py-4 flex-1">
+            <h3 className="px-4 md:px-6 lg:px-8 text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
               履歴
             </h3>
             <div className="space-y-1">
               {mockTaskHistory.map((task) => (
                 <div 
                   key={task.id}
-                  className="p-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                  className="px-4 py-2 md:px-6 lg:px-8 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
                   onClick={() => handleTaskHistorySelect(task)}
                 >
                   {task.skillName}
@@ -897,7 +1114,7 @@ export function CompassDashboard() {
               {historyItems.map((item, index) => (
                 <div 
                   key={`history-${index}`}
-                  className="p-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                  className="px-4 py-2 md:px-6 lg:px-8 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
                 >
                   {item}
                 </div>
@@ -907,7 +1124,7 @@ export function CompassDashboard() {
         </aside>
 
         {/* メインコンテンツエリア */}
-        <main className="flex-1 p-8">
+        <main className="flex-1 py-10 px-8">
           <div className="max-w-[1000px] mx-auto">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
@@ -918,19 +1135,20 @@ export function CompassDashboard() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {categories.map((category) => (
-              <Card 
+                              <Card 
                 key={category.id}
-                className="cursor-pointer hover:shadow-lg transition-all"
+                variant="brand"
+                className="cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-200 group"
                 onClick={() => handleCategorySelect(category)}
               >
-                <CardContent className="p-6 text-center">
-                  <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CardContent className="text-center">
+                  <div className="w-16 h-16 bg-brand-100 dark:bg-brand-900/30 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-brand-200 dark:group-hover:bg-brand-800/40 transition-colors">
                     <span className="text-2xl">{category.emoji}</span>
                   </div>
-                  <h3 className="font-semibold mb-2">{category.name}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <h3 className="font-semibold mb-2 group-hover:text-brand-600 transition-colors">{category.name}</h3>
+                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
                     {category.description}
                   </p>
                 </CardContent>
@@ -952,15 +1170,15 @@ export function CompassDashboard() {
         {/* 左サイドバー - スキルライブラリ & タスク履歴 */}
         <aside className="w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col">
           {/* スキルライブラリ */}
-          <div className="p-4 border-b border-gray-200 dark:border-gray-800">
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+          <div className="py-4 border-b border-gray-200 dark:border-gray-800">
+            <h3 className="px-4 md:px-6 lg:px-8 text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
               スキルライブラリ
             </h3>
             <div className="space-y-1">
               {categories.map((category) => (
                 <button 
                   key={category.id}
-                  className={`w-full p-2 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors text-left ${
+                  className={`w-full px-4 py-2 md:px-6 lg:px-8 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors text-left ${
                     selectedCategory?.id === category.id 
                       ? 'bg-brand-100 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300' 
                       : 'text-gray-700 dark:text-gray-300'
@@ -980,15 +1198,15 @@ export function CompassDashboard() {
           </div>
 
           {/* 履歴 */}
-          <div className="p-4 flex-1">
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+          <div className="py-4 flex-1">
+            <h3 className="px-4 md:px-6 lg:px-8 text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
               履歴
             </h3>
             <div className="space-y-1">
               {mockTaskHistory.map((task) => (
                 <div 
                   key={task.id}
-                  className="p-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                  className="px-4 py-2 md:px-6 lg:px-8 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
                   onClick={() => handleTaskHistorySelect(task)}
                 >
                   {task.skillName}
@@ -998,7 +1216,7 @@ export function CompassDashboard() {
               {historyItems.map((item, index) => (
                 <div 
                   key={`history-${index}`}
-                  className="p-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                  className="px-4 py-2 md:px-6 lg:px-8 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
                 >
                   {item}
                 </div>
@@ -1008,21 +1226,10 @@ export function CompassDashboard() {
         </aside>
 
         {/* メインコンテンツエリア */}
-        <main className="flex-1 p-8">
+        <main className="flex-1 py-10 px-8">
           <div className="max-w-[1000px] mx-auto">
             {/* ヘッダー */}
             <div className="mb-8">
-              <div className="flex items-center gap-4 mb-4">
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  onClick={handleBackToCategories}
-                  className="flex items-center gap-2"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  戻る
-                </Button>
-              </div>
               <div className="text-center">
                 <div className="flex items-center justify-center gap-3 mb-3">
                   <span className="text-3xl">{selectedCategory.emoji}</span>
@@ -1043,14 +1250,15 @@ export function CompassDashboard() {
                 return (
                   <Card 
                     key={skill.id}
+                    variant="brand"
                     className="cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-200 group"
                     onClick={() => handleSkillSelect(skill)}
                   >
-                    <CardContent className="p-8 text-center">
-                      <div className="w-16 h-16 bg-brand-100 dark:bg-brand-900/30 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-brand-200 dark:group-hover:bg-brand-800/40 transition-colors">
-                        <IconComponent className="w-8 h-8 text-brand-600 dark:text-brand-400" />
+                    <CardContent className="text-center">
+                      <div className="w-16 h-16 bg-brand-100 dark:bg-brand-900/30 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-brand-200 dark:group-hover:bg-brand-800/40 transition-colors">
+                        <IconComponent className="w-6 h-6 text-brand-600 dark:text-brand-400" />
                       </div>
-                      <h3 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-3 group-hover:text-brand-600 transition-colors leading-tight h-12 flex items-center justify-center">
+                      <h3 className="font-semibold mb-2 group-hover:text-brand-600 transition-colors">
                         {skill.name}
                       </h3>
                       <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -1076,15 +1284,15 @@ export function CompassDashboard() {
         {/* 左サイドバー - スキルライブラリ & タスク履歴 */}
         <aside className="w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col">
           {/* スキルライブラリ */}
-          <div className="p-4 border-b border-gray-200 dark:border-gray-800">
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+          <div className="py-4 border-b border-gray-200 dark:border-gray-800">
+            <h3 className="px-4 md:px-6 lg:px-8 text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
               スキルライブラリ
             </h3>
             <div className="space-y-1">
               {categories.map((category) => (
                 <button 
                   key={category.id}
-                  className="w-full p-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors text-left"
+                  className="w-full px-4 py-2 md:px-6 lg:px-8 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors text-left"
                   onClick={() => {
                     setSelectedCategory(category);
                     setCurrentScreen('skills');
@@ -1100,15 +1308,15 @@ export function CompassDashboard() {
           </div>
 
           {/* 履歴 */}
-          <div className="p-4 flex-1">
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+          <div className="py-4 flex-1">
+            <h3 className="px-4 md:px-6 lg:px-8 text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
               履歴
             </h3>
             <div className="space-y-1">
               {mockTaskHistory.map((task) => (
                 <div 
                   key={task.id}
-                  className="p-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                  className="px-4 py-2 md:px-6 lg:px-8 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
                   onClick={() => handleTaskHistorySelect(task)}
                 >
                   {task.skillName}
@@ -1118,7 +1326,7 @@ export function CompassDashboard() {
               {historyItems.map((item, index) => (
                 <div 
                   key={`history-${index}`}
-                  className="p-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                  className="px-4 py-2 md:px-6 lg:px-8 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
                 >
                   {item}
                 </div>
@@ -1130,10 +1338,10 @@ export function CompassDashboard() {
         {/* 右側メインエリア - display: flex, flex-direction: column */}
         <div className={`flex-1 flex flex-col transition-all duration-300 ${showSideCanvas ? 'mr-[50%]' : ''}`}>
           {/* ヘッダー - 固定高さ */}
-          <header className="flex-shrink-0 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-[0_1px_2px_0_rgba(0,0,0,0.05)] dark:shadow-[0_1px_2px_0_rgba(0,0,0,0.1)]" style={{ padding: '1rem 1.25rem' }}>
+          <header className="flex-shrink-0 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm p-4 px-5">
             <div className="flex items-center gap-2">
               <Button 
-                variant="ghost" 
+                variant="brandGhost" 
                 size="sm"
                 onClick={handleBackToSkills}
                 className="flex items-center justify-center p-1.5"
@@ -1141,7 +1349,7 @@ export function CompassDashboard() {
                 <ArrowLeft className="w-4 h-4" />
               </Button>
               <div>
-                <h1 className="text-base font-bold text-gray-900 dark:text-gray-100" style={{ letterSpacing: '0.025em' }}>
+                <h1 className="text-base font-bold text-gray-900 dark:text-gray-100 tracking-wide">
                   {selectedSkill.name}
                 </h1>
               </div>
@@ -1149,11 +1357,11 @@ export function CompassDashboard() {
           </header>
 
           {/* メインコンテンツエリア（チャット履歴）- flex-grow: 1, overflow-y: auto */}
-          <main className="flex-1 overflow-y-auto bg-white dark:bg-gray-900" style={{ padding: '2rem 1.5rem' }}>
-            <div className="max-w-[1000px] mx-auto" style={{ marginBottom: '2rem' }}>
+          <main className="flex-1 overflow-y-auto bg-white dark:bg-gray-900 p-8 px-6">
+            <div className="max-w-[1000px] mx-auto mb-8">
                           {messages.map((message, index) => (
               <div key={message.id}>
-                <div className="flex" style={{ marginBottom: '1.5rem' }}>
+                <div className="flex mb-6">
                   {/* AI/Systemメッセージ */}
                   {message.type !== 'user' && (
                     <div className="flex items-start justify-start w-full">
@@ -1162,14 +1370,11 @@ export function CompassDashboard() {
                           message.type === 'output' 
                             ? 'bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500 rounded-lg' 
                             : 'bg-transparent'
-                        }`} style={{ 
-                          padding: message.type === 'output' ? '1rem 1.25rem' : '0.75rem 0', 
-                          boxShadow: 'none' 
-                        }}>
-                          <p className="text-gray-900 dark:text-gray-100 whitespace-pre-wrap" style={{ letterSpacing: '0.01em', lineHeight: '1.7' }}>
+                        } ${message.type === 'output' ? 'p-4 px-5' : 'py-3'}`}>
+                          <p className="text-gray-900 dark:text-gray-100 whitespace-pre-wrap leading-relaxed">
                             {message.content}
                           </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-2" style={{ letterSpacing: '0.005em' }}>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                             {formatTime(message.timestamp)}
                           </p>
                         </div>
@@ -1181,14 +1386,11 @@ export function CompassDashboard() {
                   {message.type === 'user' && (
                     <div className="flex items-start justify-end w-full">
                       <div className="max-w-2xl">
-                        <div className="rounded-2xl rounded-tr-md" style={{ 
-                          backgroundColor: '#f2f2f2',
-                          padding: '1rem 1.25rem'
-                        }}>
-                          <p className="text-gray-900 whitespace-pre-wrap" style={{ letterSpacing: '0.01em', lineHeight: '1.6' }}>
+                        <div className="rounded-2xl rounded-tr-md bg-gray-100 p-4 px-5">
+                          <p className="text-gray-900 whitespace-pre-wrap leading-relaxed">
                             {message.content}
                           </p>
-                          <p className="text-xs text-gray-500 mt-2" style={{ letterSpacing: '0.005em' }}>
+                          <p className="text-xs text-gray-500 mt-2">
                             {formatTime(message.timestamp)}
                           </p>
                         </div>
@@ -1200,14 +1402,14 @@ export function CompassDashboard() {
                 {/* 投資家リスト結果再表示ボタン - 特定メッセージの後に表示 */}
                 {investorData.length > 0 && message.type !== 'user' && 
                  message.content.includes('投資家リストを生成しました') && (
-                  <div className="flex justify-start w-full" style={{ marginBottom: '1.5rem' }}>
+                  <div className="flex justify-start w-full mb-6">
                     <div className="max-w-2xl">
                       <Button
                         variant="brandOutline"
                         onClick={() => setShowSideCanvas(true)}
                         disabled={showSideCanvas}
                         className="gap-2"
-                        style={{ letterSpacing: '0.01em' }}
+
                       >
                         <FileText className="w-4 h-4" />
                         <span className="text-sm font-medium">投資家リストアップ結果を表示</span>
@@ -1218,14 +1420,14 @@ export function CompassDashboard() {
 
                 {/* 投資家選定完了後のアクションボタン */}
                 {message.type !== 'user' && message.id.startsWith('confirmed-') && isInvestorSelectionComplete && (
-                  <div className="flex justify-start w-full" style={{ marginBottom: '1.5rem' }}>
+                  <div className="flex justify-start w-full mb-6">
                     <div className="max-w-2xl">
                       <div className="flex gap-3">
                         <Button
-                          variant="outline"
+                          variant="brandOutline"
                           onClick={handleRetry}
                           className="flex items-center gap-2"
-                          style={{ letterSpacing: '0.01em' }}
+  
                         >
                           <span className="text-sm font-medium">やり直す</span>
                         </Button>
@@ -1233,7 +1435,7 @@ export function CompassDashboard() {
                           variant="brand"
                           onClick={handleCreatePitch}
                           className="flex items-center gap-2"
-                          style={{ letterSpacing: '0.01em' }}
+  
                         >
                           <span className="text-sm font-medium">ピッチ構成を作成する</span>
                         </Button>
@@ -1244,14 +1446,14 @@ export function CompassDashboard() {
 
                 {/* ピッチ構成オプション選択ボタン */}
                 {message.type !== 'user' && message.content.includes('【オプションA】一緒に各スライドの内容を一つずつ詰めていきましょうか？') && showPitchOptions && (
-                  <div className="flex justify-start w-full" style={{ marginBottom: '1.5rem' }}>
+                  <div className="flex justify-start w-full mb-6">
                     <div className="max-w-2xl">
                       <div className="flex flex-col gap-3 sm:flex-row">
                         <Button
-                          variant="outline"
+                          variant="brandOutline"
                           onClick={handlePitchOptionA}
                           className="px-6 py-3 text-sm font-medium"
-                          style={{ letterSpacing: '0.01em' }}
+  
                         >
                           オプションAに進む
                         </Button>
@@ -1259,7 +1461,7 @@ export function CompassDashboard() {
                           variant="brand"
                           onClick={handlePitchOptionB}
                           className="px-6 py-3 text-sm font-medium"
-                          style={{ letterSpacing: '0.01em' }}
+  
                         >
                           オプションBに進む
                         </Button>
@@ -1270,14 +1472,14 @@ export function CompassDashboard() {
 
                 {/* ピッチ構成完了後のアクションボタン */}
                 {message.type !== 'user' && message.content.includes('ピッチ構成案が完成しました') && isPitchComplete && (
-                  <div className="flex justify-start w-full" style={{ marginBottom: '1.5rem' }}>
+                  <div className="flex justify-start w-full mb-6">
                     <div className="max-w-2xl">
                       <div className="flex gap-3">
                         <Button
-                          variant="outline"
+                          variant="brandOutline"
                           onClick={handleCreateSpeechMemo}
                           className="flex items-center gap-2"
-                          style={{ letterSpacing: '0.01em' }}
+  
                         >
                           <span className="text-sm font-medium">話法メモを作成</span>
                         </Button>
@@ -1285,7 +1487,7 @@ export function CompassDashboard() {
                           variant="brand"
                           onClick={handleCreateApproachEmail}
                           className="flex items-center gap-2"
-                          style={{ letterSpacing: '0.01em' }}
+  
                         >
                           <span className="text-sm font-medium">アプローチメールを作成</span>
                         </Button>
@@ -1300,15 +1502,11 @@ export function CompassDashboard() {
             {isTyping && (
               <div className="flex justify-start">
                 <div className="max-w-2xl">
-                  <div className="bg-transparent" style={{ 
-                    padding: '0.5rem 0', 
-                    boxShadow: 'none',
-                    marginBottom: '1rem'
-                  }}>
+                  <div className="bg-transparent py-2 mb-4">
                     <div className="flex space-x-1">
                       <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.1s]"></div>
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
                     </div>
                   </div>
                 </div>
@@ -1317,9 +1515,9 @@ export function CompassDashboard() {
 
             {/* コンテンツ生成中のスケルトンローディング */}
             {isLoadingContent && (
-              <div className="flex justify-start" style={{ marginBottom: '1.5rem' }}>
+              <div className="flex justify-start mb-6">
                 <div className="max-w-2xl w-full">
-                  <div className="bg-transparent" style={{ padding: '0.75rem 0', boxShadow: 'none' }}>
+                  <div className="bg-transparent py-3">
                     <div className="space-y-3 animate-pulse">
                       <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
                       <div className="space-y-2">
@@ -1329,8 +1527,8 @@ export function CompassDashboard() {
                       </div>
                       <div className="flex space-x-2 pt-2">
                         <div className="h-2 w-2 bg-brand-400 rounded-full animate-bounce"></div>
-                        <div className="h-2 w-2 bg-brand-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                        <div className="h-2 w-2 bg-brand-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                        <div className="h-2 w-2 bg-brand-400 rounded-full animate-bounce [animation-delay:0.1s]"></div>
+                        <div className="h-2 w-2 bg-brand-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
                       </div>
                     </div>
                   </div>
@@ -1344,29 +1542,24 @@ export function CompassDashboard() {
 
 
           {/* 入力インターフェース - Flexboxで画面下部に固定 */}
-          <div className="flex-shrink-0 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-[0_-1px_2px_0_rgba(0,0,0,0.05)] dark:shadow-[0_-1px_2px_0_rgba(0,0,0,0.1)]" style={{ padding: '1.5rem' }}>
-            <div className="flex items-end max-w-[1000px] mx-auto" style={{ gap: '1rem' }}>
+          <div className="flex-shrink-0 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm p-6">
+            <div className="flex items-end max-w-[1000px] mx-auto gap-4">
               <div className="flex-1">
-                <textarea
+                <Textarea
                   ref={inputRef}
+                  variant="brand"
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="メッセージを入力してください..."
-                  className="w-full min-h-[44px] max-h-32 border border-gray-300 dark:border-gray-600 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-800 dark:text-gray-100"
-                  style={{
-                    padding: '0.875rem 1rem',
-                    letterSpacing: '0.01em',
-                    lineHeight: '1.5'
-                  }}
+                  className="w-full min-h-[44px] max-h-32 resize-none py-3.5 px-4 leading-6"
                   rows={1}
                 />
               </div>
               <Button
                 onClick={handleSendMessage}
                 disabled={!inputMessage.trim() || isTyping}
-                className="h-11"
-                style={{ padding: '0 1.25rem' }}
+                className="h-11 px-5"
               >
                 <Send className="w-4 h-4" />
               </Button>
@@ -1380,15 +1573,15 @@ export function CompassDashboard() {
             showSideCanvas ? 'translate-x-0' : 'translate-x-full'
           } flex flex-col`}>
             {/* 固定ヘッダー：タイトル & フィルター */}
-            <div className="flex-shrink-0 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800" style={{ padding: '1rem 1.25rem' }}>
+            <div className="flex-shrink-0 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800 p-4 px-5">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h2 className="text-base font-bold text-gray-900 dark:text-gray-100" style={{ letterSpacing: '0.025em' }}>
+                  <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 tracking-wide">
                     投資家リストアップ結果
                   </h2>
                 </div>
                 <Button 
-                  variant="ghost" 
+                  variant="brandGhost" 
                   size="sm"
                   onClick={() => setShowSideCanvas(false)}
                   className="p-1.5"
@@ -1405,16 +1598,20 @@ export function CompassDashboard() {
                     <Label variant="brand" size="sm" className="mb-1 block">
                       ARR帯
                     </Label>
-                    <select
+                    <Select
                       value={advancedFilters.arrRange}
-                      onChange={(e) => setAdvancedFilters({...advancedFilters, arrRange: e.target.value})}
-                      className="w-full px-2 py-1.5 text-sm border border-gray-200 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
+                      onValueChange={(value) => setAdvancedFilters({...advancedFilters, arrRange: value})}
                     >
-                      <option value="">全て</option>
-                      <option value="3000万円以上">3,000万円以上</option>
-                      <option value="1億円">1億円〜</option>
-                      <option value="5億円">5億円〜</option>
-                    </select>
+                      <SelectTrigger variant="brand" size="sm" className="w-full">
+                        <SelectValue placeholder="全て" />
+                      </SelectTrigger>
+                      <SelectContent variant="brand">
+                        <SelectItem variant="brand" value="all">全て</SelectItem>
+                        <SelectItem variant="brand" value="3000万円以上">3,000万円以上</SelectItem>
+                        <SelectItem variant="brand" value="1億円">1億円〜</SelectItem>
+                        <SelectItem variant="brand" value="5億円">5億円〜</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   {/* 地域フィルター */}
@@ -1422,16 +1619,20 @@ export function CompassDashboard() {
                     <Label variant="brand" size="sm" className="mb-1 block">
                       地域
                     </Label>
-                    <select
+                    <Select
                       value={advancedFilters.region}
-                      onChange={(e) => setAdvancedFilters({...advancedFilters, region: e.target.value})}
-                      className="w-full px-2 py-1.5 text-sm border border-gray-200 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
+                      onValueChange={(value) => setAdvancedFilters({...advancedFilters, region: value})}
                     >
-                      <option value="">全て</option>
-                      <option value="国内">国内</option>
-                      <option value="北米">北米</option>
-                      <option value="アジア">アジア</option>
-                    </select>
+                      <SelectTrigger variant="brand" size="sm" className="w-full">
+                        <SelectValue placeholder="全て" />
+                      </SelectTrigger>
+                      <SelectContent variant="brand">
+                        <SelectItem variant="brand" value="all">全て</SelectItem>
+                        <SelectItem variant="brand" value="国内">国内</SelectItem>
+                        <SelectItem variant="brand" value="北米">北米</SelectItem>
+                        <SelectItem variant="brand" value="アジア">アジア</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   {/* リード希望フィルター */}
@@ -1456,107 +1657,86 @@ export function CompassDashboard() {
             </div>
 
             
-            {/* スクロール可能なメインコンテンツエリア：統合投資家テーブル */}
+            {/* 投資家一覧テーブル */}
             <div className="flex-1 overflow-y-auto">
               {combinedInvestorList.length > 0 ? (
-                <div className="bg-white dark:bg-gray-900">
-                  <table className="w-full">
-                    <thead className="bg-brand-50 dark:bg-brand-900/20 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
-                      <tr>
-                        <th className="px-4 py-3 text-left w-12">
-                          <input
-                            type="checkbox"
-                            onChange={(e) => {
+                <Table variant="brand">
+                  <TableHeader variant="brand">
+                    <TableRow>
+                      <TableHead className="w-12">
+                        <Checkbox
+                          variant="brand"
+                          checked={selectedInvestorIds.size === combinedInvestorList.length && combinedInvestorList.length > 0}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
                               const allIds = new Set(combinedInvestorList.map(inv => inv.id));
-                              if (e.target.checked) {
-                                setSelectedInvestorIds(allIds);
-                              } else {
-                                setSelectedInvestorIds(new Set());
-                              }
-                            }}
-                            checked={selectedInvestorIds.size === combinedInvestorList.length && combinedInvestorList.length > 0}
-                            className="w-4 h-4 text-brand-600 border-gray-300 rounded focus:ring-brand-500"
+                              setSelectedInvestorIds(allIds);
+                              setSelectedInvestors(combinedInvestorList);
+                            } else {
+                              setSelectedInvestorIds(new Set());
+                              setSelectedInvestors([]);
+                            }
+                          }}
+                        />
+                      </TableHead>
+                      <TableHead className="w-1/4">投資家名</TableHead>
+                      <TableHead className="w-1/4">過去投資（抜粋）</TableHead>
+                      <TableHead className="w-1/2">強み</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {combinedInvestorList.map((investor) => (
+                      <TableRow
+                        key={investor.id}
+                        className={`transition-all duration-150 ${
+                          investor.isPriority 
+                            ? 'bg-brand-50/30 dark:bg-brand-900/10' 
+                            : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
+                        } ${
+                          selectedInvestorIds.has(investor.id) 
+                            ? 'bg-brand-100 dark:bg-brand-900/20 ring-2 ring-brand-500/50' 
+                            : ''
+                        }`}
+                      >
+                        <TableCell>
+                          <Checkbox
+                            variant="brand"
+                            checked={selectedInvestorIds.has(investor.id)}
+                            onCheckedChange={(checked) => handleInvestorSelection(investor.id, !!checked)}
                           />
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider w-1/4">
-                          投資家名
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider w-1/4">
-                          過去投資（抜粋）
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider w-1/2">
-                          強み
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                      {combinedInvestorList.map((investor) => (
-                        <tr
-                          key={investor.id}
-                          className={`transition-all duration-150 ${
-                            investor.isPriority 
-                              ? 'bg-brand-50/30 dark:bg-brand-900/10' 
-                              : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
-                          } ${
-                            selectedInvestorIds.has(investor.id) 
-                              ? 'bg-brand-100 dark:bg-brand-900/20 ring-2 ring-brand-500/50' 
-                              : ''
-                          }`}
-                        >
-                          <td className="px-4 py-3">
-                            <input
-                              type="checkbox"
-                              checked={selectedInvestorIds.has(investor.id)}
-                              onChange={(e) => handleInvestorSelection(investor.id, e.target.checked)}
-                              className="w-4 h-4 text-brand-600 border-gray-300 rounded focus:ring-brand-500"
-                            />
-                          </td>
-                          <td className="px-4 py-3">
-                            <div className="flex items-center gap-2">
-                              {investor.isPriority && (
-                                <span className="w-5 h-5 bg-brand-600 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
-                                  ★
-                                </span>
-                              )}
-                              <button
-                                onClick={() => {
-                                  setSelectedInvestor(investor);
-                                  setShowInvestorDetails(true);
-                                }}
-                                className="text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-brand-600 underline text-left"
-                                style={{ letterSpacing: '0.01em' }}
-                              >
-                                {investor.name}
-                              </button>
-                            </div>
-                          </td>
-                          <td className="px-4 py-3">
-                            <div className="flex flex-wrap gap-1">
-                              {investor.pastInvestments.slice(0, 1).map((investment, idx) => (
-                                <span
-                                  key={idx}
-                                  className="inline-flex px-2 py-0.5 text-xs rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
-                                >
-                                  {investment}
-                                </span>
-                              ))}
-                              {investor.pastInvestments.length > 1 && (
-                                <span className="text-xs text-gray-500 px-1">
-                                  +{investor.pastInvestments.length - 1}
-                                </span>
-                              )}
-                            </div>
-                          </td>
-                          <td className="px-4 py-3">
-                            <div className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                              {investor.strength}
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            {investor.isPriority && (
+                              <Badge variant="brand" className="text-xs px-1.5 py-0.5">
+                                おすすめ
+                              </Badge>
+                            )}
+                            <button
+                              onClick={() => handleInvestorClick(investor)}
+                              className="text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-brand-600 underline text-left"
+                            >
+                              {investor.name}
+                            </button>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="text-sm text-gray-700 dark:text-gray-300">
+                            {investor.pastInvestments.slice(0, 1).join(', ')}
+                            {investor.pastInvestments.length > 1 && (
+                              <span className="text-gray-500"> 他{investor.pastInvestments.length - 1}社</span>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                            {investor.strength}
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               ) : (
                 <div className="flex items-center justify-center h-64 text-gray-500 dark:text-gray-400">
                   フィルター条件に一致する投資家が見つかりません
@@ -1568,13 +1748,13 @@ export function CompassDashboard() {
             <div className="flex-shrink-0 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800 p-4">
               <div className="flex items-center justify-between">
                 <div className="text-sm text-gray-600 dark:text-gray-400">
-                  {selectedInvestorIds.size > 0 ? `${selectedInvestorIds.size}社選択中` : '投資家を選択してください'}
+                  {selectedInvestors.length > 0 ? `${selectedInvestors.length}社選択中` : '投資家を選択してください'}
                 </div>
                 <Button
                   variant="brand"
                   size="lg"
                   onClick={handleConfirmList}
-                  disabled={selectedInvestorIds.size === 0}
+                  disabled={selectedInvestors.length === 0}
                   className="px-8 py-3 font-semibold"
                 >
                   このリストを確定する
@@ -1603,15 +1783,8 @@ export function CompassDashboard() {
                 <div className="space-y-4">
                   <div>
                     <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">過去投資実績</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedInvestor?.pastInvestments.map((investment, idx) => (
-                        <span 
-                          key={idx}
-                          className="inline-flex px-3 py-1 text-sm rounded-full bg-brand-100 dark:bg-brand-900 text-brand-800 dark:text-brand-200"
-                        >
-                          {investment}
-                        </span>
-                      ))}
+                    <div className="text-sm text-gray-900 dark:text-gray-100">
+                      {selectedInvestor?.pastInvestments.join(', ')}
                     </div>
                   </div>
                   
@@ -1637,7 +1810,7 @@ export function CompassDashboard() {
 
                 <DialogFooter>
                   <Button
-                    variant="secondary"
+                    variant="brandOutline"
                     onClick={() => {
                       setShowInvestorDetails(false);
                       setSelectedInvestor(null);
@@ -1656,8 +1829,8 @@ export function CompassDashboard() {
                       rel="noopener noreferrer"
                       aria-label="投資家の詳細情報を外部サイトで確認"
                     >
-                      詳細を見る
                       <ExternalLink className="w-4 h-4" />
+                      詳細を見る
                     </a>
                   </Button>
                 </DialogFooter>
