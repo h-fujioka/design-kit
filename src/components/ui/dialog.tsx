@@ -13,7 +13,7 @@ const dialogContentVariants = cva(
     variants: {
       variant: {
         default: 'bg-white border-gray-200 text-gray-900 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100',
-        brand: 'bg-[oklch(0.97_0.005_240)] border-[oklch(0.8_0.03_240)] text-[oklch(0.18_0.03_240)] dark:bg-[oklch(0.18_0.03_240/0.2)] dark:border-[oklch(0.4_0.06_240)] dark:text-[oklch(0.94_0.01_240)]',
+        brand: 'bg-brand-50 border-brand-300 text-brand-900 dark:bg-brand-900/20 dark:border-brand-600 dark:text-brand-100',
         elevated: 'bg-background shadow-xl',
       },
     },
