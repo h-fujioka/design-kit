@@ -411,6 +411,17 @@ export function CompassDashboard() {
   const [selectedInvestorIds, setSelectedInvestorIds] = useState<Set<string>>(new Set());
   const [isInvestorSelectionComplete, setIsInvestorSelectionComplete] = useState(false);
   const [confirmedInvestors, setConfirmedInvestors] = useState<Investor[]>([]);
+  const [isPitchTaskActive, setIsPitchTaskActive] = useState(false);
+  const [pitchDialogCount, setPitchDialogCount] = useState(0);
+  const [pitchContext, setPitchContext] = useState<string>('');
+  const [isPitchComplete, setIsPitchComplete] = useState(false);
+  const [showPitchCompleteButton, setShowPitchCompleteButton] = useState(false);
+  const [pitchUserInput, setPitchUserInput] = useState<string>('');
+  const [pitchCoreMessage, setPitchCoreMessage] = useState<string>('');
+  const [showPitchOptions, setShowPitchOptions] = useState(false);
+  const [pitchOption, setPitchOption] = useState<'A' | 'B' | null>(null);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [slideContent, setSlideContent] = useState<{[key: number]: string}>({});
 
   // refs
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -517,10 +528,10 @@ export function CompassDashboard() {
 
   // ピッチ構成作成ハンドラー
   const handleCreatePitch = () => {
-    const pitchMessage = `ピッチ構成作成を開始します。選定いただいた${confirmedInvestors.length}社の投資家向けのピッチデックを作成いたします。\n\n対象投資家：${confirmedInvestors.map(inv => inv.name).join('、')}\n\nどのような内容を重点的に盛り込みたいですか？`;
+    const pitchMessage = `それでは、選定された投資家に響くピッチ構成を作成しましょう。\n\nこのピッチで最も伝えたい核心的なメッセージは何ですか？\n\n（例：革新的な技術、市場での急成長、強固なチームなど）`;
     
     const newMessage: ChatMessage = {
-      id: `pitch-${Date.now()}`,
+      id: `pitch-start-${Date.now()}`,
       type: 'ai',
       content: pitchMessage,
       timestamp: new Date()
@@ -528,6 +539,103 @@ export function CompassDashboard() {
 
     setMessages(prev => [...prev, newMessage]);
     setIsInvestorSelectionComplete(false);
+    setIsPitchTaskActive(true);
+    setPitchDialogCount(0);
+    setPitchContext('');
+    setIsPitchComplete(false);
+    setShowPitchCompleteButton(false);
+    setPitchUserInput('');
+    setPitchCoreMessage('');
+    setShowPitchOptions(false);
+    setPitchOption(null);
+    setCurrentSlideIndex(0);
+    setSlideContent({});
+  };
+
+  // 話法メモ作成ハンドラー
+  const handleCreateSpeechMemo = () => {
+    const memoMessage = `話法メモを作成します。ピッチ発表時の具体的な話し方やポイントをまとめます。\n\nどのようなプレゼンテーションスタイルを希望されますか？`;
+    
+    const newMessage: ChatMessage = {
+      id: `speech-memo-${Date.now()}`,
+      type: 'ai',
+      content: memoMessage,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, newMessage]);
+    setIsPitchComplete(false);
+  };
+
+  // アプローチメール作成ハンドラー
+  const handleCreateApproachEmail = () => {
+    const emailMessage = `アプローチメールを作成します。選定された投資家の皆様に効果的にアプローチするメールをご提案します。\n\nどのような切り口でアプローチしたいですか？`;
+    
+    const newMessage: ChatMessage = {
+      id: `approach-email-${Date.now()}`,
+      type: 'ai',
+      content: emailMessage,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, newMessage]);
+    setIsPitchComplete(false);
+  };
+
+  // ピッチ構成完了ハンドラー
+  const handlePitchComplete = () => {
+    const pitchOutputMessage = `ピッチ構成案が完成しました。\n\n**スライド構成案:**\n1. スライド1：表紙（会社名・ビジョン）\n2. スライド2：問題提起（市場の課題）\n3. スライド3：ソリューション（御社の解決策）\n4. スライド4：${pitchCoreMessage ? '核心メッセージ' : 'チーム紹介'}（強み）\n5. スライド5：市場規模・機会\n6. スライド6：ビジネスモデル\n7. スライド7：実績・牽引力\n8. スライド8：競合比較\n9. スライド9：成長戦略\n10. スライド10：資金調達・使途\n11. スライド11：まとめ・Ask\n\n**想定Q&A:**\n• Q: 競合との差別化ポイントは？\n  A: ${pitchCoreMessage || '経験豊富なチームによる実行力と業界専門知識'}\n• Q: 市場規模の根拠は？\n  A: 業界レポートと自社調査に基づく推定\n• Q: 収益化のタイムラインは？\n  A: 向こう2年間での黒字化を目標`;
+    
+    const newMessage: ChatMessage = {
+      id: `pitch-complete-${Date.now()}`,
+      type: 'ai',
+      content: pitchOutputMessage,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, newMessage]);
+    setIsPitchTaskActive(false);
+    setIsPitchComplete(true);
+    setShowPitchCompleteButton(false);
+    setShowPitchOptions(false);
+  };
+
+  // オプションA：段階的スライド作成ハンドラー
+  const handlePitchOptionA = () => {
+    const optionAMessage = `承知しました。それでは、御社の事業について詳しくお聞きしていきます。\n\n最初に、御社の事業は具体的にどのようなサービス・プロダクトを提供していますか？\n\n（例：SaaS型の業務効率化ツール、フィンテックアプリ、EC プラットフォームなど、できるだけ具体的に教えてください）`;
+    
+    const newMessage: ChatMessage = {
+      id: `pitch-option-a-${Date.now()}`,
+      type: 'ai',
+      content: optionAMessage,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, newMessage]);
+    setPitchOption('A');
+    setShowPitchOptions(false);
+    setCurrentSlideIndex(1);
+    setIsPitchTaskActive(true);
+  };
+
+  // オプションB：一括作成ハンドラー
+  const handlePitchOptionB = () => {
+    setIsLoadingContent(true);
+    setPitchOption('B');
+    setShowPitchOptions(false);
+    
+    const loadingMessage: ChatMessage = {
+      id: `pitch-option-b-loading-${Date.now()}`,
+      type: 'ai',
+      content: 'ピッチ構成を作成しています...',
+      timestamp: new Date()
+    };
+    setMessages(prev => [...prev, loadingMessage]);
+
+    setTimeout(() => {
+      setIsLoadingContent(false);
+      handlePitchComplete();
+    }, 2500);
   };
 
   const handleCategorySelect = (category: Category) => {
@@ -596,6 +704,87 @@ export function CompassDashboard() {
                                  currentInput.toLowerCase().includes('b2b') &&
                                  currentInput.toLowerCase().includes('シリーズa');
 
+    // ピッチタスクがアクティブな場合の対話フロー
+    if (isPitchTaskActive) {
+      // タイピングアニメーション開始
+      setIsTyping(true);
+      
+      setTimeout(() => {
+        setIsTyping(false);
+        
+        if (pitchCoreMessage === '' && pitchOption === null) {
+          // 核心メッセージの入力段階
+          setPitchCoreMessage(currentInput);
+          
+          const aiResponse = `ありがとうございます。その核心的なメッセージを軸に、ピッチを組み立てます。\n\nどのようにピッチを組み立てますか？\n\n【オプションA】一緒に各スライドの内容を一つずつ詰めていきましょうか？\n\n【オプションB】それとも、いただいた情報で、まず全体のピッチ構成案を一度に作成しますか？`;
+          
+          const aiMessage: ChatMessage = {
+            id: `pitch-options-${Date.now()}`,
+            type: 'ai',
+            content: aiResponse,
+            timestamp: new Date()
+          };
+          
+          setMessages(prev => [...prev, aiMessage]);
+          setShowPitchOptions(true);
+          setIsPitchTaskActive(false);
+        } else if (pitchOption === 'A' && currentSlideIndex > 0) {
+          // オプションA：段階的スライド作成
+          const slides = [
+            '事業内容', '顧客課題', '技術的優位性', '事業状況', '収益構造',
+            '競合優位性', '実績・牽引力', '競合比較', '成長戦略', '資金調達', 'まとめ'
+          ];
+          
+          setSlideContent(prev => ({...prev, [currentSlideIndex]: currentInput}));
+          
+          if (currentSlideIndex < slides.length) {
+            const nextSlideIndex = currentSlideIndex + 1;
+            const nextSlideQuestions: {[key: number]: string} = {
+              2: 'お客様から実際にどのような課題の声をお聞きしましたか？具体的なエピソードがあれば教えてください。\n（例：「手作業で3時間かかっていた」「○○の作業が属人化している」など、実際の声）',
+              3: 'その課題解決のために、御社はどのような技術や仕組みを開発・導入しましたか？\n（他社にはない御社独自の技術的優位性や開発背景を教えてください）',
+              4: '現在の事業状況を教えてください。\n（ユーザー数、売上、成長率など、可能な範囲で具体的な数字をお聞かせください）',
+              5: '御社の現在の収益構造と、今後の収益化計画を教えてください。\n（現在どこから収益を得ているか、今後どのように拡大する予定か）',
+              6: '競合他社と比較して、御社が優位に立てている理由は何ですか？\n（実際の市場での立ち位置や、お客様から評価されているポイント）'
+            };
+            
+            if (nextSlideIndex <= 6) {
+              const aiResponse = `素晴らしいです！次に${slides[nextSlideIndex-1]}についてお聞きします。\n\n${nextSlideQuestions[nextSlideIndex] || '内容を教えてください。'}`;
+              
+              const aiMessage: ChatMessage = {
+                id: `pitch-slide-${nextSlideIndex}-${Date.now()}`,
+                type: 'ai',
+                content: aiResponse,
+                timestamp: new Date()
+              };
+              
+              setMessages(prev => [...prev, aiMessage]);
+              setCurrentSlideIndex(nextSlideIndex);
+              setIsPitchTaskActive(true);
+            } else {
+              // 全スライド完了
+              const aiResponse = `素晴らしい！御社の事業について詳しく理解できました。\n\nこれらの情報を基に、効果的なピッチ構成案とタイトルを作成いたします。`;
+              
+              const aiMessage: ChatMessage = {
+                id: `pitch-slides-complete-${Date.now()}`,
+                type: 'ai',
+                content: aiResponse,
+                timestamp: new Date()
+              };
+              
+              setMessages(prev => [...prev, aiMessage]);
+              setIsPitchTaskActive(false);
+              
+              setTimeout(() => {
+                handlePitchComplete();
+              }, 1500);
+            }
+          }
+        }
+      }, 1500);
+      
+      return;
+    }
+
     if (isInvestorListRequest) {
       // ローディング表示を開始
       setIsLoadingContent(true);
@@ -655,59 +844,102 @@ export function CompassDashboard() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const renderSidebar = () => (
-    <aside className="w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800">
-      <div className="p-4">
-        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
-          履歴
-        </h3>
-        <div className="space-y-1">
-          {historyItems.map((item, index) => (
-            <div 
-              key={index}
-              className="p-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
-            >
-              {item}
-            </div>
-          ))}
-        </div>
-      </div>
-    </aside>
-  );
+
 
       const renderCategoriesScreen = () => (
-      <main className="flex-1 p-8">
-        <div className="max-w-[1000px] mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+      <div className="h-[calc(100vh-3.5rem)] flex">
+        {/* 左サイドバー - スキルライブラリ & タスク履歴 */}
+        <aside className="w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col">
+          {/* スキルライブラリ */}
+          <div className="p-4 border-b border-gray-200 dark:border-gray-800">
+            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
               スキルライブラリ
-            </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            カテゴリーを選択してください
-          </p>
-        </div>
+            </h3>
+            <div className="space-y-1">
+              {categories.map((category) => (
+                <button 
+                  key={category.id}
+                  className={`w-full p-2 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors text-left ${
+                    selectedCategory?.id === category.id 
+                      ? 'bg-brand-100 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300' 
+                      : 'text-gray-700 dark:text-gray-300'
+                  }`}
+                  onClick={() => {
+                    setSelectedCategory(category);
+                    setCurrentScreen('skills');
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm">{category.emoji}</span>
+                    <span className="flex-1 truncate">{category.name}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {categories.map((category) => (
-            <Card 
-              key={category.id}
-              className="cursor-pointer hover:shadow-lg transition-all"
-              onClick={() => handleCategorySelect(category)}
-            >
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">{category.emoji}</span>
+          {/* 履歴 */}
+          <div className="p-4 flex-1">
+            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+              履歴
+            </h3>
+            <div className="space-y-1">
+              {mockTaskHistory.map((task) => (
+                <div 
+                  key={task.id}
+                  className="p-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                  onClick={() => handleTaskHistorySelect(task)}
+                >
+                  {task.skillName}
                 </div>
-                <h3 className="font-semibold mb-2">{category.name}</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {category.description}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
+              ))}
+              {/* 他の履歴項目も追加 */}
+              {historyItems.map((item, index) => (
+                <div 
+                  key={`history-${index}`}
+                  className="p-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        </aside>
+
+        {/* メインコンテンツエリア */}
+        <main className="flex-1 p-8">
+          <div className="max-w-[1000px] mx-auto">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+                スキルライブラリ
+              </h1>
+            <p className="text-gray-600 dark:text-gray-400">
+              カテゴリーを選択してください
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {categories.map((category) => (
+              <Card 
+                key={category.id}
+                className="cursor-pointer hover:shadow-lg transition-all"
+                onClick={() => handleCategorySelect(category)}
+              >
+                <CardContent className="p-6 text-center">
+                  <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl">{category.emoji}</span>
+                  </div>
+                  <h3 className="font-semibold mb-2">{category.name}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {category.description}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 
   const renderSkillsScreen = () => {
@@ -716,61 +948,122 @@ export function CompassDashboard() {
     const categorySkills = skills.filter(skill => skill.categoryId === selectedCategory.id);
 
     return (
-      <main className="flex-1 p-8">
-        <div className="max-w-[1000px] mx-auto">
-          {/* ヘッダー */}
-          <div className="mb-8">
-            <div className="flex items-center gap-4 mb-4">
-              <Button 
-                variant="ghost" 
-                size="sm"
-                onClick={handleBackToCategories}
-                className="flex items-center gap-2"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                戻る
-              </Button>
-            </div>
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-3 mb-3">
-                <span className="text-3xl">{selectedCategory.emoji}</span>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-                  {selectedCategory.name}
-                </h1>
-              </div>
-              <p className="text-lg text-gray-600 dark:text-gray-400">
-                {selectedCategory.description}
-              </p>
+      <div className="h-[calc(100vh-3.5rem)] flex">
+        {/* 左サイドバー - スキルライブラリ & タスク履歴 */}
+        <aside className="w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col">
+          {/* スキルライブラリ */}
+          <div className="p-4 border-b border-gray-200 dark:border-gray-800">
+            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+              スキルライブラリ
+            </h3>
+            <div className="space-y-1">
+              {categories.map((category) => (
+                <button 
+                  key={category.id}
+                  className={`w-full p-2 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors text-left ${
+                    selectedCategory?.id === category.id 
+                      ? 'bg-brand-100 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300' 
+                      : 'text-gray-700 dark:text-gray-300'
+                  }`}
+                  onClick={() => {
+                    setSelectedCategory(category);
+                    setCurrentScreen('skills');
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm">{category.emoji}</span>
+                    <span className="flex-1 truncate">{category.name}</span>
+                  </div>
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* スキル一覧 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {categorySkills.map((skill) => {
-              const IconComponent = skill.icon;
-              return (
-                <Card 
-                  key={skill.id}
-                  className="cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-200 group"
-                  onClick={() => handleSkillSelect(skill)}
+          {/* 履歴 */}
+          <div className="p-4 flex-1">
+            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+              履歴
+            </h3>
+            <div className="space-y-1">
+              {mockTaskHistory.map((task) => (
+                <div 
+                  key={task.id}
+                  className="p-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                  onClick={() => handleTaskHistorySelect(task)}
                 >
-                  <CardContent className="p-8 text-center">
-                    <div className="w-16 h-16 bg-brand-100 dark:bg-brand-900/30 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-brand-200 dark:group-hover:bg-brand-800/40 transition-colors">
-                      <IconComponent className="w-8 h-8 text-brand-600 dark:text-brand-400" />
-                    </div>
-                    <h3 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-3 group-hover:text-brand-600 transition-colors leading-tight h-12 flex items-center justify-center">
-                      {skill.name}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                      {skill.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              );
-            })}
+                  {task.skillName}
+                </div>
+              ))}
+              {/* 他の履歴項目も追加 */}
+              {historyItems.map((item, index) => (
+                <div 
+                  key={`history-${index}`}
+                  className="p-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </main>
+        </aside>
+
+        {/* メインコンテンツエリア */}
+        <main className="flex-1 p-8">
+          <div className="max-w-[1000px] mx-auto">
+            {/* ヘッダー */}
+            <div className="mb-8">
+              <div className="flex items-center gap-4 mb-4">
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={handleBackToCategories}
+                  className="flex items-center gap-2"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  戻る
+                </Button>
+              </div>
+              <div className="text-center">
+                <div className="flex items-center justify-center gap-3 mb-3">
+                  <span className="text-3xl">{selectedCategory.emoji}</span>
+                  <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                    {selectedCategory.name}
+                  </h1>
+                </div>
+                <p className="text-lg text-gray-600 dark:text-gray-400">
+                  {selectedCategory.description}
+                </p>
+              </div>
+            </div>
+
+            {/* スキル一覧 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {categorySkills.map((skill) => {
+                const IconComponent = skill.icon;
+                return (
+                  <Card 
+                    key={skill.id}
+                    className="cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-200 group"
+                    onClick={() => handleSkillSelect(skill)}
+                  >
+                    <CardContent className="p-8 text-center">
+                      <div className="w-16 h-16 bg-brand-100 dark:bg-brand-900/30 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-brand-200 dark:group-hover:bg-brand-800/40 transition-colors">
+                        <IconComponent className="w-8 h-8 text-brand-600 dark:text-brand-400" />
+                      </div>
+                      <h3 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-3 group-hover:text-brand-600 transition-colors leading-tight h-12 flex items-center justify-center">
+                        {skill.name}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                        {skill.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+        </main>
+      </div>
     );
   };
 
@@ -780,9 +1073,34 @@ export function CompassDashboard() {
     return (
       // 全体コンテナ - display: flex, flex-direction: row, プロトタイプヘッダーの高さを考慮
       <div className="h-[calc(100vh-3.5rem)] flex">
-        {/* 左サイドバー - タスク履歴 */}
+        {/* 左サイドバー - スキルライブラリ & タスク履歴 */}
         <aside className="w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col">
-          <div className="p-4">
+          {/* スキルライブラリ */}
+          <div className="p-4 border-b border-gray-200 dark:border-gray-800">
+            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+              スキルライブラリ
+            </h3>
+            <div className="space-y-1">
+              {categories.map((category) => (
+                <button 
+                  key={category.id}
+                  className="w-full p-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors text-left"
+                  onClick={() => {
+                    setSelectedCategory(category);
+                    setCurrentScreen('skills');
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm">{category.emoji}</span>
+                    <span className="flex-1 truncate">{category.name}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 履歴 */}
+          <div className="p-4 flex-1">
             <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
               履歴
             </h3>
@@ -810,7 +1128,7 @@ export function CompassDashboard() {
         </aside>
 
         {/* 右側メインエリア - display: flex, flex-direction: column */}
-        <div className={`flex-1 flex flex-col transition-all duration-300 ${showSideCanvas ? 'mr-[65%]' : ''}`}>
+        <div className={`flex-1 flex flex-col transition-all duration-300 ${showSideCanvas ? 'mr-[50%]' : ''}`}>
           {/* ヘッダー - 固定高さ */}
           <header className="flex-shrink-0 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-[0_1px_2px_0_rgba(0,0,0,0.05)] dark:shadow-[0_1px_2px_0_rgba(0,0,0,0.1)]" style={{ padding: '1rem 1.25rem' }}>
             <div className="flex items-center gap-2">
@@ -923,6 +1241,58 @@ export function CompassDashboard() {
                     </div>
                   </div>
                 )}
+
+                {/* ピッチ構成オプション選択ボタン */}
+                {message.type !== 'user' && message.content.includes('【オプションA】一緒に各スライドの内容を一つずつ詰めていきましょうか？') && showPitchOptions && (
+                  <div className="flex justify-start w-full" style={{ marginBottom: '1.5rem' }}>
+                    <div className="max-w-2xl">
+                      <div className="flex flex-col gap-3 sm:flex-row">
+                        <Button
+                          variant="outline"
+                          onClick={handlePitchOptionA}
+                          className="px-6 py-3 text-sm font-medium"
+                          style={{ letterSpacing: '0.01em' }}
+                        >
+                          オプションAに進む
+                        </Button>
+                        <Button
+                          variant="brand"
+                          onClick={handlePitchOptionB}
+                          className="px-6 py-3 text-sm font-medium"
+                          style={{ letterSpacing: '0.01em' }}
+                        >
+                          オプションBに進む
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* ピッチ構成完了後のアクションボタン */}
+                {message.type !== 'user' && message.content.includes('ピッチ構成案が完成しました') && isPitchComplete && (
+                  <div className="flex justify-start w-full" style={{ marginBottom: '1.5rem' }}>
+                    <div className="max-w-2xl">
+                      <div className="flex gap-3">
+                        <Button
+                          variant="outline"
+                          onClick={handleCreateSpeechMemo}
+                          className="flex items-center gap-2"
+                          style={{ letterSpacing: '0.01em' }}
+                        >
+                          <span className="text-sm font-medium">話法メモを作成</span>
+                        </Button>
+                        <Button
+                          variant="brand"
+                          onClick={handleCreateApproachEmail}
+                          className="flex items-center gap-2"
+                          style={{ letterSpacing: '0.01em' }}
+                        >
+                          <span className="text-sm font-medium">アプローチメールを作成</span>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
 
@@ -1006,7 +1376,7 @@ export function CompassDashboard() {
 
         {/* サイドキャンバス - 投資家リスト（統合テーブル表示） */}
         {showSideCanvas && (
-          <div className={`fixed top-[3.5rem] right-0 w-[65%] h-[calc(100vh-3.5rem)] bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 shadow-lg transform transition-transform duration-300 ${
+          <div className={`fixed top-[3.5rem] right-0 w-[50%] h-[calc(100vh-3.5rem)] bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 shadow-lg transform transition-transform duration-300 ${
             showSideCanvas ? 'translate-x-0' : 'translate-x-full'
           } flex flex-col`}>
             {/* 固定ヘッダー：タイトル & フィルター */}
@@ -1299,15 +1669,9 @@ export function CompassDashboard() {
 
   return (
     <>
-      {currentScreen === 'task' ? (
-        renderTaskScreen()
-      ) : (
-        <div className="h-screen flex overflow-hidden">
-          {renderSidebar()}
-          {currentScreen === 'categories' && renderCategoriesScreen()}
-          {currentScreen === 'skills' && renderSkillsScreen()}
-        </div>
-      )}
+      {currentScreen === 'task' && renderTaskScreen()}
+      {currentScreen === 'categories' && renderCategoriesScreen()}
+      {currentScreen === 'skills' && renderSkillsScreen()}
     </>
   );
 }
