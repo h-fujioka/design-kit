@@ -1,33 +1,35 @@
 "use client"
 
-import { PageShell } from '@/components/shared/page-shell';
-import { Header } from '@/components/shared/header';
 import { Footer } from '@/components/shared/footer';
-import { Button } from '@/components/ui/button';
+import { Header } from '@/components/shared/header';
+import { PageShell } from '@/components/shared/page-shell';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Separator } from '@/components/ui/separator';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTable } from '@/components/ui/data-table';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
 import { ColumnDef } from "@tanstack/react-table";
 
 // Lucide Icons for demonstration
 import {
-  Plus, Edit, Trash2, Search, Download, Upload, Eye, EyeOff, Settings,
-  User, Users, Mail, Phone, MapPin, Calendar, Clock, Star, Heart,
-  Home, Building, Car, Plane, Ship, Truck, Bike, Bus,
-  Check, X, AlertCircle, Info, HelpCircle, AlertTriangle, Zap,
-  ChevronLeft, ChevronRight, ChevronUp, ChevronDown, ArrowLeft, ArrowRight,
-  Play, Pause, SkipForward, SkipBack, Volume2, VolumeX,
-  Sun, Moon, Wifi, Battery, Signal, Bluetooth
+    AlertTriangle,
+    Check,
+    ChevronLeft, ChevronRight,
+    Edit,
+    Plus,
+    Search,
+    Settings,
+    Trash2,
+    X
 } from 'lucide-react';
 
 // サンプルデータ型
@@ -575,14 +577,15 @@ export default function StyleguidePage() {
                 </p>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   {[
-                    { size: '100', value: '0.25rem (4px)' },
-                    { size: '200', value: '0.5rem (8px)' },
-                    { size: '300', value: '0.75rem (12px)' },
-                    { size: '400', value: '1rem (16px)' },
-                    { size: '600', value: '1.5rem (24px)' },
-                    { size: '800', value: '2rem (32px)' },
-                    { size: '1000', value: '2.5rem (40px)' },
-                    { size: '1600', value: '4rem (64px)' },
+                    { size: '1', value: '0.25rem (4px)' },
+                    { size: '2', value: '0.5rem (8px)' },
+                    { size: '3', value: '0.75rem (12px)' },
+                    { size: '4', value: '1rem (16px)' },
+                    { size: '5', value: '1.25rem (20px)' },
+                    { size: '6', value: '1.5rem (24px)' },
+                    { size: '8', value: '2rem (32px)' },
+                    { size: '10', value: '2.5rem (40px)' },
+                    { size: '16', value: '4rem (64px)' },
                   ].map((item) => (
                     <div key={item.size} className="flex items-center gap-4">
                       <div className="text-muted-foreground w-20 font-mono text-sm">
@@ -637,6 +640,41 @@ export default function StyleguidePage() {
 
             <Card>
               <CardHeader>
+                <CardTitle>Status Colors - 状態カラー</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-4">
+                  <h4 className="text-sm font-medium text-muted-foreground">Text Colors - テキスト色</h4>
+                  <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                    {[
+                      { name: 'Default Text', class: 'text-foreground', bgClass: 'bg-background' },
+                      { name: 'Sub Text', class: 'text-muted-foreground', bgClass: 'bg-background' },
+                      { name: 'Warning Text', class: 'text-warning', bgClass: 'bg-background' },
+                      { name: 'Destructive Text', class: 'text-destructive', bgClass: 'bg-background', style: { color: '#ef4444' } },
+                    ].map((color) => (
+                      <div key={color.name} className="space-y-2">
+                        <div className={`h-16 rounded-lg ${color.bgClass} border flex items-center justify-center`}>
+                          <span 
+                            className={`text-sm font-medium ${color.class}`}
+                            style={color.style}
+                          >
+                            {color.name}
+                          </span>
+                        </div>
+                        <div className="text-center">
+                          <div className="text-sm font-medium">{color.name}</div>
+                          <div className="text-xs text-muted-foreground">{color.class}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
                 <CardTitle>Cards - カードコンポーネント</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -646,9 +684,12 @@ export default function StyleguidePage() {
                     <ul className="space-y-2">
                       <li>• <strong>カード全体の間隔</strong>: <code className="bg-background px-2 py-1 rounded">gap-3</code> (12px) - HeaderとContentの間隔</li>
                       <li>• <strong>Header内の間隔</strong>: <code className="bg-background px-2 py-1 rounded">gap-2</code> (8px) - TitleとDescriptionの間隔</li>
-                      <li>• <strong>余白</strong>: <code className="bg-background px-2 py-1 rounded">px-5 py-5</code> (20px) - 統一された内部余白</li>
+                      <li>• <strong>フォント階層</strong>: Title <code className="bg-background px-2 py-1 rounded">text-base font-semibold</code> (16px) &gt; Description <code className="bg-background px-2 py-1 rounded">text-sm</code> (14px)</li>
+                      <li>• <strong>余白</strong>: <code className="bg-background px-2 py-1 rounded">p-5</code> (20px) - 統一された内部余白</li>
                       <li>• <strong>マージンリセット</strong>: タイトルと説明文には <code className="bg-background px-2 py-1 rounded">!m-0</code> を適用</li>
-                      <li>• <strong>カスタムパディング禁止</strong>: CardContentに <code className="bg-background px-2 py-1 rounded">p-*</code> を指定しない</li>
+                      <li>• <strong>カスタムパディング禁止</strong>: CardContent/CardHeaderに <code className="bg-background px-2 py-1 rounded">p-*</code> <code className="bg-background px-2 py-1 rounded">pt-*</code> <code className="bg-background px-2 py-1 rounded">pb-*</code> を指定しない</li>
+                      <li>• <strong>構造の統一</strong>: 1つのカードに複数の <code className="bg-background px-2 py-1 rounded">CardContent</code> を使用しない</li>
+                      <li>• <strong>表示順序</strong>: アイコン → CardTitle → CardDescription の順で配置</li>
                     </ul>
                   </div>
                 </div>
@@ -683,31 +724,35 @@ export default function StyleguidePage() {
                     <div className="space-y-2">
                       <p className="text-xs font-medium text-green-600">✅ 正しい例</p>
                       <Card variant="brand" className="scale-90">
-                        <CardHeader>
-                          <CardTitle size="sm">正しいカード</CardTitle>
-                          <CardDescription>gap-3とgap-2による統一間隔</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-sm">コンテンツはデフォルト間隔</p>
+                        <CardContent className="text-center">
+                          <div className="w-12 h-12 bg-brand-100 dark:bg-brand-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <span className="text-lg">🎯</span>
+                          </div>
                         </CardContent>
+                        <CardHeader className="text-center">
+                          <CardTitle size="sm">正しいカード</CardTitle>
+                          <CardDescription>アイコン → タイトル → 説明の順序</CardDescription>
+                        </CardHeader>
                       </Card>
                       <code className="text-xs bg-background px-2 py-1 rounded block">
-                        {'<CardContent>...</CardContent>'}
+                        {'<CardContent>アイコン</CardContent>\n<CardHeader>タイトル・説明</CardHeader>'}
                       </code>
                     </div>
                     <div className="space-y-2">
                       <p className="text-xs font-medium text-red-600">❌ 間違った例</p>
                       <Card variant="outline" className="scale-90 opacity-50">
-                        <CardHeader>
+                        <CardContent className="pt-6 pb-2">
+                          <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
+                            <span className="text-lg">❌</span>
+                          </div>
+                        </CardContent>
+                        <CardHeader className="pt-0">
                           <CardTitle size="sm">間違ったカード</CardTitle>
                           <CardDescription>カスタムパディングで間隔が崩れる</CardDescription>
                         </CardHeader>
-                        <CardContent className="p-6">
-                          <p className="text-sm">p-6で二重余白になる</p>
-                        </CardContent>
                       </Card>
                       <code className="text-xs bg-background px-2 py-1 rounded block text-red-600">
-                        {'<CardContent className="p-6">'}
+                        {'<CardContent className="pt-6 pb-2">\n<CardHeader className="pt-0">'}
                       </code>
                     </div>
                   </div>
@@ -720,18 +765,22 @@ export default function StyleguidePage() {
                 <CardTitle>Typography Scale</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
+                <p className="text-muted-foreground">
+                  階層構造を明確にするフォントサイズスケール
+                </p>
                 <div className="space-y-2">
-                  <h1 className="text-3xl font-bold">Heading 1</h1>
-                  <h2 className="text-2xl font-semibold">Heading 2</h2>
-                  <h3 className="text-xl font-medium">Heading 3</h3>
-                  <h4 className="text-lg font-medium">Heading 4</h4>
+                  <h1 className="text-3xl font-bold">Heading 1 - text-3xl (30px)</h1>
+                  <h2 className="text-2xl font-semibold">Heading 2 - text-2xl (24px)</h2>
+                  <h3 className="text-xl font-medium">Heading 3 - text-xl (20px)</h3>
+                  <h4 className="text-base font-semibold">Card Title - text-base (16px)</h4>
                   <p className="text-base">
-                    Regular paragraph text with proper line height and spacing.
+                    Regular paragraph text - text-base (16px)
                   </p>
                   <p className="text-muted-foreground text-sm">
-                    Small text for secondary information.
+                    Card Description / Small text - text-sm (14px)
                   </p>
                 </div>
+                                  
               </CardContent>
             </Card>
           </div>

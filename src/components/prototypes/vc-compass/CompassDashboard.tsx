@@ -1,49 +1,45 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Checkbox } from '@/components/ui/checkbox';
-import { 
-  Search,
-  Target,
-  FileText,
+import { Textarea } from '@/components/ui/textarea';
+import {
   ArrowLeft,
-  Send,
-  Bot,
-  User,
-  Clock,
-  Calculator,
-  FileCheck,
-  DollarSign,
   BarChart3,
-  ExternalLink,
-  TrendingUp,
-  Users,
+  Building,
   Building2,
-  Heart,
-  Rocket,
-  Layers,
-  Smartphone,
-  Megaphone,
+  Calculator,
+  DollarSign,
   Edit,
-  Radio,
-  UserCheck,
+  ExternalLink,
+  FileCheck,
+  FileText,
   Handshake,
+  Heart,
+  Layers,
+  Lock,
+  Megaphone,
+  Presentation,
+  Radio,
+  Rocket,
+  Search,
+  Send,
   Settings,
   Shield,
-  Lock,
-  Users2,
-  Building,
-  Presentation
+  Smartphone,
+  Target,
+  TrendingUp,
+  UserCheck,
+  Users,
+  Users2
 } from 'lucide-react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // 型定義
 interface Category {
@@ -632,6 +628,9 @@ export function CompassDashboard() {
   const [pitchOption, setPitchOption] = useState<'A' | 'B' | null>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [slideContent, setSlideContent] = useState<{[key: number]: string}>({});
+  const [showOutputSelection, setShowOutputSelection] = useState(false);
+  const [selectedOutputType, setSelectedOutputType] = useState<string | null>(null);
+  const [isGeneratingOutput, setIsGeneratingOutput] = useState(false);
 
   // refs
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -802,27 +801,171 @@ export function CompassDashboard() {
     setIsPitchComplete(false);
   };
 
-  // ピッチ構成完了ハンドラー
-  const handlePitchComplete = () => {
-    const pitchOutputMessage = `ピッチ構成案が完成しました。\n\n**スライド構成案:**\n1. スライド1：表紙（会社名・ビジョン）\n2. スライド2：問題提起（市場の課題）\n3. スライド3：ソリューション（御社の解決策）\n4. スライド4：${pitchCoreMessage ? '核心メッセージ' : 'チーム紹介'}（強み）\n5. スライド5：市場規模・機会\n6. スライド6：ビジネスモデル\n7. スライド7：実績・牽引力\n8. スライド8：競合比較\n9. スライド9：成長戦略\n10. スライド10：資金調達・使途\n11. スライド11：まとめ・Ask\n\n**想定Q&A:**\n• Q: 競合との差別化ポイントは？\n  A: ${pitchCoreMessage || '経験豊富なチームによる実行力と業界専門知識'}\n• Q: 市場規模の根拠は？\n  A: 業界レポートと自社調査に基づく推定\n• Q: 収益化のタイムラインは？\n  A: 向こう2年間での黒字化を目標`;
+  // アウトプット生成ハンドラー
+  const handleOutputGeneration = (outputType: 'slides' | 'qa' | 'summary') => {
+    setIsGeneratingOutput(true);
+    setSelectedOutputType(outputType);
+    setShowOutputSelection(false);
     
-    const newMessage: ChatMessage = {
-      id: `pitch-complete-${Date.now()}`,
+    const loadingMessage: ChatMessage = {
+      id: `output-loading-${Date.now()}`,
       type: 'ai',
-      content: pitchOutputMessage,
+      content: `${outputType === 'slides' ? 'スライド構成案' : outputType === 'qa' ? '想定Q&A' : 'エグゼクティブサマリー'}を生成しています...`,
       timestamp: new Date()
     };
+    
+    setMessages(prev => [...prev, loadingMessage]);
+    
+    setTimeout(() => {
+      let outputContent = '';
+      
+      if (outputType === 'slides') {
+        outputContent = `
+## 🎯 スライド構成案
 
-    setMessages(prev => [...prev, newMessage]);
-    setIsPitchTaskActive(false);
+### 1. オープニング（30秒）
+**タイトル**: "${pitchCoreMessage}"
+- 会社名・代表者名
+- 一言で伝える価値提案
+
+### 2. 問題提起（1分）
+- 市場の課題・ペインポイント
+- 現状の解決策の限界
+
+### 3. ソリューション（1分30秒）
+- 御社のプロダクト・サービス概要
+- 独自の技術・アプローチ
+
+### 4. 市場機会（1分）
+- TAM/SAM/SOM
+- 成長性・トレンド
+
+### 5. ビジネスモデル（1分）
+- 収益構造
+- 単価・LTV
+
+### 6. 牽引力・実績（1分30秒）
+- KPI・成長指標
+- 顧客事例・導入実績
+
+### 7. 競合優位性（1分）
+- 競合比較
+- 参入障壁・差別化要因
+
+### 8. チーム（1分）
+- 創業者・主要メンバー
+- 実績・専門性
+
+### 9. 財務計画（1分30秒）
+- 売上予測
+- 損益計画
+
+### 10. 資金調達（1分）
+- 調達希望額
+- 資金使途
+
+### 11. クロージング（30秒）
+- ビジョン・将来性
+- 次のステップ
+        `;
+      } else if (outputType === 'qa') {
+        outputContent = `
+## 💡 想定Q&A
+
+**Q1: 競合との差別化ポイントは？**
+A: [具体的な技術優位性や独自のアプローチを説明]
+
+**Q2: 市場規模の根拠は？**
+A: [調査データや類似事例を基にした算出根拠]
+
+**Q3: 収益化の見通しは？**
+A: [現在の売上状況と今後の成長計画]
+
+**Q4: チームの実行力は？**
+A: [創業者・主要メンバーの実績と専門性]
+
+**Q5: 資金使途の詳細は？**
+A: [開発・マーケティング・採用等の具体的な配分]
+
+**Q6: 競合他社の動向は？**
+A: [主要競合の状況と御社の優位性]
+
+**Q7: スケーラビリティは？**
+A: [事業拡大の可能性と成長戦略]
+
+**Q8: リスク要因は？**
+A: [想定されるリスクと対策]
+
+**Q9: 投資家へのリターンは？**
+A: [期待される投資リターンとエグジット戦略]
+
+**Q10: 今後のマイルストーンは？**
+A: [短期・中期・長期の目標設定]
+        `;
+      } else if (outputType === 'summary') {
+        outputContent = `
+## 📋 エグゼクティブサマリー
+
+**事業概要**: ${pitchCoreMessage}
+
+**解決する課題**: [市場の主要な課題・ペインポイント]
+
+**ソリューション**: [御社の独自アプローチ・技術]
+
+**市場機会**: [TAM規模と成長性]
+
+**競合優位性**: [差別化要因・参入障壁]
+
+**ビジネスモデル**: [収益構造・単価設定]
+
+**実績**: [現在のKPI・顧客数等]
+
+**チーム**: [創業者・主要メンバーの経歴]
+
+**財務**: [売上予測・損益計画]
+
+**資金調達**: [希望額・使途・期待リターン]
+
+**投資ハイライト**:
+- 成長市場での確固たるポジション
+- 実証済みのビジネスモデル
+- 経験豊富なチーム
+- 明確な成長戦略
+- 魅力的な投資リターン
+        `;
+      }
+      
+      const resultMessage: ChatMessage = {
+        id: `output-result-${Date.now()}`,
+        type: 'ai',
+        content: outputContent,
+        timestamp: new Date()
+      };
+      
+      setMessages(prev => [...prev, resultMessage]);
+      setIsGeneratingOutput(false);
+    }, 3000);
+  };
+
+  // ピッチ構成完了ハンドラー
+  const handlePitchComplete = () => {
+    const completionMessage: ChatMessage = {
+      id: `pitch-complete-${Date.now()}`,
+      type: 'ai',
+      content: 'ピッチ案に必要な情報収集が完了しました。\n\n作成するアウトプットを選択してください。',
+      timestamp: new Date()
+    };
+    
+    setMessages(prev => [...prev, completionMessage]);
+    setShowOutputSelection(true);
     setIsPitchComplete(true);
     setShowPitchCompleteButton(false);
     setShowPitchOptions(false);
   };
 
-  // オプションA：段階的スライド作成ハンドラー
+  // 段階的に作成ハンドラー
   const handlePitchOptionA = () => {
-    const optionAMessage = `承知しました。それでは、御社の事業について詳しくお聞きしていきます。\n\n最初に、御社の事業は具体的にどのようなサービス・プロダクトを提供していますか？\n\n（例：SaaS型の業務効率化ツール、フィンテックアプリ、EC プラットフォームなど、できるだけ具体的に教えてください）`;
+    const optionAMessage = `ありがとうございます。段階的に作成を選択されました。\n\nAIと対話しながら、ピッチの構成要素を一つずつ作り込んでいきます。\n\n最初に「問題提起」について質問させていただきます。\n\n御社が解決しようとしている市場の課題や問題は何ですか？具体的なエピソードがあれば教えてください。\n\n（例：「手作業で3時間かかっていた」「○○の作業が属人化している」など、実際の声）`;
     
     const newMessage: ChatMessage = {
       id: `pitch-option-a-${Date.now()}`,
@@ -838,24 +981,21 @@ export function CompassDashboard() {
     setIsPitchTaskActive(true);
   };
 
-  // オプションB：一括作成ハンドラー
+  // 一括作成ハンドラー
   const handlePitchOptionB = () => {
-    setIsLoadingContent(true);
-    setPitchOption('B');
-    setShowPitchOptions(false);
+    const optionBMessage = `ありがとうございます。一括作成を選択されました。\n\n最小限の情報入力で、全体のドラフトを一度に生成します。\n\n以下の情報をまとめて入力してください：\n\n**1. コアメッセージ**（既に入力済み：${pitchCoreMessage}）\n**2. 事業概要**（どのようなサービス・プロダクトか）\n**3. 対象顧客**（誰の課題を解決するか）\n**4. チームの経歴**（創業者・主要メンバーの背景）\n**5. 資金使途**（調達資金の主な使い道）\n\nこれらの情報を入力していただければ、全体のピッチ構成案を作成いたします。`;
     
-    const loadingMessage: ChatMessage = {
-      id: `pitch-option-b-loading-${Date.now()}`,
+    const newMessage: ChatMessage = {
+      id: `pitch-option-b-${Date.now()}`,
       type: 'ai',
-      content: 'ピッチ構成を作成しています...',
+      content: optionBMessage,
       timestamp: new Date()
     };
-    setMessages(prev => [...prev, loadingMessage]);
 
-    setTimeout(() => {
-      setIsLoadingContent(false);
-      handlePitchComplete();
-    }, 2500);
+    setMessages(prev => [...prev, newMessage]);
+    setPitchOption('B');
+    setShowPitchOptions(false);
+    setIsPitchTaskActive(true);
   };
 
   const handleCategorySelect = (category: Category) => {
@@ -933,7 +1073,7 @@ export function CompassDashboard() {
           // 核心メッセージの入力段階
           setPitchCoreMessage(currentInput);
           
-          const aiResponse = `ありがとうございます。その核心的なメッセージを軸に、ピッチを組み立てます。\n\nどのようにピッチを組み立てますか？\n\n【オプションA】一緒に各スライドの内容を一つずつ詰めていきましょうか？\n\n【オプションB】それとも、いただいた情報で、まず全体のピッチ構成案を一度に作成しますか？`;
+          const aiResponse = `ありがとうございます。その核心的なメッセージを軸に、ピッチを組み立てます。\n\nどのようにピッチを組み立てますか？`;
           
           const aiMessage: ChatMessage = {
             id: `pitch-options-${Date.now()}`,
@@ -946,10 +1086,10 @@ export function CompassDashboard() {
           setShowPitchOptions(true);
           setIsPitchTaskActive(false);
         } else if (pitchOption === 'A' && currentSlideIndex > 0) {
-          // オプションA：段階的スライド作成
+          // 段階的に作成：対話フロー
           const slides = [
-            '事業内容', '顧客課題', '技術的優位性', '事業状況', '収益構造',
-            '競合優位性', '実績・牽引力', '競合比較', '成長戦略', '資金調達', 'まとめ'
+            '問題提起', 'ソリューション', '市場規模', 'ビジネスモデル', '競合優位性',
+            'チーム紹介', '実績・牽引力', '成長戦略', '資金調達', 'まとめ'
           ];
           
           setSlideContent(prev => ({...prev, [currentSlideIndex]: currentInput}));
@@ -957,15 +1097,15 @@ export function CompassDashboard() {
           if (currentSlideIndex < slides.length) {
             const nextSlideIndex = currentSlideIndex + 1;
             const nextSlideQuestions: {[key: number]: string} = {
-              2: 'お客様から実際にどのような課題の声をお聞きしましたか？具体的なエピソードがあれば教えてください。\n（例：「手作業で3時間かかっていた」「○○の作業が属人化している」など、実際の声）',
-              3: 'その課題解決のために、御社はどのような技術や仕組みを開発・導入しましたか？\n（他社にはない御社独自の技術的優位性や開発背景を教えてください）',
-              4: '現在の事業状況を教えてください。\n（ユーザー数、売上、成長率など、可能な範囲で具体的な数字をお聞かせください）',
-              5: '御社の現在の収益構造と、今後の収益化計画を教えてください。\n（現在どこから収益を得ているか、今後どのように拡大する予定か）',
-              6: '競合他社と比較して、御社が優位に立てている理由は何ですか？\n（実際の市場での立ち位置や、お客様から評価されているポイント）'
+              2: 'ありがとうございます。次に「ソリューション」についてお聞きします。\n\nその課題に対して、御社はどのような解決策を提供していますか？具体的なサービス・プロダクトの特徴を教えてください。',
+              3: 'ありがとうございます。次に「市場規模」についてお聞きします。\n\n御社が参入している市場の規模はどの程度ですか？成長性についてもお聞かせください。',
+              4: 'ありがとうございます。次に「ビジネスモデル」についてお聞きします。\n\n御社はどのように収益を得ていますか？料金体系や収益構造を教えてください。',
+              5: 'ありがとうございます。次に「競合優位性」についてお聞きします。\n\n競合他社と比較して、御社の強みや差別化ポイントは何ですか？',
+              6: 'ありがとうございます。次に「チーム紹介」についてお聞きします。\n\n創業者や主要メンバーの経歴、チームの強みを教えてください。'
             };
             
             if (nextSlideIndex <= 6) {
-              const aiResponse = `素晴らしいです！次に${slides[nextSlideIndex-1]}についてお聞きします。\n\n${nextSlideQuestions[nextSlideIndex] || '内容を教えてください。'}`;
+              const aiResponse = nextSlideQuestions[nextSlideIndex] || `ありがとうございます。次に${slides[nextSlideIndex-1]}について教えてください。`;
               
               const aiMessage: ChatMessage = {
                 id: `pitch-slide-${nextSlideIndex}-${Date.now()}`,
@@ -979,7 +1119,7 @@ export function CompassDashboard() {
               setIsPitchTaskActive(true);
             } else {
               // 全スライド完了
-              const aiResponse = `素晴らしい！御社の事業について詳しく理解できました。\n\nこれらの情報を基に、効果的なピッチ構成案とタイトルを作成いたします。`;
+              const aiResponse = `ありがとうございます。御社の事業について詳しく理解できました。\n\nこれらの情報を基に、効果的なピッチ構成案を作成いたします。`;
               
               const aiMessage: ChatMessage = {
                 id: `pitch-slides-complete-${Date.now()}`,
@@ -996,6 +1136,23 @@ export function CompassDashboard() {
               }, 1500);
             }
           }
+        } else if (pitchOption === 'B') {
+          // 一括作成：情報受け取り後の処理
+          const aiResponse = `ありがとうございます。いただいた情報を基に、全体のピッチ構成案を作成いたします。`;
+          
+          const aiMessage: ChatMessage = {
+            id: `pitch-batch-received-${Date.now()}`,
+            type: 'ai',
+            content: aiResponse,
+            timestamp: new Date()
+          };
+          
+          setMessages(prev => [...prev, aiMessage]);
+          setIsPitchTaskActive(false);
+          
+          setTimeout(() => {
+            handlePitchComplete();
+          }, 1500);
         }
       }, 1500);
       
@@ -1144,14 +1301,14 @@ export function CompassDashboard() {
                 onClick={() => handleCategorySelect(category)}
               >
                 <CardContent className="text-center">
-                  <div className="w-16 h-16 bg-brand-100 dark:bg-brand-900/30 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-brand-200 dark:group-hover:bg-brand-800/40 transition-colors">
+                  <div className="w-16 h-16 bg-brand-100 dark:bg-brand-900/30 rounded-full flex items-center justify-center mx-auto group-hover:bg-brand-200 dark:group-hover:bg-brand-800/40 transition-colors">
                     <span className="text-2xl">{category.emoji}</span>
                   </div>
-                  <h3 className="font-semibold mb-2 group-hover:text-brand-600 transition-colors">{category.name}</h3>
-                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                    {category.description}
-                  </p>
                 </CardContent>
+                <CardHeader className="text-center">
+                  <CardTitle>{category.name}</CardTitle>
+                  <CardDescription>{category.description}</CardDescription>
+                </CardHeader>
               </Card>
             ))}
           </div>
@@ -1255,16 +1412,14 @@ export function CompassDashboard() {
                     onClick={() => handleSkillSelect(skill)}
                   >
                     <CardContent className="text-center">
-                      <div className="w-16 h-16 bg-brand-100 dark:bg-brand-900/30 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-brand-200 dark:group-hover:bg-brand-800/40 transition-colors">
+                      <div className="w-16 h-16 bg-brand-100 dark:bg-brand-900/30 rounded-full flex items-center justify-center mx-auto group-hover:bg-brand-200 dark:group-hover:bg-brand-800/40 transition-colors">
                         <IconComponent className="w-6 h-6 text-brand-600 dark:text-brand-400" />
                       </div>
-                      <h3 className="font-semibold mb-2 group-hover:text-brand-600 transition-colors">
-                        {skill.name}
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                        {skill.description}
-                      </p>
                     </CardContent>
+                    <CardHeader className="text-center">
+                      <CardTitle>{skill.name}</CardTitle>
+                      <CardDescription>{skill.description}</CardDescription>
+                    </CardHeader>
                   </Card>
                 );
               })}
@@ -1445,7 +1600,7 @@ export function CompassDashboard() {
                 )}
 
                 {/* ピッチ構成オプション選択ボタン */}
-                {message.type !== 'user' && message.content.includes('【オプションA】一緒に各スライドの内容を一つずつ詰めていきましょうか？') && showPitchOptions && (
+                {message.type !== 'user' && message.content.includes('どのようにピッチを組み立てますか？') && showPitchOptions && (
                   <div className="flex justify-start w-full mb-6">
                     <div className="max-w-2xl">
                       <div className="flex flex-col gap-3 sm:flex-row">
@@ -1453,18 +1608,56 @@ export function CompassDashboard() {
                           variant="brandOutline"
                           onClick={handlePitchOptionA}
                           className="px-6 py-3 text-sm font-medium"
-  
                         >
-                          オプションAに進む
+                          段階的に作成
                         </Button>
                         <Button
                           variant="brand"
                           onClick={handlePitchOptionB}
                           className="px-6 py-3 text-sm font-medium"
-  
                         >
-                          オプションBに進む
+                          一括作成
                         </Button>
+                      </div>
+                      <div className="mt-3 text-xs text-gray-500 space-y-1">
+                        <p><strong>段階的に作成:</strong> AIと対話しながら、スライドごとに細かく作り込みます</p>
+                        <p><strong>一括作成:</strong> 最小限の情報入力で、全体のドラフトを一度に生成します</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* アウトプット選択ボタン */}
+                {message.type !== 'user' && message.content.includes('作成するアウトプットを選択してください') && showOutputSelection && (
+                  <div className="flex justify-start w-full mb-6">
+                    <div className="max-w-2xl">
+                      <div className="flex flex-col gap-3 sm:flex-row">
+                        <Button
+                          variant="brandOutline"
+                          onClick={() => handleOutputGeneration('slides')}
+                          className="px-6 py-3 text-sm font-medium"
+                        >
+                          スライド構成案
+                        </Button>
+                        <Button
+                          variant="brandOutline"
+                          onClick={() => handleOutputGeneration('qa')}
+                          className="px-6 py-3 text-sm font-medium"
+                        >
+                          想定Q&A
+                        </Button>
+                        <Button
+                          variant="brand"
+                          onClick={() => handleOutputGeneration('summary')}
+                          className="px-6 py-3 text-sm font-medium"
+                        >
+                          エグゼクティブサマリー
+                        </Button>
+                      </div>
+                      <div className="mt-3 text-xs text-gray-500 space-y-1">
+                        <p><strong>スライド構成案:</strong> プレゼンテーション用のスライド構成を生成</p>
+                        <p><strong>想定Q&A:</strong> 投資家からの質問と回答例を生成</p>
+                        <p><strong>エグゼクティブサマリー:</strong> 事業概要の要約資料を生成</p>
                       </div>
                     </div>
                   </div>
@@ -1520,7 +1713,7 @@ export function CompassDashboard() {
                   <div className="bg-transparent py-3">
                     <div className="space-y-3 animate-pulse">
                       <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
-                      <div className="space-y-2">
+                      <div className="space-y-1">
                         <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
                         <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
                         <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-4/6"></div>
@@ -1638,14 +1831,14 @@ export function CompassDashboard() {
                   {/* リード希望フィルター */}
                   <div className="flex items-end">
                     <label className="flex items-center space-x-2 pb-1">
-                      <input
-                        type="checkbox"
+                      <Checkbox
+                        variant="brand"
+                        size="lg"
                         checked={advancedFilters.leadPreference === 'リード希望'}
-                        onChange={(e) => setAdvancedFilters({
+                        onCheckedChange={(checked) => setAdvancedFilters({
                           ...advancedFilters, 
-                          leadPreference: e.target.checked ? 'リード希望' : ''
+                          leadPreference: checked ? 'リード希望' : ''
                         })}
-                        className="w-4 h-4 text-brand-600 border-gray-300 rounded focus:ring-brand-500 dark:border-gray-600"
                       />
                       <Label variant="brand" size="sm">
                         リード希望
@@ -1781,7 +1974,7 @@ export function CompassDashboard() {
                   </DialogTitle>
                 </DialogHeader>
                 
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <div>
                     <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">過去投資実績</h4>
                     <div className="text-sm text-gray-900 dark:text-gray-100">

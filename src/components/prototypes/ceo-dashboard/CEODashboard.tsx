@@ -1,19 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { 
-  DollarSign, 
-  Users, 
-  Target, 
-  Lightbulb,
-  Clock,
-  FolderOpen,
-  FileText,
-  ArrowRight,
-  Home
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    ArrowRight,
+    Clock,
+    DollarSign,
+    Home,
+    Lightbulb,
+    Target,
+    Users
 } from 'lucide-react';
+import { useState } from 'react';
 
 // 型定義
 interface Task {
@@ -215,14 +213,14 @@ export function CEODashboard() {
                   className="cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-200 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border-blue-200 dark:border-blue-800"
                   onClick={() => handleQuickActionClick(action.id)}
                 >
-                  <CardContent className="p-8 text-center">
-                    <div className="text-4xl mb-4">{action.emoji}</div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
-                      {action.name}
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                      {action.description}
-                    </p>
+                  <CardContent className="text-center">
+                    <div className="text-4xl">{action.emoji}</div>
+                  </CardContent>
+                  <CardHeader className="text-center">
+                    <CardTitle>{action.name}</CardTitle>
+                    <CardDescription>{action.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="text-center">
                     <ArrowRight className="w-5 h-5 text-blue-600 mx-auto" />
                   </CardContent>
                 </Card>
@@ -244,17 +242,15 @@ export function CEODashboard() {
                     className="cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-200 bg-white dark:bg-gray-800 group"
                     onClick={() => handleCategoryClick(category.id)}
                   >
-                    <CardContent className="p-6 text-center">
-                      <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition-colors">
+                    <CardContent className="text-center">
+                      <div className="w-16 h-16 mx-auto bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition-colors">
                         <IconComponent className={`w-8 h-8 ${category.color}`} />
                       </div>
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3 group-hover:text-blue-600 transition-colors">
-                        {category.name}
-                      </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                        {category.description}
-                      </p>
                     </CardContent>
+                    <CardHeader className="text-center">
+                      <CardTitle>{category.name}</CardTitle>
+                      <CardDescription>{category.description}</CardDescription>
+                    </CardHeader>
                   </Card>
                 );
               })}

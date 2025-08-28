@@ -32,8 +32,12 @@ module.exports = {
           foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: "#ef4444",
+          foreground: "#ffffff",
+        },
+        warning: {
+          DEFAULT: "oklch(0.8 0.15 80)",
+          foreground: "oklch(0.2 0.05 80)",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
