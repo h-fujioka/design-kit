@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
+import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
@@ -390,7 +391,7 @@ const initialMessages: { [skillId: string]: ChatMessage[] } = {
     {
       id: 'phase3-init-1',
       type: 'ai',
-      content: '投資家開拓を開始します。以下の情報を教えてください：\n\n**1. 業界・事業領域**\n**2. ビジネスモデル**\n**3. 投資ステージ**\n**4. 調達予定額**\n\n**参考例**\n「フィンテック、B2Bサービス、シリーズA、3-5億円」',
+      content: '投資家開拓を開始します。以下の情報を教えてください：\n\n**1. 業界・事業領域**\n\n**2. ビジネスモデル**\n\n**3. 投資ステージ**\n\n**4. 調達予定額**\n\n**参考例**\n「フィンテック、B2Bサービス、シリーズA、3-5億円」',
       timestamp: new Date()
     }
   ],
@@ -725,7 +726,7 @@ export function CompassDashboard() {
   // リスト確定処理
   const handleConfirmList = () => {
     // 選択された投資家の情報をチャットに追加
-    const confirmMessage = `${selectedInvestors.length}社の投資家を選定しました。次のアクションを選択してください。\n\n選定投資家:\n${selectedInvestors.map(inv => `• ${inv.name}`).join('\n')}`;
+    const confirmMessage = `${selectedInvestors.length}社の投資家を選定しました。次のアクションを選択してください。\n\n**選定投資家:**\n${selectedInvestors.map(inv => `• ${inv.name}`).join('\n')}`;
     
     const newMessage: ChatMessage = {
       id: `confirmed-${Date.now()}`,
@@ -796,52 +797,45 @@ export function CompassDashboard() {
       
       if (outputType === 'slides') {
         outputContent = `
-## 🎯 スライド構成案
+<div class="p-6 border border-gray-300 dark:border-gray-600 rounded-lg prose prose-lg dark:prose-invert max-w-none">
 
-### 1. オープニング（30秒）
-**タイトル**: "${pitchCoreMessage}"
-- 会社名・代表者名
-- 一言で伝える価値提案
+## ピッチ構成案
 
-### 2. 問題提起（1分）
-- 市場の課題・ペインポイント
-- 現状の解決策の限界
+### サマリー
+中小企業の経理業務効率化を目指すB2B SaaSです。独自のAI技術と強力なチームで市場を牽引し、シリーズAの資金調達により、さらなる成長を加速させます。
 
-### 3. ソリューション（1分30秒）
-- 御社のプロダクト・サービス概要
-- 独自の技術・アプローチ
+### コアメッセージ
+${pitchCoreMessage}
 
-### 4. 市場機会（1分）
-- TAM/SAM/SOM
-- 成長性・トレンド
+### 基本情報
+- **業界・事業領域:** Fintech / B2B SaaS
+- **ビジネスモデル:** サブスクリプション型
+- **投資ステージ:** シリーズA
+- **調達予定額:** 3-5億円
 
-### 5. ビジネスモデル（1分）
-- 収益構造
-- 単価・LTV
+### 事業概要
+「経理業務の属人化」の課題を解決する、独自のAIを活用した業務効率化SaaS。特に、月次決算業務の時間を従来の70%削減することに成功しています。
 
-### 6. 牽引力・実績（1分30秒）
-- KPI・成長指標
-- 顧客事例・導入実績
+### 対象顧客
+従業員数50-500名の中小企業。特に、経理業務のデジタル化が遅れている製造業・サービス業の企業をターゲットとしています。
 
-### 7. 競合優位性（1分）
-- 競合比較
-- 参入障壁・差別化要因
+### チーム・背景
+- **【創業者】田中太郎:** 前職はGoogleでAI研究に従事。自然言語処理技術の開発を主導。
+- **【創業の想い】** 中小企業での経理業務経験から、属人化による非効率性の課題解決に強い使命感を持ち、創業に至る。
 
-### 8. チーム（1分）
-- 創業者・主要メンバー
-- 実績・専門性
+### 実績・牽引力
+- **ARR:** 前年比300%成長（現在2億円）
+- **ユーザー数:** 大手企業10社を含む、累計150社が導入
+- **解約率:** 3%以下（業界平均15%）
 
-### 9. 財務計画（1分30秒）
-- 売上予測
-- 損益計画
+### 資金使途
+調達資金の主な使い道： 人材採用（セールス・エンジニア）40%、マーケティング費用30%、技術開発への投資30%
 
-### 10. 資金調達（1分）
-- 調達希望額
-- 資金使途
+### 想定Q&A
+- **Q: 競合との差別化ポイントは？** A: 元GoogleのAI研究者が開発した独自の自然言語処理技術と、中小企業の経理業務に特化した深い知見。
+- **Q: 市場規模の根拠は？** A: 中小企業庁の調査データと自社で行った潜在顧客1000社へのヒアリング調査に基づく推定（TAM: 1兆円規模）。
 
-### 11. クロージング（30秒）
-- ビジョン・将来性
-- 次のステップ
+</div>
         `;
       } else if (outputType === 'qa') {
         outputContent = `
@@ -1292,7 +1286,51 @@ A: [短期・中期・長期の目標設定]
     const completionMessage: ChatMessage = {
       id: `pitch-complete-${Date.now()}`,
       type: 'ai',
-      content: 'ピッチ案に必要な情報収集が完了しました。\n\n作成するアウトプットを選択してください。',
+      content: `ピッチ案を作成しました。
+
+<div class="p-6 border border-gray-300 dark:border-gray-600 rounded-lg prose prose-lg dark:prose-invert max-w-none">
+
+## ピッチ構成案
+
+### サマリー
+中小企業の経理業務効率化を目指すB2B SaaSです。独自のAI技術と強力なチームで市場を牽引し、シリーズAの資金調達により、さらなる成長を加速させます。
+
+### コアメッセージ
+市場での急成長
+
+### 基本情報
+- **業界・事業領域:** Fintech / B2B SaaS
+- **ビジネスモデル:** サブスクリプション型
+- **投資ステージ:** シリーズA
+- **調達予定額:** 3-5億円
+
+### 事業概要
+「経理業務の属人化」の課題を解決する、独自のAIを活用した業務効率化SaaS。特に、月次決算業務の時間を従来の70%削減することに成功しています。
+
+### 対象顧客
+従業員数50-500名の中小企業。特に、経理業務のデジタル化が遅れている製造業・サービス業の企業をターゲットとしています。
+
+### チーム・背景
+- **【創業者】田中太郎:** 前職はGoogleでAI研究に従事。自然言語処理技術の開発を主導。
+- **【創業の想い】** 中小企業での経理業務経験から、属人化による非効率性の課題解決に強い使命感を持ち、創業に至る。
+
+### 実績・牽引力
+- **ARR:** 前年比300%成長（現在2億円）
+- **ユーザー数:** 大手企業10社を含む、累計150社が導入
+- **解約率:** 3%以下（業界平均15%）
+
+### 資金使途
+調達資金の主な使い道： 人材採用（セールス・エンジニア）40%、マーケティング費用30%、技術開発への投資30%
+
+### 想定Q&A
+- **Q: 競合との差別化ポイントは？** A: 元GoogleのAI研究者が開発した独自の自然言語処理技術と、中小企業の経理業務に特化した深い知見。
+- **Q: 市場規模の根拠は？** A: 中小企業庁の調査データと自社で行った潜在顧客1000社へのヒアリング調査に基づく推定（TAM: 1兆円規模）。
+
+</div>
+
+これらの指示に従い、内容の濃い、実践的なピッチ構成案を出力してください。
+
+作成するアウトプットを選択してください。`,
       timestamp: new Date()
     };
     
@@ -1323,7 +1361,7 @@ A: [短期・中期・長期の目標設定]
 
   // 一括作成ハンドラー
   const handlePitchOptionB = () => {
-    const optionBMessage = `ありがとうございます。一括作成を選択されました。\n\n最小限の情報入力で、全体のドラフトを一度に生成します。\n\n以下の情報をまとめて入力してください：\n\n**1. コアメッセージ**（既に入力済み：${pitchCoreMessage}）\n**2. 事業概要**（どのようなサービス・プロダクトか）\n**3. 対象顧客**（誰の課題を解決するか）\n**4. チームの経歴**（創業者・主要メンバーの背景）\n**5. 資金使途**（調達資金の主な使い道）\n\nこれらの情報を入力していただければ、全体のピッチ構成案を作成いたします。`;
+    const optionBMessage = `ありがとうございます。一括作成を選択されました。\n\n最小限の情報入力で、全体のドラフトを一度に生成します。\n\n以下の情報をまとめて入力してください：\n\n**1. コアメッセージ**（既に入力済み：${pitchCoreMessage}）\n\n**2. 事業概要**（どのようなサービス・プロダクトか）\n\n**3. 対象顧客**（誰の課題を解決するか）\n\n**4. チームの経歴**（創業者・主要メンバーの背景）\n\n**5. 資金使途**（調達資金の主な使い道）\n\n**6. 業界・事業領域**\n\n**7. ビジネスモデル**\n\n**8. 投資ステージ**\n\n**9. 調達予定額**\n\nこれらの情報を入力していただければ、全体のピッチ構成案を作成いたします。`;
     
     const newMessage: ChatMessage = {
       id: `pitch-option-b-${Date.now()}`,
@@ -1900,9 +1938,11 @@ A: [短期・中期・長期の目標設定]
                             ? 'bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500 rounded-lg' 
                             : 'bg-transparent'
                         } ${message.type === 'output' ? 'p-4 px-5' : 'py-3'}`}>
-                          <p className="text-gray-900 dark:text-gray-100 whitespace-pre-wrap leading-relaxed">
-                            {message.content}
-                          </p>
+                          <MarkdownRenderer 
+                            content={message.content}
+                            variant="default"
+                            className="text-gray-900 dark:text-gray-100"
+                          />
                           <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                             {formatTime(message.timestamp)}
                           </p>
@@ -1915,11 +1955,13 @@ A: [短期・中期・長期の目標設定]
                   {message.type === 'user' && (
                     <div className="flex items-start justify-end w-full">
                       <div className="max-w-2xl">
-                        <div className="rounded-2xl rounded-tr-md bg-gray-100 p-4 px-5">
-                          <p className="text-gray-900 whitespace-pre-wrap leading-relaxed">
-                            {message.content}
-                          </p>
-                          <p className="text-xs text-gray-500 mt-2">
+                        <div className="rounded-2xl rounded-tr-md bg-gray-100 dark:bg-gray-800 p-4 px-5">
+                          <MarkdownRenderer 
+                            content={message.content}
+                            variant="default"
+                            className="text-gray-900 dark:text-gray-100"
+                          />
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                             {formatTime(message.timestamp)}
                           </p>
                         </div>
