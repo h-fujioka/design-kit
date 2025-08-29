@@ -1066,6 +1066,240 @@ A: [短期・中期・長期の目標設定]
     setShowSidePanel(true);
   };
 
+  // スライド作成ハンドラー
+  const handleCreateSlides = () => {
+    setIsGeneratingOutput(true);
+    setShowSlidesActions(false);
+    
+    const loadingMessage: ChatMessage = {
+      id: `slides-loading-${Date.now()}`,
+      type: 'ai',
+      content: 'スライドを作成しています...',
+      timestamp: new Date()
+    };
+    
+    setMessages(prev => [...prev, loadingMessage]);
+    
+    setTimeout(() => {
+      const slidesContent = `
+## 🎯 スライド構成案詳細
+
+### 1. オープニング（30秒）
+**タイトル**: "${pitchCoreMessage}"
+- 会社名・代表者名
+- 一言で伝える価値提案
+- 今日のアジェンダ
+
+### 2. 問題提起（1分）
+- 市場の課題・ペインポイント
+- 現状の解決策の限界
+- 問題の深刻さを示すデータ
+
+### 3. ソリューション（1分30秒）
+- 御社のプロダクト・サービス概要
+- 独自の技術・アプローチ
+- デモ・実例の紹介
+
+### 4. 市場機会（1分）
+- TAM/SAM/SOM
+- 成長性・トレンド
+- 市場の変化要因
+
+### 5. ビジネスモデル（1分）
+- 収益構造
+- 単価・LTV
+- 収益化のタイムライン
+
+### 6. 牽引力・実績（1分30秒）
+- KPI・成長指標
+- 顧客事例・導入実績
+- パートナーシップ
+
+### 7. 競合優位性（1分）
+- 競合比較
+- 参入障壁・差別化要因
+- 知的財産・技術優位性
+
+### 8. チーム（1分）
+- 創業者・主要メンバー
+- 実績・専門性
+- アドバイザー・投資家
+
+### 9. 財務計画（1分30秒）
+- 売上予測
+- 損益計画
+- ユニットエコノミクス
+
+### 10. 資金調達（1分）
+- 調達希望額
+- 資金使途
+- 投資家へのリターン
+
+### 11. クロージング（30秒）
+- ビジョン・将来性
+- 次のステップ
+- Q&Aセッション
+
+---
+
+## 📋 各スライドの詳細内容
+
+### スライド1: オープニング
+**デザイン要素:**
+- ブランドカラーを基調とした背景
+- 大きなタイトルフォント
+- 会社ロゴの配置
+
+**内容:**
+- 会社名と代表者名
+- 一言での価値提案
+- プレゼンテーションの構成
+
+### スライド2: 問題提起
+**デザイン要素:**
+- 問題を視覚化する図表
+- インパクトのある数字表示
+- 暗めの色調で問題の深刻さを表現
+
+**内容:**
+- 市場の主要な課題
+- 現状の解決策の限界
+- 問題の規模感を示すデータ
+
+### スライド3: ソリューション
+**デザイン要素:**
+- プロダクトのスクリーンショット
+- 解決の流れを示す図解
+- 明るい色調で解決策を表現
+
+**内容:**
+- プロダクト・サービスの概要
+- 独自の技術・アプローチ
+- 具体的な解決事例
+
+### スライド4: 市場機会
+**デザイン要素:**
+- 市場規模を示す円グラフ
+- 成長トレンドのグラフ
+- 市場の成長要因の図解
+
+**内容:**
+- TAM/SAM/SOMの説明
+- 市場の成長性
+- 市場変化の要因
+
+### スライド5: ビジネスモデル
+**デザイン要素:**
+- 収益構造の図解
+- 料金体系の表
+- 収益化のタイムライン
+
+**内容:**
+- 収益構造の説明
+- 単価設定とLTV
+- 収益化の見通し
+
+### スライド6: 牽引力・実績
+**デザイン要素:**
+- 成長グラフ
+- 顧客ロゴの配置
+- KPIの数値表示
+
+**内容:**
+- 主要KPIの提示
+- 顧客事例・導入実績
+- パートナーシップ
+
+### スライド7: 競合優位性
+**デザイン要素:**
+- 競合比較表
+- 差別化要因の図解
+- 参入障壁の説明
+
+**内容:**
+- 競合他社との比較
+- 差別化要因
+- 持続的な競争優位性
+
+### スライド8: チーム
+**デザイン要素:**
+- チームメンバーの写真
+- 経歴の図解
+- 専門性の可視化
+
+**内容:**
+- 創業者・主要メンバーの紹介
+- 実績・専門性
+- アドバイザー・投資家
+
+### スライド9: 財務計画
+**デザイン要素:**
+- 売上予測グラフ
+- 損益計画表
+- ユニットエコノミクス
+
+**内容:**
+- 売上予測
+- 損益計画
+- 成長戦略
+
+### スライド10: 資金調達
+**デザイン要素:**
+- 資金使途の円グラフ
+- 投資リターンの説明
+- 調達スケジュール
+
+**内容:**
+- 調達希望額
+- 資金使途の詳細
+- 投資家へのリターン
+
+### スライド11: クロージング
+**デザイン要素:**
+- ビジョンを表現する画像
+- 次のステップの図解
+- 連絡先情報
+
+**内容:**
+- ビジョン・将来性
+- 次のステップ
+- Q&Aセッション
+
+---
+
+## 💡 スライド作成のポイント
+
+### デザイン原則
+- **一貫性**: 全スライドで統一されたデザイン
+- **シンプル**: 1スライド1メッセージ
+- **視覚的**: 図表やグラフを効果的に活用
+- **読みやすさ**: 適切なフォントサイズとコントラスト
+
+### コンテンツ原則
+- **明確性**: メッセージを明確に伝える
+- **具体性**: 数字や事例を交えて具体的に
+- **論理性**: 流れのある構成
+- **説得力**: データやエビデンスに基づく
+
+### プレゼンテーション原則
+- **時間管理**: 各スライドの時間配分を守る
+- **インタラクション**: 聞き手との対話を意識
+- **ストーリー**: 一貫したストーリーライン
+- **エモーション**: 感情に訴える要素を含める
+      `;
+      
+      const resultMessage: ChatMessage = {
+        id: `slides-result-${Date.now()}`,
+        type: 'ai',
+        content: slidesContent,
+        timestamp: new Date()
+      };
+      
+      setMessages(prev => [...prev, resultMessage]);
+      setIsGeneratingOutput(false);
+    }, 3000);
+  };
+
   // 話法メモ作成ハンドラー
   const handleCreateSpeechMemo = () => {
     setIsGeneratingOutput(true);
@@ -2354,10 +2588,10 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                         </Button>
                         <Button
                           variant="brandOutline"
-                          onClick={handleCreateSpeechMemo}
+                          onClick={handleCreateSlides}
                           className="px-4 py-3 text-sm font-medium"
                         >
-                          話法メモを作成
+                          スライドを作成
                         </Button>
                         <Button
                           variant="brandOutline"
@@ -2376,7 +2610,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                       </div>
                       <div className="mt-3 text-xs text-gray-500 space-y-1">
                         <p><strong>スライド構成案を確認する:</strong> 右側パネルで詳細な構成を確認できます</p>
-                        <p><strong>話法メモを作成:</strong> プレゼンテーション用の話法とポイントを生成します</p>
+                        <p><strong>スライドを作成:</strong> プレゼンテーション用のスライド構成とデザインガイドを生成します</p>
                         <p><strong>アプローチメールを作成:</strong> 投資家向けのメールテンプレートを生成します</p>
                         <p><strong>やり直す:</strong> ピッチ構成作成を最初からやり直します</p>
                       </div>
@@ -2391,11 +2625,11 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                       <div className="flex gap-3">
                         <Button
                           variant="brandOutline"
-                          onClick={handleCreateSpeechMemo}
+                          onClick={handleCreateSlides}
                           className="flex items-center gap-2"
   
                         >
-                          <span className="text-sm font-medium">話法メモを作成</span>
+                          <span className="text-sm font-medium">スライドを作成</span>
                         </Button>
                         <Button
                           variant="brand"
@@ -2445,10 +2679,10 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                       <div className="flex gap-3">
                         <Button
                           variant="brandOutline"
-                          onClick={handleCreateSpeechMemo}
+                          onClick={handleCreateSlides}
                           className="flex items-center gap-2"
                         >
-                          <span className="text-sm font-medium">話法メモを作成</span>
+                          <span className="text-sm font-medium">スライドを作成</span>
                         </Button>
                         <Button
                           variant="brandOutline"
@@ -2458,7 +2692,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                           <span className="text-sm font-medium">想定Q&Aを作成</span>
                         </Button>
                         <Button
-                          variant="brand"
+                          variant="brandOutline"
                           onClick={handleCreateApproachEmail}
                           className="flex items-center gap-2"
                         >
