@@ -635,6 +635,9 @@ export function CompassDashboard() {
   const [showSlidesActions, setShowSlidesActions] = useState(false);
   const [showSidePanel, setShowSidePanel] = useState(false);
   const [sidePanelContent, setSidePanelContent] = useState<string>('');
+  const [isEditingPitch, setIsEditingPitch] = useState(false);
+  const [showNextStepActions, setShowNextStepActions] = useState(false);
+  const [showPitchEditButtons, setShowPitchEditButtons] = useState(true);
 
   // refs
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -751,7 +754,7 @@ export function CompassDashboard() {
 
   // ピッチ構成作成ハンドラー
   const handleCreatePitch = () => {
-    const pitchMessage = `それでは、選定された投資家に響くピッチ構成を作成しましょう。\n\nこのピッチで最も伝えたい核心的なメッセージは何ですか？\n\n（例：革新的な技術、市場での急成長、強固なチームなど）`;
+    const pitchMessage = `それでは、選定された投資家に響くピッチ構成を作成しましょう。\n\nどのようにピッチを組み立てますか？`;
     
     const newMessage: ChatMessage = {
       id: `pitch-start-${Date.now()}`,
@@ -769,7 +772,7 @@ export function CompassDashboard() {
     setShowPitchCompleteButton(false);
     setPitchUserInput('');
     setPitchCoreMessage('');
-    setShowPitchOptions(false);
+    setShowPitchOptions(true);
     setPitchOption(null);
     setCurrentSlideIndex(0);
     setSlideContent({});
@@ -799,41 +802,117 @@ export function CompassDashboard() {
         outputContent = `
 <div class="p-6 border border-gray-300 dark:border-gray-600 rounded-lg prose prose-lg dark:prose-invert max-w-none">
 
-## ピッチ構成案
+<h2 class="text-4xl font-bold mb-6">ピッチ構成案</h2>
 
-### サマリー
+<h3 class="text-3xl font-semibold mb-4">サマリー</h3>
 中小企業の経理業務効率化を目指すB2B SaaSです。独自のAI技術と強力なチームで市場を牽引し、シリーズAの資金調達により、さらなる成長を加速させます。
 
-### コアメッセージ
-${pitchCoreMessage}
+<h3 class="text-2xl font-semibold mb-4">1. コアメッセージ</h3>
+中小企業の経理業務を革命的に効率化し、経営者が事業成長に集中できるAIプラットフォーム。
 
-### 基本情報
-- **業界・事業領域:** Fintech / B2B SaaS
-- **ビジネスモデル:** サブスクリプション型
-- **投資ステージ:** シリーズA
-- **調達予定額:** 3-5億円
+私たちは、従来の経理業務における属人化・非効率性という根本的な課題に真正面から取り組み、AI技術を活用して業務プロセスを根本から変革します。特に、月次決算業務の時間を従来の70%削減し、経理担当者の生産性を3倍向上させることで、中小企業の経営効率化と持続可能な成長を実現します。
 
-### 事業概要
-「経理業務の属人化」の課題を解決する、独自のAIを活用した業務効率化SaaS。特に、月次決算業務の時間を従来の70%削減することに成功しています。
+<h3 class="text-2xl font-semibold mb-4">2. 問題提起（市場の課題）</h3>
+中小企業が抱える普遍的な課題は「経理業務の属人化と非効率性」です。
 
-### 対象顧客
-従業員数50-500名の中小企業。特に、経理業務のデジタル化が遅れている製造業・サービス業の企業をターゲットとしています。
+**非効率性**: 月次決算業務に3-5日かかり、経営判断の遅延を引き起こす。
 
-### チーム・背景
-- **【創業者】田中太郎:** 前職はGoogleでAI研究に従事。自然言語処理技術の開発を主導。
-- **【創業の想い】** 中小企業での経理業務経験から、属人化による非効率性の課題解決に強い使命感を持ち、創業に至る。
+**属人化**: 業務が特定の担当者に集中し、引き継ぎが困難で、退職リスクが高い。
 
-### 実績・牽引力
-- **ARR:** 前年比300%成長（現在2億円）
-- **ユーザー数:** 大手企業10社を含む、累計150社が導入
-- **解約率:** 3%以下（業界平均15%）
+**コンプライアンスリスク**: 人的ミスや不正のリスクが増大し、監査対応に多くの工数を要する。
 
-### 資金使途
-調達資金の主な使い道： 人材採用（セールス・エンジニア）40%、マーケティング費用30%、技術開発への投資30%
+これらの課題が、中小企業の成長を阻害する要因となっています。
+
+<h3 class="text-2xl font-semibold mb-4">3. 事業概要（ソリューション）</h3>
+**AI駆動型業務効率化SaaSプラットフォーム**
+
+問題提起で示した課題を解決するため、私たちは独自のAI技術を活用したSaaSを提供します。
+
+**月次決算業務の自動化**: AIによる自動仕訳・異常検知システムにより、作業時間を80%削減。
+
+**脱・属人化**: 誰でも高品質な経理業務が実行できる標準化されたプラットフォーム。
+
+**データ信頼性の向上**: 人的ミスを99%削減し、リアルタイムで正確な財務データを提供。
+
+私たちのサービスは、単なる業務自動化ツールではなく、経理業務の本質的な課題である「属人化」を解消し、誰でも高品質な経理業務を実行できる環境を提供します。
+
+<h3 class="text-2xl font-semibold mb-4">4. 対象顧客</h3>
+従業員数50-500名の中小企業をメインターゲットとしています。特に、経理業務のデジタル化が遅れている製造業・サービス業の企業に強く支持されています。
+
+具体的には、以下のような企業が主要顧客となっています：
+
+**製造業**: 従業員100-300名の中小製造業者（機械部品製造、食品加工、化学製品製造など）
+
+**サービス業**: ITサービス、コンサルティング、建設業、小売業など
+
+**成長企業**: 急成長により経理業務が追いつかなくなっている企業
+
+これらの企業は共通して、経理業務の属人化による非効率性、人材不足、コンプライアンスリスクの増大といった課題を抱えており、私たちのソリューションが最も効果的に機能する市場です。
+
+### 5. チームの経歴
+**創業者・CEO 田中太郎**: 前職はGoogleでAI研究に従事し、自然言語処理技術の開発を主導。Google在籍中に中小企業の経理業務効率化に関する研究プロジェクトを立ち上げ、その経験から創業に至る。
+
+**CTO 佐藤花子**: 元Amazonでクラウドインフラストラクチャの設計・開発に従事。マイクロサービスアーキテクチャの専門家として、高可用性・高スケーラビリティなシステム構築の実績を持つ。
+
+**CFO 鈴木一郎**: 元PwCで中小企業向け財務コンサルティングに従事。10年以上の実務経験を持ち、中小企業の財務課題と経理業務の実態を深く理解。
+
+### 6. 資金使途（調達資金の主な使い道）
+調達資金5億円の配分計画：
+
+**人材採用・組織拡大（40%：2億円）**
+- セールスチーム拡充：15名の新規採用
+- エンジニアリングチーム強化：20名の新規採用
+- カスタマーサクセスチーム構築：10名の新規採用
+
+**マーケティング・ブランディング（30%：1.5億円）**
+- デジタルマーケティング施策、業界別セミナー開催、ブランディング活動
+
+**技術開発・プロダクト強化（30%：1.5億円）**
+- AI技術の高度化、新機能開発、インフラストラクチャ強化
+
+### 7. 業界・事業領域
+**Fintech / B2B SaaS / 業務効率化ソリューション**
+
+私たちが参入している市場は、中小企業向け業務効率化ソリューション市場です。
+
+**市場規模**: 日本国内で約2兆円（中小企業庁調査による）
+
+**成長率**: 年率15%の成長を継続（デジタル化の加速により）
+
+**市場動向**: コロナ禍を契機としたDX推進の加速、クラウド化の進展、AI技術の実用化。
+
+### 8. ビジネスモデル
+**サブスクリプション型SaaSモデル**
+
+基本料金体系：
+- **スタータープラン**: 月額5万円（従業員50名以下向け）
+- **ビジネスプラン**: 月額15万円（従業員100-200名向け）
+- **エンタープライズプラン**: 月額30万円（従業員200-500名向け）
+
+収益性指標：
+- **顧客生涯価値（LTV）**: 平均で500万円
+- **顧客獲得コスト（CAC）**: 50万円
+- **LTV/CAC比**: 10倍という効率的な収益モデル
+
+### 9. 投資ステージと調達予定額
+**シリーズA（成長期）**
+
+**調達予定額**: 5億円
+
+**現在の状況**: PMF達成、月次売上2億円、顧客数150社。
+
+**評価倍率**: ARRの2.5倍。
+
+この調達により、12ヶ月後のARRを10億円、顧客数を500社に拡大し、シリーズBに向けた急成長を目指します。
 
 ### 想定Q&A
-- **Q: 競合との差別化ポイントは？** A: 元GoogleのAI研究者が開発した独自の自然言語処理技術と、中小企業の経理業務に特化した深い知見。
-- **Q: 市場規模の根拠は？** A: 中小企業庁の調査データと自社で行った潜在顧客1000社へのヒアリング調査に基づく推定（TAM: 1兆円規模）。
+**Q: 競合との差別化ポイントは？**
+
+A: 元GoogleのAI研究者が開発した独自の自然言語処理技術と、中小企業の経理業務に特化した深い知見。特に、属人化の解消という本質的な課題解決に特化している点が最大の差別化要因です。
+
+**Q: 市場規模の根拠は？**
+
+A: 中小企業庁の調査データと自社で行った潜在顧客へのヒアリング調査に基づく推定（TAM: 2兆円規模）。特に、経理業務のデジタル化市場は年率15%の成長を継続しており、市場機会は非常に大きいと判断しています。
 
 </div>
         `;
@@ -1123,6 +1202,82 @@ A: [短期・中期・長期の目標設定]
     }, 3000);
   };
 
+  // 想定Q&A作成ハンドラー
+  const handleCreateQandA = () => {
+    setIsGeneratingOutput(true);
+    setShowSlidesActions(false);
+    
+    const loadingMessage: ChatMessage = {
+      id: `qanda-loading-${Date.now()}`,
+      type: 'ai',
+      content: '想定Q&Aを作成しています...',
+      timestamp: new Date()
+    };
+    
+    setMessages(prev => [...prev, loadingMessage]);
+    
+    setTimeout(() => {
+      const qandaContent = `
+## 💡 想定Q&A
+
+### 事業・市場に関する質問
+
+**Q1: 競合との差別化ポイントは？**
+A: 元GoogleのAI研究者が開発した独自の自然言語処理技術と、中小企業の経理業務に特化した深い知見。特に、属人化の解消という本質的な課題解決に特化している点が最大の差別化要因です。
+
+**Q2: 市場規模の根拠は？**
+A: 中小企業庁の調査データと自社で行った潜在顧客へのヒアリング調査に基づく推定（TAM: 2兆円規模）。特に、経理業務のデジタル化市場は年率15%の成長を継続しており、市場機会は非常に大きいと判断しています。
+
+**Q3: 収益化の見通しは？**
+A: 現在月次売上2億円、顧客数150社の実績があり、LTV/CAC比10倍という効率的な収益モデルを確立。今後12ヶ月でARR10億円、顧客数500社への拡大を目指しています。
+
+**Q4: スケーラビリティは？**
+A: SaaSモデルにより、顧客増加に比例した収益拡大が可能。AI技術の高度化により、新機能の追加も容易で、市場拡大に応じた成長が期待できます。
+
+### チーム・実行力に関する質問
+
+**Q5: チームの実行力は？**
+A: CEOは元GoogleでAI研究、CTOは元Amazonでクラウドインフラ、CFOは元PwCで財務コンサルティングの経験を持つ強力なチーム。各分野での実績と専門性を兼ね備えています。
+
+**Q6: 技術的な優位性は？**
+A: 独自の自然言語処理技術により、経理業務の自動化精度が従来比80%向上。特許出願中の技術もあり、技術的参入障壁を構築しています。
+
+### 財務・資金調達に関する質問
+
+**Q7: 資金使途の詳細は？**
+A: 調達資金5億円の40%を人材採用（セールス・エンジニア）、30%をマーケティング、30%を技術開発に配分。具体的な成長戦略に基づいた投資計画です。
+
+**Q8: 投資家へのリターンは？**
+A: シリーズBでの評価倍率向上と、3-5年後のIPOまたは戦略的M&Aを目指す。期待リターンは投資額の10-20倍を想定しています。
+
+**Q9: リスク要因は？**
+A: 主要リスクは競合参入と技術変化。対策として、継続的な技術開発と顧客ロックイン機能の強化により、持続的な競争優位性を維持します。
+
+### 戦略・成長に関する質問
+
+**Q10: 今後のマイルストーンは？**
+A: 6ヶ月後：顧客数300社、ARR5億円達成。12ヶ月後：顧客数500社、ARR10億円達成。18ヶ月後：シリーズB調達、海外展開開始を予定しています。
+
+### 回答のポイント
+
+**■ 簡潔性**: 各回答は30秒以内で説明できる内容にまとめる
+**■ 具体性**: 数字や事例を交えて具体的に説明
+**■ 自信**: 確信を持って回答し、不明な点は正直に「調査中」と伝える
+**■ 準備**: 想定外の質問にも対応できるよう、関連情報を準備しておく
+`;
+      
+      const resultMessage: ChatMessage = {
+        id: `qanda-result-${Date.now()}`,
+        type: 'ai',
+        content: qandaContent,
+        timestamp: new Date()
+      };
+      
+      setMessages(prev => [...prev, resultMessage]);
+      setIsGeneratingOutput(false);
+    }, 3000);
+  };
+
   // アプローチメール作成ハンドラー
   const handleCreateApproachEmail = () => {
     setIsGeneratingOutput(true);
@@ -1273,77 +1428,227 @@ A: [短期・中期・長期の目標設定]
     const restartMessage: ChatMessage = {
       id: `restart-${Date.now()}`,
       type: 'ai',
-      content: 'ピッチ構成作成を再開します。\n\nまず、御社の核心的なメッセージを教えてください。一言で表現するとしたら、どのような価値を提供していますか？\n\n（例：「中小企業の業務効率を3倍向上させるAIツール」「地方創生を支える次世代マッチングプラットフォーム」など）',
+      content: 'ピッチ構成作成を再開します。\n\nどのようにピッチを組み立てますか？',
       timestamp: new Date()
     };
     
     setMessages([restartMessage]);
+    setShowPitchOptions(true);
     setIsPitchTaskActive(true);
   };
 
   // ピッチ構成完了ハンドラー
   const handlePitchComplete = () => {
-    const completionMessage: ChatMessage = {
-      id: `pitch-complete-${Date.now()}`,
+    // 既存のローディングメッセージがある場合は削除
+    setMessages(prev => prev.filter(msg => !msg.id.includes('pitch-loading')));
+    
+    // ローディングメッセージを追加
+    const loadingMessage: ChatMessage = {
+      id: `pitch-loading-${Date.now()}`,
       type: 'ai',
-      content: `ピッチ案を作成しました。
-
-<div class="p-6 border border-gray-300 dark:border-gray-600 rounded-lg prose prose-lg dark:prose-invert max-w-none">
-
-## ピッチ構成案
-
-### サマリー
-中小企業の経理業務効率化を目指すB2B SaaSです。独自のAI技術と強力なチームで市場を牽引し、シリーズAの資金調達により、さらなる成長を加速させます。
-
-### コアメッセージ
-市場での急成長
-
-### 基本情報
-- **業界・事業領域:** Fintech / B2B SaaS
-- **ビジネスモデル:** サブスクリプション型
-- **投資ステージ:** シリーズA
-- **調達予定額:** 3-5億円
-
-### 事業概要
-「経理業務の属人化」の課題を解決する、独自のAIを活用した業務効率化SaaS。特に、月次決算業務の時間を従来の70%削減することに成功しています。
-
-### 対象顧客
-従業員数50-500名の中小企業。特に、経理業務のデジタル化が遅れている製造業・サービス業の企業をターゲットとしています。
-
-### チーム・背景
-- **【創業者】田中太郎:** 前職はGoogleでAI研究に従事。自然言語処理技術の開発を主導。
-- **【創業の想い】** 中小企業での経理業務経験から、属人化による非効率性の課題解決に強い使命感を持ち、創業に至る。
-
-### 実績・牽引力
-- **ARR:** 前年比300%成長（現在2億円）
-- **ユーザー数:** 大手企業10社を含む、累計150社が導入
-- **解約率:** 3%以下（業界平均15%）
-
-### 資金使途
-調達資金の主な使い道： 人材採用（セールス・エンジニア）40%、マーケティング費用30%、技術開発への投資30%
-
-### 想定Q&A
-- **Q: 競合との差別化ポイントは？** A: 元GoogleのAI研究者が開発した独自の自然言語処理技術と、中小企業の経理業務に特化した深い知見。
-- **Q: 市場規模の根拠は？** A: 中小企業庁の調査データと自社で行った潜在顧客1000社へのヒアリング調査に基づく推定（TAM: 1兆円規模）。
-
-</div>
-
-これらの指示に従い、内容の濃い、実践的なピッチ構成案を出力してください。
-
-作成するアウトプットを選択してください。`,
+      content: `ありがとうございます。いただいた情報を基に、全体のピッチ構成案を作成いたします。`,
       timestamp: new Date()
     };
+
+    setMessages(prev => [...prev, loadingMessage]);
+    setIsTyping(true);
+
+    // 6秒後にピッチ構成案を表示
+    setTimeout(() => {
+      setIsTyping(false);
+      
+      const completionMessage: ChatMessage = {
+        id: `pitch-complete-${Date.now()}`,
+        type: 'ai',
+        content: `<div class="p-6 border border-gray-300 dark:border-gray-600 rounded-lg prose prose-lg dark:prose-invert max-w-none">
+
+<h2 class="text-4xl font-bold mb-6">ピッチ構成案</h2>
+
+<h3 class="text-3xl font-semibold mb-4">サマリー</h3>
+中小企業の経理業務を革命的に効率化し、経営者が事業成長に集中できるAIプラットフォームです。経理業務の属人化と非効率性を解決するAI駆動型業務自動化SaaSとして、月次決算業務を80%削減し、人的ミスを99%削減します。従業員数50-500名の中小企業（製造業、サービス業）をメインターゲットとし、月額サブスクリプション型SaaSモデルで事業を展開しています。シリーズAで5億円の資金調達を予定しており、人材採用（セールス・エンジニア）、マーケティング、技術開発に投資します。
+
+<h3 class="text-3xl font-semibold mb-4">1. コアメッセージ</h3>
+中小企業の経理業務を革命的に効率化し、経営者が事業成長に集中できるAIプラットフォーム。
+
+私たちは、従来の経理業務における属人化・非効率性という根本的な課題に真正面から取り組み、AI技術を活用して業務プロセスを根本から変革します。特に、月次決算業務の時間を従来の70%削減し、経理担当者の生産性を3倍向上させることで、中小企業の経営効率化と持続可能な成長を実現します。
+
+<h3 class="text-2xl font-semibold mb-4">2. 問題提起（市場の課題）</h3>
+中小企業が抱える普遍的な課題は「経理業務の属人化と非効率性」です。
+
+**非効率性**: 月次決算業務に3-5日かかり、経営判断の遅延を引き起こす。
+
+**属人化**: 業務が特定の担当者に集中し、引き継ぎが困難で、退職リスクが高い。
+
+**コンプライアンスリスク**: 人的ミスや不正のリスクが増大し、監査対応に多くの工数を要する。
+
+これらの課題が、中小企業の成長を阻害する要因となっています。
+
+<h3 class="text-2xl font-semibold mb-4">3. 事業概要（ソリューション）</h3>
+**AI駆動型業務効率化SaaSプラットフォーム**
+
+問題提起で示した課題を解決するため、私たちは独自のAI技術を活用したSaaSを提供します。
+
+**月次決算業務の自動化**: AIによる自動仕訳・異常検知システムにより、作業時間を80%削減。
+
+**脱・属人化**: 誰でも高品質な経理業務が実行できる標準化されたプラットフォーム。
+
+**データ信頼性の向上**: 人的ミスを99%削減し、リアルタイムで正確な財務データを提供。
+
+私たちのサービスは、単なる業務自動化ツールではなく、経理業務の本質的な課題である「属人化」を解消し、誰でも高品質な経理業務を実行できる環境を提供します。
+
+<h3 class="text-2xl font-semibold mb-4">4. 対象顧客</h3>
+従業員数50-500名の中小企業をメインターゲットとしています。特に、経理業務のデジタル化が遅れている製造業・サービス業の企業に強く支持されています。
+
+具体的には、以下のような企業が主要顧客となっています：
+
+**製造業**: 従業員100-300名の中小製造業者（機械部品製造、食品加工、化学製品製造など）
+
+**サービス業**: ITサービス、コンサルティング、建設業、小売業など
+
+**成長企業**: 急成長により経理業務が追いつかなくなっている企業
+
+これらの企業は共通して、経理業務の属人化による非効率性、人材不足、コンプライアンスリスクの増大といった課題を抱えており、私たちのソリューションが最も効果的に機能する市場です。
+
+### 5. チームの経歴
+**創業者・CEO 田中太郎**: 前職はGoogleでAI研究に従事し、自然言語処理技術の開発を主導。Google在籍中に中小企業の経理業務効率化に関する研究プロジェクトを立ち上げ、その経験から創業に至る。
+
+**CTO 佐藤花子**: 元Amazonでクラウドインフラストラクチャの設計・開発に従事。マイクロサービスアーキテクチャの専門家として、高可用性・高スケーラビリティなシステム構築の実績を持つ。
+
+**CFO 鈴木一郎**: 元PwCで中小企業向け財務コンサルティングに従事。10年以上の実務経験を持ち、中小企業の財務課題と経理業務の実態を深く理解。
+
+### 6. 資金使途（調達資金の主な使い道）
+調達資金5億円の配分計画：
+
+**人材採用・組織拡大（40%：2億円）**
+- セールスチーム拡充：15名の新規採用
+- エンジニアリングチーム強化：20名の新規採用
+- カスタマーサクセスチーム構築：10名の新規採用
+
+**マーケティング・ブランディング（30%：1.5億円）**
+- デジタルマーケティング施策、業界別セミナー開催、ブランディング活動
+
+**技術開発・プロダクト強化（30%：1.5億円）**
+- AI技術の高度化、新機能開発、インフラストラクチャ強化
+
+### 7. 業界・事業領域
+**Fintech / B2B SaaS / 業務効率化ソリューション**
+
+私たちが参入している市場は、中小企業向け業務効率化ソリューション市場です。
+
+**市場規模**: 日本国内で約2兆円（中小企業庁調査による）
+
+**成長率**: 年率15%の成長を継続（デジタル化の加速により）
+
+**市場動向**: コロナ禍を契機としたDX推進の加速、クラウド化の進展、AI技術の実用化。
+
+### 8. ビジネスモデル
+**サブスクリプション型SaaSモデル**
+
+基本料金体系：
+- **スタータープラン**: 月額5万円（従業員50名以下向け）
+- **ビジネスプラン**: 月額15万円（従業員100-200名向け）
+- **エンタープライズプラン**: 月額30万円（従業員200-500名向け）
+
+収益性指標：
+- **顧客生涯価値（LTV）**: 平均で500万円
+- **顧客獲得コスト（CAC）**: 50万円
+- **LTV/CAC比**: 10倍という効率的な収益モデル
+
+### 9. 投資ステージと調達予定額
+**シリーズA（成長期）**
+
+**調達予定額**: 5億円
+
+**現在の状況**: PMF達成、月次売上2億円、顧客数150社。
+
+**評価倍率**: ARRの2.5倍。
+
+この調達により、12ヶ月後のARRを10億円、顧客数を500社に拡大し、シリーズBに向けた急成長を目指します。
+
+### 想定Q&A
+**Q: 競合との差別化ポイントは？**
+
+A: 元GoogleのAI研究者が開発した独自の自然言語処理技術と、中小企業の経理業務に特化した深い知見。特に、属人化の解消という本質的な課題解決に特化している点が最大の差別化要因です。
+
+**Q: 市場規模の根拠は？**
+
+A: 中小企業庁の調査データと自社で行った潜在顧客へのヒアリング調査に基づく推定（TAM: 2兆円規模）。特に、経理業務のデジタル化市場は年率15%の成長を継続しており、市場機会は非常に大きいと判断しています。
+
+</div>`,
+        timestamp: new Date()
+      };
     
     setMessages(prev => [...prev, completionMessage]);
     setShowOutputSelection(true);
     setIsPitchComplete(true);
     setShowPitchCompleteButton(false);
     setShowPitchOptions(false);
+    setShowPitchEditButtons(true);
+    }, 6000); // 6秒間のローディング
+  };
+
+  // 編集ハンドラー
+  const handleEditPitch = () => {
+    // 編集モードを有効にする
+    setIsEditingPitch(true);
+    // チャット入力欄をアクティブにする
+    setInputMessage('');
+  };
+
+  // 確定ハンドラー
+  const handleConfirmPitch = () => {
+    // 編集モードを無効にする
+    setIsEditingPitch(false);
+    
+    // 編集・確定ボタンを非表示にする
+    setShowPitchEditButtons(false);
+    
+    // 確定メッセージを表示
+    const confirmMessage: ChatMessage = {
+      id: `pitch-confirmed-${Date.now()}`,
+      type: 'ai',
+      content: `ピッチ構成案が確定しました。次のステップとして、何を準備しますか？`,
+      timestamp: new Date()
+    };
+    
+    setMessages(prev => [...prev, confirmMessage]);
+    
+    // 次のステップのボタンを表示
+    setShowNextStepActions(true);
+  };
+
+  // 編集送信ハンドラー
+  const handleEditPitchSubmit = () => {
+    if (!inputMessage.trim()) return;
+
+    // 編集内容をメッセージとして追加
+    const editMessage: ChatMessage = {
+      id: `pitch-edit-${Date.now()}`,
+      type: 'user',
+      content: inputMessage,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, editMessage]);
+    setInputMessage('');
+    
+    // 編集モードを無効にする
+    setIsEditingPitch(false);
+    
+    // AI応答を生成
+    const aiResponse: ChatMessage = {
+      id: `pitch-edit-response-${Date.now()}`,
+      type: 'ai',
+      content: `編集内容を反映いたしました。他に修正したい箇所はございますか？`,
+      timestamp: new Date()
+    };
+    
+    setMessages(prev => [...prev, aiResponse]);
   };
 
   // 段階的に作成ハンドラー
   const handlePitchOptionA = () => {
-    const optionAMessage = `ありがとうございます。段階的に作成を選択されました。\n\nAIと対話しながら、ピッチの構成要素を一つずつ作り込んでいきます。\n\n最初に「問題提起」について質問させていただきます。\n\n御社が解決しようとしている市場の課題や問題は何ですか？具体的なエピソードがあれば教えてください。\n\n（例：「手作業で3時間かかっていた」「○○の作業が属人化している」など、実際の声）`;
+    const optionAMessage = `ありがとうございます。段階的に作成を選択されました。\n\n細かく作り込む選択肢です。AIと対話しながら、ピッチの構成要素を一つずつ質問を投げかける対話フローを開始します。\n\n最初に「問題提起」について質問させていただきます。\n\n御社が解決しようとしている市場の課題や問題は何ですか？具体的なエピソードがあれば教えてください。\n\n（例：「手作業で3時間かかっていた」「○○の作業が属人化している」など、実際の声）`;
     
     const newMessage: ChatMessage = {
       id: `pitch-option-a-${Date.now()}`,
@@ -1361,7 +1666,7 @@ A: [短期・中期・長期の目標設定]
 
   // 一括作成ハンドラー
   const handlePitchOptionB = () => {
-    const optionBMessage = `ありがとうございます。一括作成を選択されました。\n\n最小限の情報入力で、全体のドラフトを一度に生成します。\n\n以下の情報をまとめて入力してください：\n\n**1. コアメッセージ**（既に入力済み：${pitchCoreMessage}）\n\n**2. 事業概要**（どのようなサービス・プロダクトか）\n\n**3. 対象顧客**（誰の課題を解決するか）\n\n**4. チームの経歴**（創業者・主要メンバーの背景）\n\n**5. 資金使途**（調達資金の主な使い道）\n\n**6. 業界・事業領域**\n\n**7. ビジネスモデル**\n\n**8. 投資ステージ**\n\n**9. 調達予定額**\n\nこれらの情報を入力していただければ、全体のピッチ構成案を作成いたします。`;
+    const optionBMessage = `ありがとうございます。一括作成を選択されました。\n\n以下の情報をまとめて入力してください：\n\n**1. コアメッセージ**（最も伝えたいメッセージ）\n\n**2. 事業概要**（どのようなサービス・プロダクトか）\n\n**3. 対象顧客**（誰の課題を解決するか）\n\n**4. チームの経歴**（創業者・主要メンバーの背景）\n\n**5. 資金使途**（調達資金の主な使い道）\n\n**6. 業界・事業領域**\n\n**7. ビジネスモデル**\n\n**8. 投資ステージ**\n\n**9. 調達予定額**\n\nこれらの情報を入力していただければ、全体のピッチ構成案を作成いたします。`;
     
     const newMessage: ChatMessage = {
       id: `pitch-option-b-${Date.now()}`,
@@ -1448,7 +1753,7 @@ A: [短期・中期・長期の目標設定]
         setIsTyping(false);
         
         if (pitchCoreMessage === '' && pitchOption === null) {
-          // 核心メッセージの入力段階
+          // 核心メッセージの入力段階（一括作成の場合のみ）
           setPitchCoreMessage(currentInput);
           
           const aiResponse = `ありがとうございます。その核心的なメッセージを軸に、ピッチを組み立てます。\n\nどのようにピッチを組み立てますか？`;
@@ -1509,6 +1814,7 @@ A: [短期・中期・長期の目標設定]
               setMessages(prev => [...prev, aiMessage]);
               setIsPitchTaskActive(false);
               
+              // 段階的作成の場合は、最後の質問が完了したらピッチ構成案を表示
               setTimeout(() => {
                 handlePitchComplete();
               }, 1500);
@@ -1516,21 +1822,10 @@ A: [短期・中期・長期の目標設定]
           }
         } else if (pitchOption === 'B') {
           // 一括作成：情報受け取り後の処理
-          const aiResponse = `ありがとうございます。いただいた情報を基に、全体のピッチ構成案を作成いたします。`;
-          
-          const aiMessage: ChatMessage = {
-            id: `pitch-batch-received-${Date.now()}`,
-            type: 'ai',
-            content: aiResponse,
-            timestamp: new Date()
-          };
-          
-          setMessages(prev => [...prev, aiMessage]);
           setIsPitchTaskActive(false);
           
-          setTimeout(() => {
-            handlePitchComplete();
-          }, 1500);
+          // 直接handlePitchCompleteを呼び出し（ローディングメッセージはhandlePitchComplete内で処理）
+          handlePitchComplete();
         }
       }, 1500);
       
@@ -2036,48 +2331,14 @@ A: [短期・中期・長期の目標設定]
                         </Button>
                       </div>
                       <div className="mt-3 text-xs text-gray-500 space-y-1">
-                        <p><strong>段階的に作成:</strong> AIと対話しながら、スライドごとに細かく作り込みます</p>
-                        <p><strong>一括作成:</strong> 最小限の情報入力で、全体のドラフトを一度に生成します</p>
+                        <p><strong>段階的に作成:</strong> 細かく作り込む選択肢。AIと対話しながら、ピッチの構成要素を一つずつ質問を投げかける対話フローを開始します。</p>
+                        <p><strong>一括作成:</strong> 最小限の情報入力で、全体のドラフトを一度に生成する選択肢。AIは一括作成に必要な情報をまとめて入力するよう促すメッセージを表示します。</p>
                       </div>
                     </div>
                   </div>
                 )}
 
-                {/* アウトプット選択ボタン */}
-                {message.type !== 'user' && message.content.includes('作成するアウトプットを選択してください') && showOutputSelection && (
-                  <div className="flex justify-start w-full mb-6">
-                    <div className="max-w-2xl">
-                      <div className="flex flex-col gap-3 sm:flex-row">
-                        <Button
-                          variant="brandOutline"
-                          onClick={() => handleOutputGeneration('slides')}
-                          className="px-6 py-3 text-sm font-medium"
-                        >
-                          スライド構成案
-                        </Button>
-                        <Button
-                          variant="brandOutline"
-                          onClick={() => handleOutputGeneration('qa')}
-                          className="px-6 py-3 text-sm font-medium"
-                        >
-                          想定Q&A
-                        </Button>
-                        <Button
-                          variant="brand"
-                          onClick={() => handleOutputGeneration('summary')}
-                          className="px-6 py-3 text-sm font-medium"
-                        >
-                          エグゼクティブサマリー
-                        </Button>
-                      </div>
-                      <div className="mt-3 text-xs text-gray-500 space-y-1">
-                        <p><strong>スライド構成案:</strong> プレゼンテーション用のスライド構成を生成</p>
-                        <p><strong>想定Q&A:</strong> 投資家からの質問と回答例を生成</p>
-                        <p><strong>エグゼクティブサマリー:</strong> 事業概要の要約資料を生成</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
+
 
                 {/* スライド構成案完了後のアクションボタン */}
                 {message.type !== 'user' && message.content.includes('## 🎯 スライド構成案') && showSlidesActions && (
@@ -2148,6 +2409,65 @@ A: [短期・中期・長期の目標設定]
                     </div>
                   </div>
                 )}
+
+                {/* ピッチ構成案のアクションボタン */}
+                {message.type !== 'user' && message.content.includes('ピッチ構成案') && !message.content.includes('ピッチ構成案が確定されました') && !message.content.includes('ピッチ構成案が確定しました') && !message.content.includes('ありがとうございます。いただいた情報を基に') && !message.content.includes('これらの情報を入力していただければ') && !message.content.includes('次のステップとして、何を準備しますか') && showPitchEditButtons && (
+                  <div className="flex justify-start w-full mb-6">
+                    <div className="max-w-2xl">
+                      <div className="flex gap-3">
+                        <Button
+                          variant="brandOutline"
+                          onClick={handleEditPitch}
+                          className="flex items-center gap-2"
+                        >
+                          <span className="text-sm font-medium">編集</span>
+                        </Button>
+                        <Button
+                          variant="brand"
+                          onClick={handleConfirmPitch}
+                          className="flex items-center gap-2"
+                        >
+                          <span className="text-sm font-medium">この内容で確定する</span>
+                        </Button>
+                      </div>
+                      <div className="mt-3 text-xs text-gray-500 space-y-1">
+                        <p><strong>編集:</strong> ピッチ構成案を直接編集できます</p>
+                        <p><strong>この内容で確定する:</strong> 編集・確認が完了し、次のステップに進みます</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* 次のステップのアクションボタン */}
+                {message.type !== 'user' && message.content.includes('ピッチ構成案が確定しました') && showNextStepActions && (
+                  <div className="flex justify-start w-full mb-6">
+                    <div className="max-w-2xl">
+                      <div className="flex gap-3">
+                        <Button
+                          variant="brandOutline"
+                          onClick={handleCreateSpeechMemo}
+                          className="flex items-center gap-2"
+                        >
+                          <span className="text-sm font-medium">話法メモを作成</span>
+                        </Button>
+                        <Button
+                          variant="brandOutline"
+                          onClick={handleCreateQandA}
+                          className="flex items-center gap-2"
+                        >
+                          <span className="text-sm font-medium">想定Q&Aを作成</span>
+                        </Button>
+                        <Button
+                          variant="brand"
+                          onClick={handleCreateApproachEmail}
+                          className="flex items-center gap-2"
+                        >
+                          <span className="text-sm font-medium">アプローチメールを作成</span>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
 
@@ -2204,13 +2524,13 @@ A: [短期・中期・長期の目標設定]
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="メッセージを入力してください..."
+                  placeholder={isEditingPitch ? "ピッチ構成案の編集内容を入力してください..." : "メッセージを入力してください..."}
                   className="w-full min-h-[44px] max-h-32 resize-none py-3.5 px-4 leading-6"
                   rows={1}
                 />
               </div>
               <Button
-                onClick={handleSendMessage}
+                onClick={isEditingPitch ? handleEditPitchSubmit : handleSendMessage}
                 disabled={!inputMessage.trim() || isTyping}
                 className="h-11 px-5"
               >
