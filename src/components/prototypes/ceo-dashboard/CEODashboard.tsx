@@ -95,14 +95,14 @@ const categories: Category[] = [
     name: '資金調達・財務',
     description: '投資家との関係構築や財務戦略',
     icon: DollarSign,
-    color: 'text-blue-600'
+    color: 'text-info'
   },
   {
     id: 'organization',
     name: '組織・人事',
     description: '採用戦略、組織運営、人材マネジメント',
     icon: Users,
-    color: 'text-green-600'
+    color: 'text-success'
   },
   {
     id: 'sales',
@@ -157,7 +157,7 @@ export function CEODashboard() {
             <div 
               key={task.id}
               className={`p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors ${
-                selectedTask === task.id ? 'bg-blue-50 dark:bg-blue-950/20 border-l-2 border-blue-500' : ''
+                selectedTask === task.id ? 'bg-info/10 dark:bg-info/20 border-l-2 border-info' : ''
               }`}
               onClick={() => handleTaskClick(task.id)}
             >
@@ -221,7 +221,7 @@ export function CEODashboard() {
                     <CardDescription>{action.description}</CardDescription>
                   </CardHeader>
                   <CardContent className="text-center">
-                    <ArrowRight className="w-5 h-5 text-blue-600 mx-auto" />
+                    <ArrowRight className="w-5 h-5 text-info mx-auto" />
                   </CardContent>
                 </Card>
               ))}

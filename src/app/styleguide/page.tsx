@@ -3,6 +3,12 @@
 import { Footer } from '@/components/shared/footer';
 import { Header } from '@/components/shared/header';
 import { PageShell } from '@/components/shared/page-shell';
+import {
+  PrototypeLayout,
+  SidebarItem,
+  SidebarItemWithIcon,
+  SidebarSection
+} from '@/components/shared/prototype-layout';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -21,15 +27,15 @@ import { ColumnDef } from "@tanstack/react-table";
 
 // Lucide Icons for demonstration
 import {
-    AlertTriangle,
-    Check,
-    ChevronLeft, ChevronRight,
-    Edit,
-    Plus,
-    Search,
-    Settings,
-    Trash2,
-    X
+  AlertTriangle,
+  Check,
+  ChevronLeft, ChevronRight,
+  Edit,
+  Plus,
+  Search,
+  Settings,
+  Trash2,
+  X
 } from 'lucide-react';
 
 // サンプルデータ型
@@ -80,8 +86,8 @@ const sampleColumns: ColumnDef<SampleData>[] = [
     header: "ステータス",
     cell: ({ row }) => (
       <span className={
-        row.getValue("status") === "完了" ? "text-green-600" :
-        row.getValue("status") === "進行中" ? "text-blue-600" : "text-gray-600"
+        row.getValue("status") === "完了" ? "text-success" :
+        row.getValue("status") === "進行中" ? "text-info" : "text-brand-500"
       }>
         {row.getValue("status")}
       </span>
@@ -108,7 +114,7 @@ export default function StyleguidePage() {
       <PageShell>
         <section className="space-y-8">
           <div className="space-y-2">
-            <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
+            <h1 className="text-2xl font-bold tracking-tight">
               Styleguide
             </h1>
             <p className="text-muted-foreground">
@@ -123,8 +129,8 @@ export default function StyleguidePage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-muted-foreground">
-                  Explore our comprehensive design system featuring Shopify Polaris-inspired components, 
-                  4px grid spacing, and Apple-style color palette.
+                  Shopify Polarisにインスパイアされたコンポーネント、4pxグリッドスペーシング、
+                  Appleスタイルのカラーパレットを特徴とする包括的なデザインシステムをご覧ください。
                 </p>
               </CardContent>
             </Card>
@@ -135,11 +141,13 @@ export default function StyleguidePage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>• 4px-based spacing system</li>
-                  <li>• Shopify Polaris layout components</li>
-                  <li>• Apple-inspired color palette</li>
-                  <li>• Responsive design patterns</li>
-                  <li>• Accessibility-first approach</li>
+                  <li>• 4pxベースのスペーシングシステム</li>
+                  <li>• Shopify Polarisレイアウトコンポーネント</li>
+                  <li>• Appleインスパイアのカラーパレット</li>
+                  <li>• レスポンシブデザインパターン</li>
+                  <li>• アクセシビリティファーストアプローチ</li>
+                  <li>• セマンティックカラーシステム（プリミティブカラーよりセマンティックカラーを使用）</li>
+                  <li>• コンポーネントバリアントルール（brand, brandOutline, brandGhost, brandLink, brandAccentの一貫した使用）</li>
                 </ul>
               </CardContent>
             </Card>
@@ -148,6 +156,80 @@ export default function StyleguidePage() {
           <Separator />
 
           <div className="grid gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Breadcrumb Navigation - パンくずリスト</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">Standard Breadcrumb - 標準パンくずリスト</h4>
+                  <div className="space-y-4">
+                    {/* サンプル1: 基本的なパンくずリスト */}
+                    <div className="space-y-2">
+                      <p className="text-xs text-muted-foreground">基本的なパンくずリスト</p>
+                      <nav className="text-xs">
+                        <ol className="flex items-center space-x-1">
+                          <li>
+                            <a href="/" className="text-brand-600 hover:text-brand-700 transition-colors underline">
+                              ホーム
+                            </a>
+                          </li>
+                          <li className="flex items-center">
+                            <span className="mx-1 text-muted-foreground">/</span>
+                            <span className="text-muted-foreground">Styleguide</span>
+                          </li>
+                        </ol>
+                      </nav>
+                    </div>
+                    
+                    {/* サンプル2: 3階層のパンくずリスト */}
+                    <div className="space-y-2">
+                      <p className="text-xs text-muted-foreground">3階層のパンくずリスト</p>
+                      <nav className="text-xs">
+                        <ol className="flex items-center space-x-1">
+                          <li>
+                            <a href="/" className="text-brand-600 hover:text-brand-700 transition-colors underline">
+                              ホーム
+                            </a>
+                          </li>
+                          <li className="flex items-center">
+                            <span className="mx-1 text-muted-foreground">/</span>
+                            <a href="/components" className="text-brand-600 hover:text-brand-700 transition-colors underline">
+                              コンポーネント
+                            </a>
+                          </li>
+                          <li className="flex items-center">
+                            <span className="mx-1 text-muted-foreground">/</span>
+                            <span className="text-muted-foreground">ボタン</span>
+                          </li>
+                        </ol>
+                      </nav>
+                    </div>
+                    
+                    {/* サンプル3: アイコン付きパンくずリスト */}
+                    <div className="space-y-2">
+                      <p className="text-xs text-muted-foreground">アイコン付きパンくずリスト</p>
+                      <nav className="text-xs">
+                        <ol className="flex items-center space-x-1">
+                          <li>
+                            <a href="/" className="text-brand-600 hover:text-brand-700 transition-colors underline flex items-center gap-1">
+                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                              </svg>
+                              ホーム
+                            </a>
+                          </li>
+                          <li className="flex items-center">
+                            <span className="mx-1 text-muted-foreground">/</span>
+                            <span className="text-muted-foreground">Styleguide</span>
+                          </li>
+                        </ol>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             <Card>
               <CardHeader>
                 <CardTitle>Buttons - ボタンコンポーネント</CardTitle>
@@ -250,7 +332,7 @@ export default function StyleguidePage() {
                       <span className="text-xs">Edit</span>
                     </div>
                     <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted">
-                      <Trash2 className="w-4 h-4 text-red-500" />
+                      <Trash2 className="w-4 h-4 text-brand-600" />
                       <span className="text-xs">Trash2</span>
                     </div>
                     <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted">
@@ -258,11 +340,11 @@ export default function StyleguidePage() {
                       <span className="text-xs">Search</span>
                     </div>
                     <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted">
-                      <Check className="w-4 h-4 text-green-500" />
+                      <Check className="w-4 h-4 text-brand-600" />
                       <span className="text-xs">Check</span>
                     </div>
                     <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted">
-                      <X className="w-4 h-4 text-red-500" />
+                      <X className="w-4 h-4 text-brand-600" />
                       <span className="text-xs">X</span>
                     </div>
                     <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted">
@@ -284,16 +366,16 @@ export default function StyleguidePage() {
                       <code className="text-xs">text-brand-600</code>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Trash2 className="w-4 h-4 text-red-500" />
-                      <code className="text-xs">text-red-500</code>
+                      <Trash2 className="w-4 h-4 text-brand-600" />
+                      <code className="text-xs">text-brand-600</code>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-green-500" />
-                      <code className="text-xs">text-green-500</code>
+                      <Check className="w-4 h-4 text-brand-600" />
+                      <code className="text-xs">text-brand-600</code>
                     </div>
                     <div className="flex items-center gap-2">
-                      <AlertTriangle className="w-4 h-4 text-yellow-500" />
-                      <code className="text-xs">text-yellow-500</code>
+                      <AlertTriangle className="w-4 h-4 text-brand-600" />
+                      <code className="text-xs">text-brand-600</code>
                     </div>
                   </div>
                 </div>
@@ -325,14 +407,17 @@ export default function StyleguidePage() {
                   <h4 className="text-sm font-medium text-muted-foreground">Standard Inputs - 標準入力</h4>
                   <div className="grid max-w-md grid-cols-1 gap-4 md:grid-cols-2">
                     <div className="space-y-2">
-                      <Label variant="brand" htmlFor="brand-email">Brand Email</Label>
-                      <Input id="brand-email" variant="brand" placeholder="Enter your email" />
+                      <Label variant="brand" htmlFor="brand-email">メールアドレス</Label>
+                      <Input id="brand-email" variant="brand" placeholder="example@company.com" />
                     </div>
                     <div className="space-y-2">
-                      <Label variant="brand" htmlFor="brand-password">Brand Password</Label>
-                      <Input id="brand-password" variant="brand" type="password" />
+                      <Label variant="brand" htmlFor="brand-password">パスワード</Label>
+                      <Input id="brand-password" variant="brand" type="password" placeholder="パスワードを入力" />
                     </div>
                   </div>
+                  <p className="text-xs text-muted-foreground">
+                    Brandバリアント: 企業のブランドカラー（青系）を使用した特別なデザイン
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -346,8 +431,8 @@ export default function StyleguidePage() {
                   <h4 className="text-sm font-medium text-muted-foreground">Textarea - テキストエリア</h4>
                   <div className="grid max-w-md grid-cols-1 gap-4">
                     <div className="space-y-2">
-                      <Label variant="brand" htmlFor="brand-textarea">Brand Textarea</Label>
-                      <Textarea id="brand-textarea" variant="brand" placeholder="メッセージを入力してください..." />
+                      <Label variant="brand" htmlFor="brand-textarea">お問い合わせ内容</Label>
+                      <Textarea id="brand-textarea" variant="brand" placeholder="お問い合わせ内容を詳しく入力してください..." />
                     </div>
                   </div>
                 </div>
@@ -355,15 +440,15 @@ export default function StyleguidePage() {
                   <h4 className="text-sm font-medium text-muted-foreground">Select - セレクト</h4>
                   <div className="grid max-w-md grid-cols-1 gap-4">
                     <div className="space-y-2">
-                      <Label variant="brand" htmlFor="brand-select">Brand Select</Label>
+                      <Label variant="brand" htmlFor="brand-select">お問い合わせ種別</Label>
                       <Select>
                         <SelectTrigger variant="brand" className="w-full">
-                          <SelectValue placeholder="オプションを選択" />
+                          <SelectValue placeholder="種別を選択してください" />
                         </SelectTrigger>
                         <SelectContent variant="brand">
-                          <SelectItem variant="brand" value="option1">オプション 1</SelectItem>
-                          <SelectItem variant="brand" value="option2">オプション 2</SelectItem>
-                          <SelectItem variant="brand" value="option3">オプション 3</SelectItem>
+                          <SelectItem variant="brand" value="general">一般的なお問い合わせ</SelectItem>
+                          <SelectItem variant="brand" value="technical">技術的な質問</SelectItem>
+                          <SelectItem variant="brand" value="business">ビジネスに関する質問</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -374,7 +459,7 @@ export default function StyleguidePage() {
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-2">
                       <Checkbox variant="brand" id="brand-checkbox" />
-                      <Label variant="brand" htmlFor="brand-checkbox">Brand Checkbox</Label>
+                      <Label variant="brand" htmlFor="brand-checkbox">ニュースレター配信を希望する</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Checkbox variant="brand" size="sm" id="brand-checkbox-sm" />
@@ -385,6 +470,9 @@ export default function StyleguidePage() {
                       <Label variant="brand" htmlFor="brand-checkbox-lg">Large</Label>
                     </div>
                   </div>
+                  <p className="text-xs text-muted-foreground">
+                    Brandバリアント: 企業のブランドカラー（青系）を使用した特別なデザイン
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -495,17 +583,10 @@ export default function StyleguidePage() {
                   <h4 className="text-sm font-medium text-muted-foreground">Standard Separators - 標準セパレーター</h4>
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <p className="text-sm">Brand separator</p>
-                      <Separator variant="brand" />
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-sm">Strong separator</p>
-                      <Separator variant="strong" />
-                    </div>
-                    <div className="flex items-center space-x-4">
-                      <span className="text-sm">Vertical</span>
-                      <Separator orientation="vertical" variant="brand" />
-                      <span className="text-sm">separator</span>
+                      <p className="text-sm">水平セパレーター</p>
+                      <div className="">
+                        <Separator size="sm" variant="default" />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -547,22 +628,25 @@ export default function StyleguidePage() {
                   <div className="flex flex-wrap gap-3">
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button variant="brand">Brand Dialog</Button>
+                        <Button variant="brand">ダイアログを開く</Button>
                       </DialogTrigger>
                       <DialogContent variant="brand">
                         <DialogHeader>
-                          <DialogTitle>Brand Dialog</DialogTitle>
+                          <DialogTitle>確認ダイアログ</DialogTitle>
                           <DialogDescription>
-                            This is a brand dialog with brand styling.
+                            これはブランドカラーを使用したダイアログです。企業のブランドアイデンティティを表現します。
                           </DialogDescription>
                         </DialogHeader>
                         <DialogFooter>
-                          <Button variant="brandOutline">Cancel</Button>
-                          <Button variant="brand">Save</Button>
+                          <Button variant="brandOutline">キャンセル</Button>
+                          <Button variant="brand">保存</Button>
                         </DialogFooter>
                       </DialogContent>
                     </Dialog>
                   </div>
+                  <p className="text-xs text-muted-foreground">
+                    Brandバリアント: 企業のブランドカラー（青系）を使用した特別なデザイン
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -607,11 +691,11 @@ export default function StyleguidePage() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Brand Colors - ブランドカラー</CardTitle>
+                <CardTitle>Brand Colors - ブランドカラー（プリミティブ）</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-muted-foreground">
-                  Apple/Shopify風のブランドカラーパレット - OKLCH色空間を使用
+                  プリミティブカラーとして定義されたブランドカラーパレット。shadcn/ui標準色と組み合わせて使用する、プロジェクト固有の色です。
                 </p>
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
                   {[
@@ -627,7 +711,7 @@ export default function StyleguidePage() {
                     { name: '900', class: 'bg-brand-900' },
                   ].map((color) => (
                     <div key={color.name} className="space-y-2">
-                      <div className={`h-16 rounded-lg ${color.class} border`} />
+                      <div className={`h-16 rounded-lg ${color.class}`} />
                       <div className="text-center">
                         <div className="text-sm font-medium">Brand {color.name}</div>
                         <div className="text-xs text-muted-foreground">{color.class}</div>
@@ -640,36 +724,162 @@ export default function StyleguidePage() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Status Colors - 状態カラー</CardTitle>
+                <CardTitle>Semantic Colors - セマンティックカラー</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="space-y-4">
-                  <h4 className="text-sm font-medium text-muted-foreground">Text Colors - テキスト色</h4>
-                  <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-                    {[
-                      { name: 'Default Text', class: 'text-foreground', bgClass: 'bg-background' },
-                      { name: 'Sub Text', class: 'text-muted-foreground', bgClass: 'bg-background' },
-                      { name: 'Warning Text', class: 'text-warning', bgClass: 'bg-background' },
-                      { name: 'Destructive Text', class: 'text-destructive', bgClass: 'bg-background', style: { color: '#ef4444' } },
-                    ].map((color) => (
-                      <div key={color.name} className="space-y-2">
-                        <div className={`h-16 rounded-lg ${color.bgClass} border flex items-center justify-center`}>
-                          <span 
-                            className={`text-sm font-medium ${color.class}`}
-                            style={color.style}
+              <CardContent className="space-y-4">
+                <p className="text-muted-foreground">
+                  用途別に定義されたセマンティックカラー。各カラーは特定の機能や状態を表現し、一貫したユーザーエクスペリエンスを提供します。
+                </p>
+                
+                <div className="space-y-6">
+                  <div className="space-y-3">
+                    <h4 className="text-sm font-medium text-muted-foreground">Action Colors - アクションカラー</h4>
+                    <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                      {[
+                        { name: 'Primary Action', usage: 'プライマリーアクション', bgClass: 'bg-brand-600', textClass: 'text-white' },
+                        { name: 'Secondary Action', usage: 'セカンダリーアクション', bgClass: 'bg-brand-100', textClass: 'text-brand-900' },
+                        { name: 'Accent Action', usage: 'アクセントアクション', bgClass: 'bg-brand-400', textClass: 'text-white' },
+                        { name: 'Disabled Action', usage: '無効アクション', bgClass: 'bg-brand-50', textClass: 'text-brand-700' },
+                      ].map((color) => (
+                        <div key={color.name} className="space-y-2">
+                          <div 
+                            className={`h-16 rounded-lg flex items-center justify-center ${color.bgClass}`}
                           >
-                            {color.name}
-                          </span>
+                            <span className={`text-sm font-medium ${color.textClass}`}>{color.name}</span>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-sm font-medium">{color.name}</div>
+                            <div className="text-xs text-muted-foreground">{color.usage}</div>
+                          </div>
                         </div>
-                        <div className="text-center">
-                          <div className="text-sm font-medium">{color.name}</div>
-                          <div className="text-xs text-muted-foreground">{color.class}</div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <h4 className="text-sm font-medium text-muted-foreground">Status Colors - 状態カラー</h4>
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+                      {[
+                        { name: 'Success', usage: '成功、完了、承認状態', bgClass: 'bg-green-500', textClass: 'text-white', textUsage: 'text-success' },
+                        { name: 'Warning', usage: '警告、注意が必要な状態', bgClass: 'bg-yellow-500', textClass: 'text-black', textUsage: 'text-warning' },
+                        { name: 'Error', usage: 'エラー、削除、危険なアクション', bgClass: 'bg-red-500', textClass: 'text-white', textUsage: 'text-destructive' },
+                        { name: 'Info', usage: '情報、進行中状態', bgClass: 'bg-blue-500', textClass: 'text-white', textUsage: 'text-info' },
+                      ].map((color) => (
+                        <div key={color.name} className="space-y-2">
+                          <div 
+                            className={`h-16 rounded-lg flex items-center justify-center ${color.bgClass}`}
+                          >
+                            <span className={`text-sm font-medium ${color.textClass}`}>{color.name}</span>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-sm font-medium">{color.name}</div>
+                            <div className="text-xs text-muted-foreground">{color.usage}</div>
+                            <div className="text-xs text-muted-foreground font-mono">{color.textUsage}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <h4 className="text-sm font-medium text-muted-foreground">Background Colors - 背景カラー</h4>
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                      {[
+                        { name: 'Primary Background', usage: 'プライマリー背景', bgClass: 'bg-brand-50', textClass: 'text-brand-900' },
+                        { name: 'Secondary Background', usage: 'セカンダリー背景', bgClass: 'bg-brand-100', textClass: 'text-brand-900' },
+                      ].map((color) => (
+                        <div key={color.name} className="space-y-2">
+                          <div 
+                            className={`h-16 rounded-lg flex items-center justify-center ${color.bgClass}`}
+                          >
+                            <span className={`text-sm font-medium ${color.textClass}`}>{color.name}</span>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-sm font-medium">{color.name}</div>
+                            <div className="text-xs text-muted-foreground">{color.usage}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <h4 className="text-sm font-medium text-muted-foreground">Border Colors - 境界線カラー</h4>
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                      {[
+                        { name: 'Primary Border', usage: 'プライマリー境界線', bgClass: 'bg-brand-200', textClass: 'text-brand-900' },
+                        { name: 'Input Background', usage: '入力フィールド背景', bgClass: 'bg-brand-100', textClass: 'text-brand-900' },
+                        { name: 'Focus Ring', usage: 'フォーカスリング', bgClass: 'bg-brand-500', textClass: 'text-white' },
+                      ].map((color) => (
+                        <div key={color.name} className="space-y-2">
+                          <div 
+                            className={`h-16 rounded-lg flex items-center justify-center ${color.bgClass}`}
+                          >
+                            <span className={`text-sm font-medium ${color.textClass}`}>{color.name}</span>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-sm font-medium">{color.name}</div>
+                            <div className="text-xs text-muted-foreground">{color.usage}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <h4 className="text-sm font-medium text-muted-foreground">Text Colors - テキストカラー</h4>
+                    <div className="space-y-6">
+                      <div className="space-y-3">
+                        <h5 className="text-sm font-medium">Text Colors - テキストカラー</h5>
+                        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                          {[
+                            { name: 'Primary Text', usage: 'メインテキスト', bgClass: 'bg-brand-700', textClass: 'text-white', textUsage: 'text-primary' },
+                            { name: 'Muted Text', usage: 'ミュートテキスト', bgClass: 'bg-brand-600', textClass: 'text-white', textUsage: 'text-muted' },
+                            { name: 'Caption Text', usage: 'キャプションテキスト', bgClass: 'bg-brand-500', textClass: 'text-white', textUsage: 'text-caption' },
+                          ].map((color) => (
+                            <div key={color.name} className="space-y-2">
+                              <div 
+                                className={`h-16 rounded-lg flex items-center justify-center ${color.bgClass}`}
+                              >
+                                <span className={`text-sm font-medium ${color.textClass}`}>{color.name}</span>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-sm font-medium">{color.name}</div>
+                                <div className="text-xs text-muted-foreground">{color.usage}</div>
+                                <div className="text-xs text-muted-foreground font-mono">{color.textUsage}</div>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
-                    ))}
-                  </div>
-                </div>
 
+                      <div className="space-y-3">
+                        <h5 className="text-sm font-medium">Interactive Text Colors - インタラクティブテキストカラー</h5>
+                        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                          {[
+                            { name: 'Primary Link', usage: 'プライマリーリンク', bgClass: 'bg-brand-600', textClass: 'text-white', textUsage: 'text-link' },
+                            { name: 'Primary Hover', usage: 'プライマリーホバー', bgClass: 'bg-brand-700', textClass: 'text-white', textUsage: 'text-link-hover' },
+                            { name: 'Primary Disabled', usage: 'プライマリー無効', bgClass: 'bg-brand-200', textClass: 'text-brand-400', textUsage: 'text-disabled' },
+                          ].map((color) => (
+                            <div key={color.name} className="space-y-2">
+                              <div 
+                                className={`h-16 rounded-lg flex items-center justify-center ${color.bgClass}`}
+                              >
+                                <span className={`text-sm font-medium ${color.textClass}`}>{color.name}</span>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-sm font-medium">{color.name}</div>
+                                <div className="text-xs text-muted-foreground">{color.usage}</div>
+                                <div className="text-xs text-muted-foreground font-mono">{color.textUsage}</div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
               </CardContent>
             </Card>
 
@@ -722,7 +932,7 @@ export default function StyleguidePage() {
                   <h4 className="text-sm font-medium text-muted-foreground">実装例 - Implementation Example</h4>
                   <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-2">
-                      <p className="text-xs font-medium text-green-600">✅ 正しい例</p>
+                      <p className="text-xs font-medium text-success">✅ 正しい例</p>
                       <Card variant="brand" className="scale-90">
                         <CardContent className="text-center">
                           <div className="w-12 h-12 bg-brand-100 dark:bg-brand-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -739,7 +949,7 @@ export default function StyleguidePage() {
                       </code>
                     </div>
                     <div className="space-y-2">
-                      <p className="text-xs font-medium text-red-600">❌ 間違った例</p>
+                      <p className="text-xs font-medium text-destructive">❌ 間違った例</p>
                       <Card variant="outline" className="scale-90 opacity-50">
                         <CardContent className="pt-6 pb-2">
                           <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
@@ -751,7 +961,7 @@ export default function StyleguidePage() {
                           <CardDescription>カスタムパディングで間隔が崩れる</CardDescription>
                         </CardHeader>
                       </Card>
-                      <code className="text-xs bg-background px-2 py-1 rounded block text-red-600">
+                      <code className="text-xs bg-background px-2 py-1 rounded block text-destructive">
                         {'<CardContent className="pt-6 pb-2">\n<CardHeader className="pt-0">'}
                       </code>
                     </div>
@@ -769,18 +979,146 @@ export default function StyleguidePage() {
                   階層構造を明確にするフォントサイズスケール
                 </p>
                 <div className="space-y-2">
-                  <h1 className="text-3xl font-bold">Heading 1 - text-3xl (30px)</h1>
-                  <h2 className="text-2xl font-semibold">Heading 2 - text-2xl (24px)</h2>
-                  <h3 className="text-xl font-medium">Heading 3 - text-xl (20px)</h3>
+                  <h1 className="text-2xl font-bold">Heading 1 - text-2xl (24px)</h1>
+                  <h2 className="text-xl font-semibold">Heading 2 - text-xl (20px)</h2>
+                  <h3 className="text-lg font-medium">Heading 3 - text-lg (18px)</h3>
                   <h4 className="text-base font-semibold">Card Title - text-base (16px)</h4>
                   <p className="text-base">
                     Regular paragraph text - text-base (16px)
                   </p>
-                  <p className="text-muted-foreground text-sm">
+                  <p className="text-brand-500 text-sm">
                     Card Description / Small text - text-sm (14px)
+                  </p>
+                  <p className="text-brand-400 text-xs">
+                    Extra small text / Caption - text-xs (12px)
                   </p>
                 </div>
                                   
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Layout Patterns - レイアウトパターン</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">VC Compass Layout - サイドバー + メインコンテンツ</h4>
+                  <div className="rounded-lg bg-muted p-4 text-sm">
+                    <ul className="space-y-2">
+                      <li>• <strong>基本構造</strong>: <code className="bg-background px-2 py-1 rounded">h-[calc(100vh-3.5rem)] flex</code> - ヘッダーを除いた全画面高</li>
+                      <li>• <strong>サイドバー</strong>: <code className="bg-background px-2 py-1 rounded">w-64 bg-background border-r flex flex-col divide-y</code> - 固定幅256px、縦分割</li>
+                      <li>• <strong>メインエリア</strong>: <code className="bg-background px-2 py-1 rounded">flex-1 py-8 px-6</code> - 残り幅、上下左右余白</li>
+                      <li>• <strong>コンテンツ幅制限</strong>: <code className="bg-background px-2 py-1 rounded">max-w-[1000px] mx-auto</code> - 最大1000px、中央配置</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">サイドバー構造 - Sidebar Structure</h4>
+                  <div className="rounded-lg bg-muted p-4 text-sm">
+                    <ul className="space-y-2">
+                      <li>• <strong>セクション区切り</strong>: <code className="bg-background px-2 py-1 rounded">py-4</code> - 上下20px余白</li>
+                      <li>• <strong>セクションタイトル</strong>: <code className="bg-background px-2 py-1 rounded">px-6 text-sm font-medium text-muted-foreground mb-4</code></li>
+                      <li>• <strong>ナビゲーション項目</strong>: <code className="bg-background px-2 py-1 rounded">w-full px-6 py-2 text-sm cursor-pointer hover:bg-muted rounded transition-colors text-left</code></li>
+                      <li>• <strong>アイコン + テキスト</strong>: <code className="bg-background px-2 py-1 rounded">flex items-center gap-2</code> - アイコン左配置、8px間隔</li>
+                      <li>• <strong>履歴セクション</strong>: <code className="bg-background px-2 py-1 rounded">flex-1</code> - 残り高さを占有</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">カードグリッドレイアウト - Card Grid Layout</h4>
+                  <div className="rounded-lg bg-muted p-4 text-sm">
+                    <ul className="space-y-2">
+                      <li>• <strong>グリッド構造</strong>: <code className="bg-background px-2 py-1 rounded">grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5</code></li>
+                      <li>• <strong>レスポンシブ</strong>: 2列(モバイル) → 3列(タブレット) → 4列(デスクトップ)</li>
+                      <li>• <strong>カード間隔</strong>: <code className="bg-background px-2 py-1 rounded">gap-5</code> (20px)</li>
+                      <li>• <strong>カードスタイル</strong>: <code className="bg-background px-2 py-1 rounded">rounded-xl border py-5 shadow-sm bg-brand-50/50 border-brand-100</code></li>
+                      <li>• <strong>ホバー効果</strong>: <code className="bg-background px-2 py-1 rounded">hover:shadow-lg hover:scale-105 transition-all duration-200</code></li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">プロトタイプレイアウトコンポーネント - Prototype Layout Components</h4>
+                  <div className="rounded-lg bg-muted p-4 text-sm">
+                    <ul className="space-y-2">
+                      <li>• <strong>PrototypeLayout</strong>: メインレイアウトコンテナ（サイドバー + メインコンテンツ）</li>
+                      <li>• <strong>SidebarSection</strong>: サイドバー内のセクション区切り</li>
+                      <li>• <strong>SidebarItemWithIcon</strong>: アイコン付きサイドバー項目</li>
+                      <li>• <strong>CardGrid</strong>: レスポンシブカードグリッド</li>
+                      <li>• <strong>PrototypeCard</strong>: プロトタイプ用カードコンポーネント</li>
+                      <li>• <strong>PrototypeIcon</strong>: カード内のアイコン表示</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">実装例 - Implementation Example</h4>
+                  <div className="border rounded-lg p-4 bg-background">
+                    <div className="h-64 flex border rounded-lg overflow-hidden">
+                      <PrototypeLayout
+                        title="スキルライブラリ"
+                        description="カテゴリーを選択してください"
+                        sidebar={
+                          <>
+                            <SidebarSection title="スキルライブラリ">
+                              <div className="space-y-1">
+                                <SidebarItemWithIcon icon="🎯" label="経営戦略" />
+                                <SidebarItemWithIcon icon="💰" label="資金調達" />
+                              </div>
+                            </SidebarSection>
+                            <SidebarSection title="履歴" className="flex-1">
+                              <div className="space-y-1">
+                                <SidebarItem>
+                                  <span className="text-muted-foreground">投資家開拓</span>
+                                </SidebarItem>
+                                <SidebarItem>
+                                  <span className="text-muted-foreground">ピッチデック</span>
+                                </SidebarItem>
+                              </div>
+                            </SidebarSection>
+                          </>
+                        }
+                      >
+                        {/* メインコンテンツはタイトルとテキストのみ */}
+                      </PrototypeLayout>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">使用ルール - Usage Rules</h4>
+                  <div className="rounded-lg bg-muted p-4 text-sm">
+                    <ul className="space-y-2">
+                      <li>• <strong>高さ計算</strong>: ヘッダー高さ(3.5rem)を除いた全画面高を使用</li>
+                      <li>• <strong>サイドバー幅</strong>: 固定256px (w-64) で統一</li>
+                      <li>• <strong>コンテンツ幅</strong>: 最大1000pxで制限し、中央配置</li>
+                      <li>• <strong>レスポンシブ</strong>: グリッドは画面サイズに応じて2-4列で調整</li>
+                      <li>• <strong>ホバー効果</strong>: カードは軽い拡大(scale-105)とシャドウ強化</li>
+                      <li>• <strong>アイコン配置</strong>: 左配置、8px間隔(gap-2)で統一</li>
+                      <li>• <strong>セクション区切り</strong>: divide-yで縦方向に分割</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">プロトタイプレイアウト使用ルール - Prototype Layout Usage Rules</h4>
+                  <div className="rounded-lg bg-muted p-4 text-sm">
+                    <ul className="space-y-2">
+                      <li>• <strong>PrototypeLayout</strong>: プロトタイプページの基本レイアウトとして使用</li>
+                      <li>• <strong>SidebarSection</strong>: サイドバー内で論理的なセクション分けに使用</li>
+                      <li>• <strong>SidebarItemWithIcon</strong>: ナビゲーション項目にアイコンが必要な場合に使用</li>
+                      <li>• <strong>CardGrid</strong>: カードの一覧表示に使用、レスポンシブ対応</li>
+                      <li>• <strong>PrototypeCard</strong>: プロトタイプ専用のカードスタイル、ブランドカラー使用</li>
+                      <li>• <strong>PrototypeIcon</strong>: カード内のアイコン表示、ホバー効果付き</li>
+                      <li>• <strong>Props設定</strong>: maxWidth、columns、gap等を適切に設定</li>
+                      <li>• <strong>一貫性</strong>: 同じレイアウトパターンは必ずコンポーネントを使用</li>
+                    </ul>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>

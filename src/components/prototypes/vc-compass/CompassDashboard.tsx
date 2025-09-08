@@ -11,34 +11,33 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
 import {
-  ArrowLeft,
-  BarChart3,
-  Building,
-  Building2,
-  Calculator,
-  DollarSign,
-  Edit,
-  ExternalLink,
-  FileCheck,
-  FileText,
-  Handshake,
-  Heart,
-  Layers,
-  Lock,
-  Megaphone,
-  Presentation,
-  Radio,
-  Rocket,
-  Search,
-  Send,
-  Settings,
-  Shield,
-  Smartphone,
-  Target,
-  TrendingUp,
-  UserCheck,
-  Users,
-  Users2
+    BarChart3,
+    Building,
+    Building2,
+    Calculator,
+    DollarSign,
+    Edit,
+    ExternalLink,
+    FileCheck,
+    FileText,
+    Handshake,
+    Heart,
+    Layers,
+    Lock,
+    Megaphone,
+    Presentation,
+    Radio,
+    Rocket,
+    Search,
+    Send,
+    Settings,
+    Shield,
+    Smartphone,
+    Target,
+    TrendingUp,
+    UserCheck,
+    Users,
+    Users2
 } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -800,9 +799,9 @@ export function CompassDashboard() {
       
       if (outputType === 'slides') {
         outputContent = `
-<div class="p-6 border border-gray-300 dark:border-gray-600 rounded-lg prose prose-lg dark:prose-invert max-w-none">
+<div class="p-5 border border-border dark:border-border rounded-lg prose prose-lg dark:prose-invert max-w-none">
 
-<h2 class="text-4xl font-bold mb-6">ピッチ構成案</h2>
+<h2 class="text-3xl font-bold mb-6">ピッチ構成案</h2>
 
 <h3 class="text-3xl font-semibold mb-4">サマリー</h3>
 中小企業の経理業務効率化を目指すB2B SaaSです。独自のAI技術と強力なチームで市場を牽引し、シリーズAの資金調達により、さらなる成長を加速させます。
@@ -1694,9 +1693,9 @@ A: 6ヶ月後：顧客数300社、ARR5億円達成。12ヶ月後：顧客数500�
       const completionMessage: ChatMessage = {
         id: `pitch-complete-${Date.now()}`,
         type: 'ai',
-        content: `<div class="p-6 border border-gray-300 dark:border-gray-600 rounded-lg prose prose-lg dark:prose-invert max-w-none">
+        content: `<div class="p-5 border border-border dark:border-border rounded-lg prose prose-lg dark:prose-invert max-w-none">
 
-<h2 class="text-4xl font-bold mb-6">ピッチ構成案</h2>
+<h2 class="text-3xl font-bold mb-6">ピッチ構成案</h2>
 
 <h3 class="text-3xl font-semibold mb-4">サマリー</h3>
 中小企業の経理業務を革命的に効率化し、経営者が事業成長に集中できるAIプラットフォームです。経理業務の属人化と非効率性を解決するAI駆動型業務自動化SaaSとして、月次決算業務を80%削減し、人的ミスを99%削減します。従業員数50-500名の中小企業（製造業、サービス業）をメインターゲットとし、月額サブスクリプション型SaaSモデルで事業を展開しています。シリーズAで5億円の資金調達を予定しており、人材採用（セールス・エンジニア）、マーケティング、技術開発に投資します。
@@ -2130,20 +2129,20 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
       const renderCategoriesScreen = () => (
       <div className="h-[calc(100vh-3.5rem)] flex">
         {/* 左サイドバー - スキルライブラリ & タスク履歴 */}
-        <aside className="w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col">
+        <aside className="w-64 bg-background border-r flex flex-col divide-y">
           {/* スキルライブラリ */}
-          <div className="py-4 border-b border-gray-200 dark:border-gray-800">
-            <h3 className="px-4 md:px-6 lg:px-8 text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+          <div className="py-4">
+            <h3 className="px-6 text-sm font-medium text-muted-foreground mb-4">
               スキルライブラリ
             </h3>
             <div className="space-y-1">
               {categories.map((category) => (
                 <button 
                   key={category.id}
-                  className={`w-full px-4 py-2 md:px-6 lg:px-8 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors text-left ${
+                  className={`w-full px-6 py-2 text-sm cursor-pointer hover:bg-muted rounded transition-colors text-left ${
                     selectedCategory?.id === category.id 
                       ? 'bg-brand-100 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300' 
-                      : 'text-gray-700 dark:text-gray-300'
+                      : 'text-card-foreground'
                   }`}
                   onClick={() => {
                     setSelectedCategory(category);
@@ -2161,14 +2160,14 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
 
           {/* 履歴 */}
           <div className="py-4 flex-1">
-            <h3 className="px-4 md:px-6 lg:px-8 text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+            <h3 className="px-6 text-sm font-medium text-muted-foreground mb-4">
               履歴
             </h3>
             <div className="space-y-1">
               {mockTaskHistory.map((task) => (
                 <div 
                   key={task.id}
-                  className="px-4 py-2 md:px-6 lg:px-8 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                  className="px-6 py-2 text-sm text-card-foreground cursor-pointer hover:bg-muted rounded transition-colors"
                   onClick={() => handleTaskHistorySelect(task)}
                 >
                   {task.skillName}
@@ -2178,7 +2177,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
               {historyItems.map((item, index) => (
                 <div 
                   key={`history-${index}`}
-                  className="px-4 py-2 md:px-6 lg:px-8 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                  className="px-6 py-2 text-sm text-card-foreground cursor-pointer hover:bg-muted rounded transition-colors"
                 >
                   {item}
                 </div>
@@ -2188,18 +2187,18 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
         </aside>
 
         {/* メインコンテンツエリア */}
-        <main className="flex-1 py-10 px-8">
+        <main className="flex-1 py-8 px-6">
           <div className="max-w-[1000px] mx-auto">
-            <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+            <div className="text-center mb-6">
+              <h1 className="text-3xl font-bold text-foreground dark:text-foreground mb-4">
                 スキルライブラリ
               </h1>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-muted-foreground">
               カテゴリーを選択してください
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             {categories.map((category) => (
                               <Card 
                 key={category.id}
@@ -2232,20 +2231,20 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
     return (
       <div className="h-[calc(100vh-3.5rem)] flex">
         {/* 左サイドバー - スキルライブラリ & タスク履歴 */}
-        <aside className="w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col">
+        <aside className="w-64 bg-background border-r flex flex-col divide-y">
           {/* スキルライブラリ */}
-          <div className="py-4 border-b border-gray-200 dark:border-gray-800">
-            <h3 className="px-4 md:px-6 lg:px-8 text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+          <div className="py-4">
+            <h3 className="px-6 text-sm font-medium text-muted-foreground mb-4">
               スキルライブラリ
             </h3>
             <div className="space-y-1">
               {categories.map((category) => (
                 <button 
                   key={category.id}
-                  className={`w-full px-4 py-2 md:px-6 lg:px-8 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors text-left ${
+                  className={`w-full px-6 py-2 text-sm cursor-pointer hover:bg-muted rounded transition-colors text-left ${
                     selectedCategory?.id === category.id 
                       ? 'bg-brand-100 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300' 
-                      : 'text-gray-700 dark:text-gray-300'
+                      : 'text-card-foreground'
                   }`}
                   onClick={() => {
                     setSelectedCategory(category);
@@ -2263,14 +2262,14 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
 
           {/* 履歴 */}
           <div className="py-4 flex-1">
-            <h3 className="px-4 md:px-6 lg:px-8 text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+            <h3 className="px-6 text-sm font-medium text-muted-foreground mb-4">
               履歴
             </h3>
             <div className="space-y-1">
               {mockTaskHistory.map((task) => (
                 <div 
                   key={task.id}
-                  className="px-4 py-2 md:px-6 lg:px-8 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                  className="px-6 py-2 text-sm text-card-foreground cursor-pointer hover:bg-muted rounded transition-colors"
                   onClick={() => handleTaskHistorySelect(task)}
                 >
                   {task.skillName}
@@ -2280,7 +2279,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
               {historyItems.map((item, index) => (
                 <div 
                   key={`history-${index}`}
-                  className="px-4 py-2 md:px-6 lg:px-8 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                  className="px-6 py-2 text-sm text-card-foreground cursor-pointer hover:bg-muted rounded transition-colors"
                 >
                   {item}
                 </div>
@@ -2290,25 +2289,25 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
         </aside>
 
         {/* メインコンテンツエリア */}
-        <main className="flex-1 py-10 px-8">
+        <main className="flex-1 py-8 px-6">
           <div className="max-w-[1000px] mx-auto">
             {/* ヘッダー */}
-            <div className="mb-8">
+            <div className="mb-6">
               <div className="text-center">
                 <div className="flex items-center justify-center gap-3 mb-3">
                   <span className="text-3xl">{selectedCategory.emoji}</span>
-                  <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                  <h1 className="text-3xl font-bold text-foreground dark:text-foreground">
                     {selectedCategory.name}
                   </h1>
                 </div>
-                <p className="text-lg text-gray-600 dark:text-gray-400">
+                <p className="text-base text-muted-foreground">
                   {selectedCategory.description}
                 </p>
               </div>
             </div>
 
             {/* スキル一覧 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {categorySkills.map((skill) => {
                 const IconComponent = skill.icon;
                 return (
@@ -2345,17 +2344,17 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
         {/* サイドパネル */}
         {showSidePanel && (
           <>
-            <div className="fixed inset-y-0 right-0 w-96 bg-white dark:bg-slate-800 shadow-2xl z-50 overflow-y-auto">
-              <div className="p-6">
+            <div className="fixed inset-y-0 right-0 w-96 bg-background dark:bg-slate-800 shadow-2xl z-50 overflow-y-auto">
+              <div className="p-5">
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  <h2 className="text-xl font-semibold text-foreground dark:text-foreground">
                     スライド構成案詳細
                   </h2>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => setShowSidePanel(false)}
-                    className="text-gray-500 hover:text-gray-700"
+                    className="text-muted-foreground hover:text-card-foreground"
                   >
                     ✕
                   </Button>
@@ -2369,7 +2368,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
             </div>
             {/* オーバーレイ */}
             <div 
-              className="fixed inset-0 bg-black bg-opacity-50 z-40"
+              className="fixed inset-0 bg-background bg-opacity-50 z-40"
               onClick={() => setShowSidePanel(false)}
             />
           </>
@@ -2378,17 +2377,17 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
         {/* 全体コンテナ - display: flex, flex-direction: row, プロトタイプヘッダーの高さを考慮 */}
         <div className="h-[calc(100vh-3.5rem)] flex">
         {/* 左サイドバー - スキルライブラリ & タスク履歴 */}
-        <aside className="w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col">
+        <aside className="w-64 bg-background border-r flex flex-col divide-y">
           {/* スキルライブラリ */}
-          <div className="py-4 border-b border-gray-200 dark:border-gray-800">
-            <h3 className="px-4 md:px-6 lg:px-8 text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+          <div className="py-4">
+            <h3 className="px-6 text-sm font-medium text-muted-foreground mb-4">
               スキルライブラリ
             </h3>
             <div className="space-y-1">
               {categories.map((category) => (
                 <button 
                   key={category.id}
-                  className="w-full px-4 py-2 md:px-6 lg:px-8 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors text-left"
+                  className="w-full px-6 py-2 text-sm text-card-foreground cursor-pointer hover:bg-muted rounded transition-colors text-left"
                   onClick={() => {
                     setSelectedCategory(category);
                     setCurrentScreen('skills');
@@ -2405,14 +2404,14 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
 
           {/* 履歴 */}
           <div className="py-4 flex-1">
-            <h3 className="px-4 md:px-6 lg:px-8 text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+            <h3 className="px-6 text-sm font-medium text-muted-foreground mb-4">
               履歴
             </h3>
             <div className="space-y-1">
               {mockTaskHistory.map((task) => (
                 <div 
                   key={task.id}
-                  className="px-4 py-2 md:px-6 lg:px-8 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                  className="px-6 py-2 text-sm text-card-foreground cursor-pointer hover:bg-muted rounded transition-colors"
                   onClick={() => handleTaskHistorySelect(task)}
                 >
                   {task.skillName}
@@ -2422,7 +2421,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
               {historyItems.map((item, index) => (
                 <div 
                   key={`history-${index}`}
-                  className="px-4 py-2 md:px-6 lg:px-8 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                  className="px-6 py-2 text-sm text-card-foreground cursor-pointer hover:bg-muted rounded transition-colors"
                 >
                   {item}
                 </div>
@@ -2433,28 +2432,38 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
 
         {/* 右側メインエリア - display: flex, flex-direction: column */}
         <div className={`flex-1 flex flex-col transition-all duration-300 ${showSideCanvas ? 'mr-[50%]' : ''}`}>
-          {/* ヘッダー - 固定高さ */}
-          <header className="flex-shrink-0 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm p-4 px-5">
-            <div className="flex items-center gap-2">
-              <Button 
-                variant="brandGhost" 
-                size="sm"
-                onClick={handleBackToSkills}
-                className="flex items-center justify-center p-1.5"
-              >
-                <ArrowLeft className="w-4 h-4" />
-              </Button>
-              <div>
-                <h1 className="text-base font-bold text-gray-900 dark:text-gray-100 tracking-wide">
-                  {selectedSkill.name}
-                </h1>
-              </div>
-            </div>
+          {/* ヘッダー - パンくずリストナビゲーション */}
+          <header className="flex-shrink-0 bg-background dark:bg-background p-5">
+            <nav className="text-xs">
+              <ol className="flex items-center space-x-1">
+                <li>
+                  <button 
+                    onClick={() => setCurrentScreen('categories')}
+                    className="text-brand-600 hover:text-brand-700 transition-colors underline"
+                  >
+                    スキルライブラリ
+                  </button>
+                </li>
+                <li className="flex items-center">
+                  <span className="mx-1 text-muted-foreground">/</span>
+                  <button 
+                    onClick={handleBackToSkills}
+                    className="text-brand-600 hover:text-brand-700 transition-colors underline"
+                  >
+                    {selectedCategory?.name}
+                  </button>
+                </li>
+                <li className="flex items-center">
+                  <span className="mx-1 text-muted-foreground">/</span>
+                  <span className="text-muted-foreground">{selectedSkill.name}</span>
+                </li>
+              </ol>
+            </nav>
           </header>
 
           {/* メインコンテンツエリア（チャット履歴）- flex-grow: 1, overflow-y: auto */}
-          <main className="flex-1 overflow-y-auto bg-white dark:bg-gray-900 p-8 px-6">
-            <div className="max-w-[1000px] mx-auto mb-8">
+          <main className="flex-1 overflow-y-auto bg-background dark:bg-background p-6 border-t">
+            <div className="max-w-[1000px] mx-auto mb-6">
                           {messages.map((message, index) => (
               <div key={message.id}>
                 <div className="flex mb-6">
@@ -2464,15 +2473,15 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                       <div className="max-w-2xl">
                         <div className={`${
                           message.type === 'output' 
-                            ? 'bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500 rounded-lg' 
+                            ? 'bg-success/10 dark:bg-success/20 border-l-4 border-success rounded-lg' 
                             : 'bg-transparent'
-                        } ${message.type === 'output' ? 'p-4 px-5' : 'py-3'}`}>
+                        } ${message.type === 'output' ? 'p-5' : 'py-3'}`}>
                           <MarkdownRenderer 
                             content={message.content}
                             variant="default"
-                            className="text-gray-900 dark:text-gray-100"
+                            className="text-foreground dark:text-foreground"
                           />
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                          <p className="text-xs text-muted-foreground mt-2">
                             {formatTime(message.timestamp)}
                           </p>
                         </div>
@@ -2484,13 +2493,13 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                   {message.type === 'user' && (
                     <div className="flex items-start justify-end w-full">
                       <div className="max-w-2xl">
-                        <div className="rounded-2xl rounded-tr-md bg-gray-100 dark:bg-gray-800 p-4 px-5">
+                        <div className="rounded-2xl rounded-tr-md bg-muted dark:bg-muted p-5">
                           <MarkdownRenderer 
                             content={message.content}
                             variant="default"
-                            className="text-gray-900 dark:text-gray-100"
+                            className="text-foreground dark:text-foreground"
                           />
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                          <p className="text-xs text-muted-foreground mt-2">
                             {formatTime(message.timestamp)}
                           </p>
                         </div>
@@ -2564,7 +2573,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                           一括作成
                         </Button>
                       </div>
-                      <div className="mt-3 text-xs text-gray-500 space-y-1">
+                      <div className="mt-3 text-xs text-muted-foreground space-y-1">
                         <p><strong>段階的に作成:</strong> 細かく作り込む選択肢。AIと対話しながら、ピッチの構成要素を一つずつ質問を投げかける対話フローを開始します。</p>
                         <p><strong>一括作成:</strong> 最小限の情報入力で、全体のドラフトを一度に生成する選択肢。AIは一括作成に必要な情報をまとめて入力するよう促すメッセージを表示します。</p>
                       </div>
@@ -2608,7 +2617,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                           やり直す
                         </Button>
                       </div>
-                      <div className="mt-3 text-xs text-gray-500 space-y-1">
+                      <div className="mt-3 text-xs text-muted-foreground space-y-1">
                         <p><strong>スライド構成案を確認する:</strong> 右側パネルで詳細な構成を確認できます</p>
                         <p><strong>スライドを作成:</strong> プレゼンテーション用のスライド構成とデザインガイドを生成します</p>
                         <p><strong>アプローチメールを作成:</strong> 投資家向けのメールテンプレートを生成します</p>
@@ -2664,7 +2673,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                           <span className="text-sm font-medium">この内容で確定する</span>
                         </Button>
                       </div>
-                      <div className="mt-3 text-xs text-gray-500 space-y-1">
+                      <div className="mt-3 text-xs text-muted-foreground space-y-1">
                         <p><strong>編集:</strong> ピッチ構成案を直接編集できます</p>
                         <p><strong>この内容で確定する:</strong> 編集・確認が完了し、次のステップに進みます</p>
                       </div>
@@ -2711,9 +2720,9 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                 <div className="max-w-2xl">
                   <div className="bg-transparent py-2 mb-4">
                     <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.1s]"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                      <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce [animation-delay:0.1s]"></div>
+                      <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce [animation-delay:0.2s]"></div>
                     </div>
                   </div>
                 </div>
@@ -2726,11 +2735,11 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                 <div className="max-w-2xl w-full">
                   <div className="bg-transparent py-3">
                     <div className="space-y-3 animate-pulse">
-                      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                      <div className="h-4 bg-muted dark:bg-muted rounded w-3/4"></div>
                       <div className="space-y-1">
-                        <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
-                        <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
-                        <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-4/6"></div>
+                        <div className="h-3 bg-muted dark:bg-muted rounded w-full"></div>
+                        <div className="h-3 bg-muted dark:bg-muted rounded w-5/6"></div>
+                        <div className="h-3 bg-muted dark:bg-muted rounded w-4/6"></div>
                       </div>
                       <div className="flex space-x-2 pt-2">
                         <div className="h-2 w-2 bg-brand-400 rounded-full animate-bounce"></div>
@@ -2749,7 +2758,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
 
 
           {/* 入力インターフェース - Flexboxで画面下部に固定 */}
-          <div className="flex-shrink-0 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm p-6">
+          <div className="flex-shrink-0 border-t bg-background dark:bg-background p-5">
             <div className="flex items-end max-w-[1000px] mx-auto gap-4">
               <div className="flex-1">
                 <Textarea
@@ -2759,7 +2768,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder={isEditingPitch ? "ピッチ構成案の編集内容を入力してください..." : "メッセージを入力してください..."}
-                  className="w-full min-h-[44px] max-h-32 resize-none py-3.5 px-4 leading-6"
+                  className="w-full min-h-[44px] max-h-32 resize-none py-4 px-4 leading-6"
                   rows={1}
                 />
               </div>
@@ -2776,14 +2785,14 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
 
         {/* サイドキャンバス - 投資家リスト（統合テーブル表示） */}
         {showSideCanvas && (
-          <div className={`fixed top-[3.5rem] right-0 w-[50%] h-[calc(100vh-3.5rem)] bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 shadow-lg transform transition-transform duration-300 ${
+          <div className={`fixed top-[3.5rem] right-0 w-[50%] h-[calc(100vh-3.5rem)] bg-background dark:bg-background border-l shadow-lg transform transition-transform duration-300 ${
             showSideCanvas ? 'translate-x-0' : 'translate-x-full'
           } flex flex-col`}>
             {/* 固定ヘッダー：タイトル & フィルター */}
-            <div className="flex-shrink-0 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800 p-4 px-5">
+            <div className="flex-shrink-0 border-b bg-background dark:bg-muted p-5">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 tracking-wide">
+                  <h2 className="text-base font-bold text-foreground dark:text-foreground tracking-wide">
                     投資家リストアップ結果
                   </h2>
                 </div>
@@ -2791,7 +2800,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                   variant="brandGhost" 
                   size="sm"
                   onClick={() => setShowSideCanvas(false)}
-                  className="p-1.5"
+                  className="p-2"
                 >
                   ×
                 </Button>
@@ -2865,7 +2874,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
 
             
             {/* 投資家一覧テーブル */}
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto border-t">
               {combinedInvestorList.length > 0 ? (
                 <Table variant="brand">
                   <TableHeader variant="brand">
@@ -2898,7 +2907,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                         className={`transition-all duration-150 ${
                           investor.isPriority 
                             ? 'bg-brand-50/30 dark:bg-brand-900/10' 
-                            : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
+                            : 'hover:bg-background dark:hover:bg-muted/50'
                         } ${
                           selectedInvestorIds.has(investor.id) 
                             ? 'bg-brand-100 dark:bg-brand-900/20 ring-2 ring-brand-500/50' 
@@ -2915,29 +2924,29 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                         <TableCell>
                           <div className="flex items-center gap-2">
                             {investor.isPriority && (
-                              <Badge variant="brand" className="text-xs px-1.5 py-0.5">
-                                <span className="text-yellow-400 mr-1">⭐</span>
+                              <Badge variant="brand" className="text-xs px-2 py-1">
+                                <span className="text-warning mr-1">⭐</span>
                                 おすすめ
                               </Badge>
                             )}
                             <button
                               onClick={() => handleInvestorClick(investor)}
-                              className="text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-brand-600 underline text-left"
+                              className="text-sm font-medium text-foreground dark:text-foreground hover:text-brand-600 underline text-left"
                             >
                               {investor.name}
                             </button>
                           </div>
                         </TableCell>
                         <TableCell>
-                          <div className="text-sm text-gray-700 dark:text-gray-300">
+                          <div className="text-sm text-card-foreground">
                             {investor.pastInvestments.slice(0, 1).join(', ')}
                             {investor.pastInvestments.length > 1 && (
-                              <span className="text-gray-500"> 他{investor.pastInvestments.length - 1}社</span>
+                              <span className="text-muted-foreground"> 他{investor.pastInvestments.length - 1}社</span>
                             )}
                           </div>
                         </TableCell>
                         <TableCell>
-                          <div className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                          <div className="text-sm text-card-foreground leading-relaxed">
                             {investor.strength}
                           </div>
                         </TableCell>
@@ -2946,16 +2955,16 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                   </TableBody>
                 </Table>
               ) : (
-                <div className="flex items-center justify-center h-64 text-gray-500 dark:text-gray-400">
+                <div className="flex items-center justify-center h-64 text-muted-foreground">
                   フィルター条件に一致する投資家が見つかりません
                 </div>
               )}
             </div>
 
             {/* 固定フッター：確定ボタン */}
-            <div className="flex-shrink-0 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800 p-4">
+            <div className="flex-shrink-0 border-t bg-background dark:bg-muted p-4">
               <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-sm text-muted-foreground">
                   {selectedInvestors.length > 0 ? `${selectedInvestors.length}社選択中` : '投資家を選択してください'}
                 </div>
                 <Button
@@ -2963,7 +2972,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                   size="lg"
                   onClick={handleConfirmList}
                   disabled={selectedInvestors.length === 0}
-                  className="px-8 py-3 font-semibold"
+                  className="px-6 py-3 font-semibold"
                 >
                   このリストを確定する
                 </Button>
@@ -2983,36 +2992,36 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
             }}>
               <DialogContent variant="brand" className="max-w-2xl max-h-[80vh] overflow-y-auto">
                 <DialogHeader>
-                  <DialogTitle className="text-lg font-bold">
+                  <DialogTitle className="text-base font-bold">
                     {selectedInvestor?.name}
                   </DialogTitle>
                 </DialogHeader>
                 
                 <div className="space-y-3">
                   <div>
-                    <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">過去投資実績</h4>
-                    <div className="text-sm text-gray-900 dark:text-gray-100">
+                    <h4 className="text-sm font-medium text-card-foreground mb-2">過去投資実績</h4>
+                    <div className="text-sm text-foreground dark:text-foreground">
                       {selectedInvestor?.pastInvestments.join(', ')}
                     </div>
                   </div>
                   
                   {selectedInvestor?.partner && (
                     <div>
-                      <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">担当パートナー</h4>
-                      <p className="text-gray-900 dark:text-gray-100">{selectedInvestor.partner}</p>
+                      <h4 className="text-sm font-medium text-card-foreground mb-2">担当パートナー</h4>
+                      <p className="text-foreground dark:text-foreground">{selectedInvestor.partner}</p>
                     </div>
                   )}
                   
                   {selectedInvestor?.philosophy && (
                     <div>
-                      <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">投資哲学</h4>
-                      <p className="text-gray-900 dark:text-gray-100 leading-relaxed">{selectedInvestor.philosophy}</p>
+                      <h4 className="text-sm font-medium text-card-foreground mb-2">投資哲学</h4>
+                      <p className="text-foreground dark:text-foreground leading-relaxed">{selectedInvestor.philosophy}</p>
                     </div>
                   )}
                   
                   <div>
-                    <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">強み・特徴</h4>
-                    <p className="text-gray-900 dark:text-gray-100 leading-relaxed">{selectedInvestor?.strength}</p>
+                    <h4 className="text-sm font-medium text-card-foreground mb-2">強み・特徴</h4>
+                    <p className="text-foreground dark:text-foreground leading-relaxed">{selectedInvestor?.strength}</p>
                   </div>
                 </div>
 

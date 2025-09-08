@@ -27,7 +27,11 @@
   --text-4xl: 2.25rem;
   /* 36px */
 
-  /* Brand colors for Tailwind CSS v4 */
+  /* ========================================
+   * PRIMITIVE COLORS - プリミティブカラー
+   * ======================================== */
+
+  /* Brand Colors - ブランドカラー（プリミティブ） */
   --color-brand-50: oklch(0.97 0.005 240);
   --color-brand-100: oklch(0.94 0.01 240);
   --color-brand-200: oklch(0.87 0.02 240);
@@ -39,38 +43,46 @@
   --color-brand-800: oklch(0.25 0.04 240);
   --color-brand-900: oklch(0.18 0.03 240);
 
-  /* Brand colors - Apple/Shopify inspired */
-  --color-brand-50: oklch(0.97 0.005 240);
-  --color-brand-100: oklch(0.94 0.01 240);
-  --color-brand-200: oklch(0.87 0.02 240);
-  --color-brand-300: oklch(0.8 0.03 240);
-  --color-brand-400: oklch(0.67 0.04 240);
-  --color-brand-500: oklch(0.5 0.05 240);
-  --color-brand-600: oklch(0.4 0.06 240);
-  --color-brand-700: oklch(0.32 0.05 240);
-  --color-brand-800: oklch(0.25 0.04 240);
-  --color-brand-900: oklch(0.18 0.03 240);
+  /* ========================================
+   * SEMANTIC COLORS - セマンティックカラー
+   * ======================================== */
 
-  /* Brand color aliases for Tailwind */
-  --color-primary: var(--color-brand-600);
-  --color-primary-foreground: oklch(0.98 0.005 240);
-  --color-secondary: var(--color-brand-100);
-  --color-secondary-foreground: var(--color-brand-900);
-  --color-accent: var(--color-brand-100);
-  --color-accent-foreground: var(--color-brand-900);
-  --color-muted: var(--color-brand-50);
-  --color-muted-foreground: var(--color-brand-700);
-  --color-destructive: oklch(0.6 0.2 25);
-  --color-destructive-foreground: oklch(0.98 0.005 240);
-  --color-warning: oklch(0.8 0.15 80);
-  --color-warning-foreground: oklch(0.2 0.05 80);
-  --color-border: var(--color-brand-200);
-  --color-input: var(--color-brand-100);
-  --color-ring: var(--color-brand-500);
-  --color-card: oklch(0.98 0.005 240);
-  --color-card-foreground: var(--color-brand-900);
-  --color-popover: oklch(0.98 0.005 240);
-  --color-popover-foreground: var(--color-brand-900);
+  /* Primary Colors - プライマリーカラー */
+  --primary: 222.2 84% 4.9%;
+  --primary-foreground: 210 40% 98%;
+
+  /* Secondary Colors - セカンダリーカラー */
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222.2 84% 4.9%;
+
+  /* Accent Colors - アクセントカラー */
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+
+  /* Muted Colors - ミュートカラー */
+  --muted: 214.3 31.8% 91.4%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+
+  /* Border & Input Colors - 境界線・入力カラー */
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
+
+  /* Card & Popover Colors - カード・ポップオーバーカラー */
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+
+  /* Status Colors - 状態カラー */
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --warning: 38 92% 50%;
+  --warning-foreground: 48 96% 89%;
+  --success: 142 76% 36%;
+  --success-foreground: 355 100% 97%;
+  --info: 221.2 83.2% 53.3%;
+  --info-foreground: 210 40% 98%;
 
   /* Shopify Polaris 4px-based spacing scale */
   --spacing-0: 0;
@@ -188,30 +200,30 @@
 }
 
 :root {
-  /* Apple寄りの明るいトーン */
+  /* shadcn/ui標準色 - ライトモード */
   --background: 0 0% 100%;
-  --foreground: 0 0% 5%;
+  --foreground: 222.2 84% 4.9%;
   --card: 0 0% 100%;
-  --card-foreground: 0 0% 7%;
+  --card-foreground: 222.2 84% 4.9%;
   --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 7%;
-  --primary: 0 0% 5%;
-  /* 黒 */
-  --primary-foreground: 0 0% 100%;
-  --secondary: 0 0% 96%;
-  /* グレー */
-  --secondary-foreground: 0 0% 5%;
-  --muted: 0 0% 97%;
-  --muted-foreground: 0 0% 40%;
-  --accent: 0 0% 96%;
-  /* グレー */
-  --accent-foreground: 0 0% 5%;
-  --destructive: 0 84% 50%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 210 16% 90%;
-  --input: 210 16% 90%;
-  --ring: 0 0% 5%;
-  /* 黒 */
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 222.2 84% 4.9%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222.2 84% 4.9%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222.2 84% 4.9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --warning: 38 92% 50%;
+  --warning-foreground: 48 96% 89%;
+  --success: 142 76% 36%;
+  --success-foreground: 355 100% 97%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
   --chart-1: 220 70% 50%;
   --chart-2: 160 60% 45%;
   --chart-3: 30 80% 55%;
@@ -231,32 +243,32 @@
 }
 
 .dark {
-  --background: 0 0% 5%;
-  /* 黒背景 */
-  --foreground: 0 0% 100%;
-  /* 白テキスト */
-  --card: 0 0% 10%;
-  /* 少し明るい黒 */
-  --card-foreground: 0 0% 100%;
-  --popover: 0 0% 10%;
-  --popover-foreground: 0 0% 100%;
-  --primary: 0 0% 100%;
-  /* 白（プライマリー） */
-  --primary-foreground: 0 0% 5%;
-  --secondary: 0 0% 15%;
-  /* グレー */
-  --secondary-foreground: 0 0% 100%;
-  --muted: 0 0% 15%;
-  --muted-foreground: 0 0% 70%;
-  --accent: 0 0% 15%;
-  /* グレー */
-  --accent-foreground: 0 0% 100%;
-  --destructive: 0 84% 50%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 0 0% 20%;
-  --input: 0 0% 20%;
-  --ring: 0 0% 100%;
-  /* 白 */
+  /* shadcn/ui標準色 - ダークモード */
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 84% 4.9%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --warning: 38 92% 50%;
+  --warning-foreground: 48 96% 89%;
+  --success: 142 76% 36%;
+  --success-foreground: 355 100% 97%;
+  --info: 221.2 83.2% 53.3%;
+  --info-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 212.7 26.8% 83.9%;
   --chart-1: 220 70% 50%;
   --chart-2: 160 60% 45%;
   --chart-3: 30 80% 55%;
@@ -274,26 +286,43 @@
   --sidebar-ring: 0 0% 100%;
   /* 白 */
 
-  /* Dark mode brand color overrides */
-  --color-primary: var(--color-brand-400);
-  --color-primary-foreground: oklch(0.05 0.005 240);
-  --color-secondary: var(--color-brand-900);
-  --color-secondary-foreground: var(--color-brand-100);
-  --color-accent: var(--color-brand-900);
-  --color-accent-foreground: var(--color-brand-100);
-  --color-muted: var(--color-brand-900);
-  --color-muted-foreground: var(--color-brand-300);
-  --color-destructive: oklch(0.7 0.25 25);
-  --color-destructive-foreground: oklch(0.05 0.005 240);
-  --color-warning: oklch(0.7 0.2 80);
-  --color-warning-foreground: oklch(0.1 0.05 80);
-  --color-border: var(--color-brand-800);
-  --color-input: var(--color-brand-900);
-  --color-ring: var(--color-brand-400);
-  --color-card: oklch(0.05 0.005 240);
-  --color-card-foreground: var(--color-brand-100);
-  --color-popover: oklch(0.05 0.005 240);
-  --color-popover-foreground: var(--color-brand-100);
+  /* ========================================
+   * DARK MODE SEMANTIC COLOR OVERRIDES
+   * ダークモード セマンティックカラー オーバーライド
+   * ======================================== */
+
+  /* Primary Colors - プライマリーカラー */
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 84% 4.9%;
+
+  /* Secondary Colors - セカンダリーカラー */
+  --secondary: 222.2 84% 4.9%;
+  --secondary-foreground: 210 40% 98%;
+
+  /* Accent Colors - アクセントカラー */
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+
+  /* Muted Colors - ミュートカラー */
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+
+  /* Border & Input Colors - 境界線・入力カラー */
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 212.7 26.8% 83.9%;
+
+  /* Card & Popover Colors - カード・ポップオーバーカラー */
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+
+  /* Status Colors - 状態カラー */
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --warning: 38 92% 50%;
+  --warning-foreground: 48 96% 89%;
 }
 
 @layer base {
