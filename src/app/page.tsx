@@ -23,7 +23,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 max-w-4xl">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl">
             <Card variant="brand">
               <CardHeader>
                 <CardTitle>Styleguide</CardTitle>
@@ -50,6 +50,22 @@ export default function HomePage() {
                 </p>
                 <Button variant="brand" asChild>
                   <Link href="/prototypes/vc-compass">
+                    View Prototype
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card variant="brand">
+              <CardHeader>
+                <CardTitle>SaleOn</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <p className="text-muted-foreground">
+                  Sales Skills Library & Training Platform prototype.
+                </p>
+                <Button variant="brand" asChild>
+                  <Link href={APP_ROUTES.PROTOTYPES.SALEON}>
                     View Prototype
                   </Link>
                 </Button>

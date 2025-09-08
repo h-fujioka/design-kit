@@ -5,6 +5,7 @@ export const APP_ROUTES = {
   PROTOTYPES: {
     HOME: '/prototypes',
     VC_COMPASS: '/prototypes/vc-compass',
+    SALEON: '/prototypes/saleon',
   },
 } as const;
 
@@ -64,5 +65,6 @@ export const NAVIGATION = {
   ],
   PROTOTYPES: [
     { label: 'VC Compass', href: APP_ROUTES.PROTOTYPES.VC_COMPASS },
+    { label: 'SaleOn', href: APP_ROUTES.PROTOTYPES.SALEON },
   ],
 } as const;
