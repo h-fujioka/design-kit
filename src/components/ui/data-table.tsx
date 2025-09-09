@@ -63,6 +63,7 @@ interface DataTableProps<TData, TValue> extends VariantProps<typeof dataTableVar
   showAdvancedFilters?: boolean
   className?: string
   onSelectionChange?: (selectedRows: TData[]) => void
+  enableRowSelection?: boolean
   // フィルタ関連のprops
   filterOptions?: {
     status?: { label: string; value: string }[]
@@ -82,18 +83,23 @@ function DataTable<TData, TValue>({
   variant = "default",
   className,
   onSelectionChange,
+  enableRowSelection = false,
   filterOptions,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+  const [rowSelection, setRowSelection] = React.useState<Record<string, boolean>>({})
   const [globalFilter, setGlobalFilter] = React.useState("")
   const [savedFilters, setSavedFilters] = React.useState<Record<string, any>>({})
 
   const table = useReactTable({
     data,
     columns,
+    getRowId: (row, index) => {
+      // データにidプロパティがある場合はそれを使用、なければindexを使用
+      return (row as any).id || index.toString();
+    },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
@@ -103,6 +109,7 @@ function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    enableRowSelection: enableRowSelection,
     initialState: {
       pagination: {
         pageSize: 20,
@@ -123,7 +130,7 @@ function DataTable<TData, TValue>({
       const selectedRows = table.getFilteredSelectedRowModel().rows.map(row => row.original)
       onSelectionChange(selectedRows)
     }
-  }, [rowSelection, onSelectionChange])
+  }, [rowSelection, onSelectionChange, table])
 
   // フィルタクリア機能
   const clearAllFilters = () => {
@@ -157,6 +164,10 @@ function DataTable<TData, TValue>({
 
   // デバッグ用ログ
   console.log('DataTable variant:', variant)
+  console.log('DataTable enableRowSelection:', enableRowSelection)
+  console.log('DataTable rowSelection:', rowSelection)
+  console.log('DataTable selected rows count:', table.getFilteredSelectedRowModel().rows.length)
+  console.log('DataTable all rows:', table.getRowModel().rows.map(row => ({ id: row.id, selected: row.getIsSelected() })))
 
   return (
     <div className={cn(dataTableVariants({ variant, className }))}>
@@ -373,13 +384,21 @@ function DataTable<TData, TValue>({
       <div className="mt-300">
         {/* テーブル */}
         <div className="rounded-md border">
-          <Table variant={variant}>
+          <Table variant={variant} className={cn("bg-white [&_tr]:bg-white [&_tr:hover]:bg-white [&_th]:bg-white", className)}>
             <TableHeader variant={variant}>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     return (
-                      <TableHead key={header.id} className="px-3">
+                      <TableHead 
+                        key={header.id} 
+                        className="px-3"
+                        style={{
+                          width: header.getSize(),
+                          minWidth: header.column.columnDef.minSize,
+                          maxWidth: header.column.columnDef.maxSize,
+                        }}
+                      >
                         {header.isPlaceholder
                           ? null
                           : flexRender(
@@ -404,7 +423,15 @@ function DataTable<TData, TValue>({
                     )}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} className="px-3">
+                      <TableCell 
+                        key={cell.id} 
+                        className="px-3"
+                        style={{
+                          width: cell.column.getSize(),
+                          minWidth: cell.column.columnDef.minSize,
+                          maxWidth: cell.column.columnDef.maxSize,
+                        }}
+                      >
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()

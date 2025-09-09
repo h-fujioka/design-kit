@@ -4,7 +4,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 const cardVariants = cva(
-  'flex flex-col gap-3 rounded-xl border py-5 shadow-sm',
+  'flex flex-col gap-3 rounded-xl border py-5',
   {
     variants: {
       variant: {

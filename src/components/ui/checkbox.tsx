@@ -1,14 +1,14 @@
 "use client"
 
-import * as React from "react"
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
-import { CheckIcon } from "lucide-react"
 import { cva, type VariantProps } from "class-variance-authority"
+import { CheckIcon } from "lucide-react"
+import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
 const checkboxVariants = cva(
-  "peer shrink-0 rounded-[4px] border shadow-xs transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
+  "peer shrink-0 rounded-[4px] border shadow-xs transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer",
   {
     variants: {
       variant: {
@@ -35,10 +35,27 @@ function Checkbox({
   size,
   ...props
 }: React.ComponentProps<typeof CheckboxPrimitive.Root> & VariantProps<typeof checkboxVariants>) {
+  console.log('Checkbox props:', { className, variant, size, ...props });
+  
+  const checkboxRef = React.useRef<HTMLButtonElement>(null);
+  
+  React.useEffect(() => {
+    if (checkboxRef.current) {
+      console.log('Checkbox DOM attributes:', {
+        'aria-checked': checkboxRef.current.getAttribute('aria-checked'),
+        'data-state': checkboxRef.current.getAttribute('data-state'),
+        'checked': checkboxRef.current.getAttribute('checked'),
+        'props.checked': props.checked
+      });
+    }
+  }, [props.checked]);
+  
   return (
     <CheckboxPrimitive.Root
+      ref={checkboxRef}
       data-slot="checkbox"
       className={cn(checkboxVariants({ variant, size, className }))}
+      aria-checked={props.checked}
       {...props}
     >
       <CheckboxPrimitive.Indicator

@@ -3,12 +3,12 @@
 import { Footer } from '@/components/shared/footer';
 import { Header } from '@/components/shared/header';
 import { PageShell } from '@/components/shared/page-shell';
+import { AdvancedDataTable } from '@/components/ui/advanced-data-table';
 import { Badge } from '@/components/ui/badge';
 import { Breadcrumb } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { DataTable } from '@/components/ui/data-table';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -23,16 +23,16 @@ import { ColumnDef } from "@tanstack/react-table";
 
 // Lucide Icons for demonstration
 import {
-    AlertTriangle,
-    Check,
-    ChevronLeft, ChevronRight,
-    Edit,
-    Home,
-    Plus,
-    Search,
-    Settings,
-    Trash2,
-    X
+  AlertTriangle,
+  Check,
+  ChevronLeft, ChevronRight,
+  Edit,
+  Home,
+  Plus,
+  Search,
+  Settings,
+  Trash2,
+  X
 } from 'lucide-react';
 
 // サンプルデータ型
@@ -73,6 +73,9 @@ const sampleColumns: ColumnDef<SampleData>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
+    size: 40,
+    minSize: 40,
+    maxSize: 40,
   },
   {
     accessorKey: "name",
@@ -538,8 +541,21 @@ export default function StyleguidePage() {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">Background Colors適用 - Background Colors Application</h4>
+                  <div className="rounded-lg bg-white p-4 text-sm">
+                    <p className="text-muted-foreground mb-2">
+                      テーブルコンポーネントには、Background Colorsセクションで定義したセマンティックカラーを適用しています。
+                    </p>
+                    <ul className="space-y-1">
+                      <li>• <strong>Table Head</strong>: <code className="bg-background px-2 py-1 rounded">[&_th]:bg-white</code> - White Background（白背景）を適用</li>
+                      <li>• <strong>Table Body</strong>: <code className="bg-background px-2 py-1 rounded">[&_tr]:bg-white</code> - White Background（白背景）を適用</li>
+                      <li>• <strong>Hover State</strong>: <code className="bg-background px-2 py-1 rounded">[&_tr:hover]:bg-white</code> - ホバー時も白背景を維持</li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="space-y-3">
                   <h4 className="text-sm font-medium text-muted-foreground">Table - テーブル</h4>
-                  <Table variant="brand">
+                  <Table variant="brand" className="[&_th]:bg-white">
                     <TableHeader variant="brand">
                       <TableRow>
                         <TableHead className="w-[100px] px-4">ID</TableHead>
@@ -572,35 +588,30 @@ export default function StyleguidePage() {
                 </div>
                 <div className="space-y-3">
                   <h4 className="text-sm font-medium text-muted-foreground">Advanced Data Table - 高機能データテーブル</h4>
-                  <DataTable
+                  <AdvancedDataTable
                     columns={sampleColumns}
                     data={sampleData}
                     searchKey="name"
-                    searchPlaceholder="プロジェクト名で検索..."
+                    searchPlaceholder="案件名、企業名、担当者で検索..."
                     variant="brand"
-                    showColumnVisibility={true}
-                    showPagination={true}
-                    showAdvancedFilters={true}
-                    filterOptions={{
-                      status: [
-                        { label: '進行中', value: '進行中' },
-                        { label: '完了', value: '完了' },
-                        { label: '計画中', value: '計画中' },
-                      ],
-                      customFilters: [
-                        {
-                          key: 'amount',
-                          label: '予算',
-                          options: [
-                            { label: '100万円未満', value: 'low' },
-                            { label: '100万円以上', value: 'high' },
-                          ],
-                        },
-                      ],
+                    enableGlobalFilter={false}
+                    enableColumnFilters={false}
+                    enableSorting={true}
+                    enableMultiSort={true}
+                    enablePagination={true}
+                    pageSize={10}
+                    enableRowSelection={true}
+                    enableMultiRowSelection={true}
+                    enableColumnVisibility={false}
+                    enableColumnResizing={false}
+                    enableExport={false}
+                    onSelectionChange={(selectedRows) => {
+                      console.log('Selected rows:', selectedRows);
                     }}
+                    emptyMessage="案件が見つかりません"
                   />
                   <p className="text-xs text-muted-foreground">
-                    機能: ✅ ソート ✅ 検索フィルター ✅ 列表示切り替え ✅ 行選択 ✅ ページネーション (TanStack Table)
+                    機能: ❌ グローバル検索 ❌ カラムフィルタ ✅ ソート（単一・複数） ❌ 列表示切り替え ✅ ページネーション (TanStack Table)
                   </p>
                 </div>
               </CardContent>
@@ -856,8 +867,9 @@ export default function StyleguidePage() {
 
                   <div className="space-y-3">
                     <h4 className="text-sm font-medium text-muted-foreground">Background Colors - 背景カラー</h4>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                       {[
+                        { name: 'White Background', usage: '白背景（テーブル・カード等）', bgClass: 'bg-white', textClass: 'text-gray-900' },
                         { name: 'Primary Background', usage: 'プライマリー背景', bgClass: 'bg-brand-50', textClass: 'text-brand-900' },
                         { name: 'Secondary Background', usage: 'セカンダリー背景', bgClass: 'bg-brand-100', textClass: 'text-brand-900' },
                       ].map((color) => (
@@ -967,6 +979,7 @@ export default function StyleguidePage() {
                     <ul className="space-y-2">
                       <li>• <strong>カード全体の間隔</strong>: <code className="bg-background px-2 py-1 rounded">gap-3</code> (12px) - HeaderとContentの間隔</li>
                       <li>• <strong>Header内の間隔</strong>: <code className="bg-background px-2 py-1 rounded">gap-2</code> (8px) - TitleとDescriptionの間隔</li>
+                      <li>• <strong>要素単体のマージン</strong>: カード内の各要素単体では上下マージンを持たない - <code className="bg-background px-2 py-1 rounded">!my-0</code> を適用</li>
                       <li>• <strong>フォント階層</strong>: Title <code className="bg-background px-2 py-1 rounded">text-base font-semibold</code> (16px) &gt; Description <code className="bg-background px-2 py-1 rounded">text-sm</code> (14px)</li>
                       <li>• <strong>余白</strong>: <code className="bg-background px-2 py-1 rounded">p-5</code> (20px) - 統一された内部余白</li>
                       <li>• <strong>マージンリセット</strong>: タイトルと説明文には <code className="bg-background px-2 py-1 rounded">!m-0</code> を適用</li>
@@ -980,7 +993,7 @@ export default function StyleguidePage() {
                 <div className="space-y-3">
                   <h4 className="text-sm font-medium text-muted-foreground">Standard Cards - 標準カード</h4>
                   <div className="grid gap-4 md:grid-cols-2">
-                    <Card variant="brand">
+                    <Card variant="brand" className="gap-3">
                       <CardHeader>
                         <CardTitle>Brand Card</CardTitle>
                       </CardHeader>
@@ -988,7 +1001,7 @@ export default function StyleguidePage() {
                         <p>This card uses the brand color variant with subtle brand styling.</p>
                       </CardContent>
                     </Card>
-                    <Card variant="brandAccent">
+                    <Card variant="brandAccent" className="gap-3">
                       <CardHeader>
                         <CardTitle>Brand Accent Card</CardTitle>
                       </CardHeader>
@@ -1006,7 +1019,7 @@ export default function StyleguidePage() {
                   <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-2">
                       <p className="text-xs font-medium text-success">✅ 正しい例</p>
-                      <Card variant="brand" className="scale-90">
+                      <Card variant="brand" className="scale-90 gap-3">
                         <CardContent className="text-center">
                           <div className="w-12 h-12 bg-brand-100 dark:bg-brand-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
                             <span className="text-lg">🎯</span>
@@ -1018,7 +1031,7 @@ export default function StyleguidePage() {
                         </CardHeader>
                       </Card>
                       <code className="text-xs bg-background px-2 py-1 rounded block">
-                        {'<CardContent>アイコン</CardContent>\n<CardHeader>タイトル・説明</CardHeader>'}
+                        {'<Card className="gap-3">\n  <CardContent>アイコン</CardContent>\n  <CardHeader>タイトル・説明</CardHeader>\n</Card>'}
                       </code>
                     </div>
                     <div className="space-y-2">
@@ -1174,81 +1187,6 @@ export default function StyleguidePage() {
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">SaleOn Layout Pattern - サイドバー + メインコンテンツ（URL型）</h4>
-                  
-                  <div className="rounded-lg bg-muted p-4 text-sm">
-                    <h5 className="font-medium mb-3">基本構造 - Basic Structure</h5>
-                    <ul className="space-y-2">
-                      <li>• <strong>基本構造</strong>: <code className="bg-background px-2 py-1 rounded">h-[calc(100vh-3.5rem)] flex</code> - ヘッダーを除いた全画面高</li>
-                      <li>• <strong>サイドバー</strong>: <code className="bg-background px-2 py-1 rounded">w-64 bg-background border-r flex flex-col</code> - 固定幅256px</li>
-                      <li>• <strong>メインエリア</strong>: <code className="bg-background px-2 py-1 rounded">flex-1 overflow-auto</code> - 残り幅、スクロール可能</li>
-                      <li>• <strong>URLナビゲーション</strong>: <code className="bg-background px-2 py-1 rounded">Link</code> コンポーネントでページ遷移</li>
-                      <li>• <strong>パンクズエリア</strong>: <code className="bg-background px-2 py-1 rounded">Breadcrumb</code> コンポーネントで階層表示</li>
-                    </ul>
-                  </div>
-
-                  <div className="rounded-lg bg-muted p-4 text-sm">
-                    <h5 className="font-medium mb-3">サイドバー構造 - Sidebar Structure</h5>
-                    <ul className="space-y-2">
-                      <li>• <strong>ナビゲーション項目</strong>: <code className="bg-background px-2 py-1 rounded">w-full block px-4 py-3 text-sm text-left hover:bg-muted rounded transition-colors</code></li>
-                      <li>• <strong>アクティブ状態</strong>: <code className="bg-background px-2 py-1 rounded">bg-brand-100 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300</code></li>
-                      <li>• <strong>非アクティブ状態</strong>: <code className="bg-background px-2 py-1 rounded">text-card-foreground</code></li>
-                      <li>• <strong>アイコン + テキスト</strong>: <code className="bg-background px-2 py-1 rounded">flex items-center gap-3</code> - アイコン左配置、12px間隔</li>
-                      <li>• <strong>URLナビゲーション</strong>: <code className="bg-background px-2 py-1 rounded">href="/path"</code> でページ遷移</li>
-                      <li>• <strong>アイテム間隔</strong>: <code className="bg-background px-2 py-1 rounded">space-y-1</code> - 4px間隔</li>
-                    </ul>
-                  </div>
-
-                  <div className="rounded-lg bg-muted p-4 text-sm">
-                    <h5 className="font-medium mb-3">実装例 - Implementation Example</h5>
-                    <div className="bg-background p-3 rounded border">
-                      <code className="text-xs">
-                        &lt;div className="h-[calc(100vh-3.5rem)] flex"&gt;<br/>
-                        &nbsp;&nbsp;&lt;aside className="w-64 bg-background border-r flex flex-col"&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="py-4"&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="space-y-1"&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Link<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href="/prototypes/saleon"<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;className="w-full block px-4 py-3 text-sm text-left hover:bg-muted rounded transition-colors bg-brand-100 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300"<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="flex items-center gap-3"&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span className="text-sm"&gt;🏠&lt;/span&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;ホーム&lt;/span&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Link&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
-                        &nbsp;&nbsp;&lt;/aside&gt;<br/>
-                        &nbsp;&nbsp;&lt;main className="flex-1 overflow-auto"&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="p-6"&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="space-y-6"&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Breadcrumb size="sm" items=&#123;[...]&#125; /&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- コンテンツ --&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
-                        &nbsp;&nbsp;&lt;/main&gt;<br/>
-                        &lt;/div&gt;
-                      </code>
-                    </div>
-                  </div>
-
-                  <div className="rounded-lg bg-muted p-4 text-sm">
-                    <h5 className="font-medium mb-3">使用ルール - Usage Rules</h5>
-                    <ul className="space-y-2">
-                      <li>• <strong>URLナビゲーション</strong>: <code className="bg-background px-2 py-1 rounded">Link</code> コンポーネントでページ遷移</li>
-                      <li>• <strong>パンクズ表示</strong>: <code className="bg-background px-2 py-1 rounded">Breadcrumb</code> コンポーネントで階層表示</li>
-                      <li>• <strong>サイドバー幅</strong>: 固定256px (w-64) で統一</li>
-                      <li>• <strong>メインエリア</strong>: <code className="bg-background px-2 py-1 rounded">flex-1 overflow-auto</code> でスクロール可能</li>
-                      <li>• <strong>アクティブ状態</strong>: ブランドカラーで視覚的に区別</li>
-                      <li>• <strong>アイコン配置</strong>: 左配置、12px間隔(gap-3)で統一</li>
-                      <li>• <strong>ホバー効果</strong>: <code className="bg-background px-2 py-1 rounded">hover:bg-muted</code> で統一</li>
-                      <li>• <strong>パディング</strong>: <code className="bg-background px-2 py-1 rounded">px-4 py-3</code> で統一</li>
-                      <li>• <strong>アイテム間隔</strong>: <code className="bg-background px-2 py-1 rounded">space-y-1</code> で統一</li>
-                      <li>• <strong>適用場面</strong>: URLベースのページ遷移が必要な場合</li>
-                    </ul>
-                  </div>
-                </div>
 
 
                 <div className="space-y-3">
@@ -1265,33 +1203,253 @@ export default function StyleguidePage() {
                 </div>
 
                 <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">プロトタイプレイアウトコンポーネント - Prototype Layout Components</h4>
+                  <h4 className="text-sm font-medium text-muted-foreground">データテーブルページレイアウト - Data Table Page Layout</h4>
                   <div className="rounded-lg bg-muted p-4 text-sm">
+                    <h5 className="font-medium mb-3">実装例 - Implementation Example</h5>
+                    <div className="space-y-4">
+                      <div>
+                        <h6 className="text-xs font-medium text-muted-foreground mb-2">フルページレイアウト（CasesPage）</h6>
+                        <div className="bg-background p-3 rounded border">
+                          <code className="text-xs">
+                            &lt;main className="polaris-main"&gt;<br/>
+                            &nbsp;&nbsp;&lt;PageHeader title="案件一覧" action="Button" /&gt;<br/>
+                            &nbsp;&nbsp;&lt;section className="polaris-section"&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;Tabs className="polaris-component-group"&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TabsList&gt;...&lt;/TabsList&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TabsContent&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;AdvancedDataTable /&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/TabsContent&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/Tabs&gt;<br/>
+                            &nbsp;&nbsp;&lt;/section&gt;<br/>
+                            &lt;/main&gt;
+                          </code>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <h6 className="text-xs font-medium text-muted-foreground mb-2">サイドバー付きレイアウト（CasesPageWithSidebar）</h6>
+                        <div className="bg-background p-3 rounded border">
+                          <code className="text-xs">
+                            &lt;div className="h-[calc(100vh-3.5rem)] flex"&gt;<br/>
+                            &nbsp;&nbsp;&lt;SaleOnSidebar /&gt;<br/>
+                            &nbsp;&nbsp;&lt;main className="flex-1 overflow-auto"&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="p-6"&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="polaris-section"&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;FullWidthBreadcrumb /&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SaleOnPageHeader /&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Tabs className="polaris-component-group"&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TabsList&gt;...&lt;/TabsList&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TabsContent&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;AdvancedDataTable /&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/TabsContent&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Tabs&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+                            &nbsp;&nbsp;&lt;/main&gt;<br/>
+                            &lt;/div&gt;
+                          </code>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="rounded-lg bg-muted p-4 text-sm">
+                    <h5 className="font-medium mb-3">レイアウトの特徴 - Layout Features</h5>
                     <ul className="space-y-2">
-                      <li>• <strong>PrototypeLayout</strong>: メインレイアウトコンテナ（サイドバー + メインコンテンツ）</li>
-                      <li>• <strong>SidebarSection</strong>: サイドバー内のセクション区切り</li>
-                      <li>• <strong>SidebarItemWithIcon</strong>: アイコン付きサイドバー項目</li>
-                      <li>• <strong>CardGrid</strong>: レスポンシブカードグリッド</li>
-                      <li>• <strong>PrototypeCard</strong>: プロトタイプ用カードコンポーネント</li>
-                      <li>• <strong>PrototypeIcon</strong>: カード内のアイコン表示</li>
+                      <li>• <strong>PageHeader分離</strong>: PageHeaderを`polaris-section`の外に配置し、余白を制御</li>
+                      <li>• <strong>階層的間隔</strong>: `polaris-main` → `polaris-section` → `polaris-component-group`の順で間隔を適用</li>
+                      <li>• <strong>タブ構造</strong>: Tabsコンポーネントでコンテンツを切り替え、内部にAdvancedDataTableを配置</li>
+                      <li>• <strong>サイドバー対応</strong>: フルページとサイドバー付きの両方のレイアウトパターンを提供</li>
+                      <li>• <strong>レスポンシブ対応</strong>: モバイル・タブレット・デスクトップで適切な間隔を維持</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="rounded-lg bg-muted p-4 text-sm">
+                    <h5 className="font-medium mb-3">使用コンポーネント - Components Used</h5>
+                    <ul className="space-y-2">
+                      <li>• <strong>PageHeader</strong>: ページタイトルとアクションボタンを表示</li>
+                      <li>• <strong>SaleOnPageHeader</strong>: サイドバー付きレイアウト用のページヘッダー</li>
+                      <li>• <strong>Tabs</strong>: コンテンツの切り替え（担当案件/すべて）</li>
+                      <li>• <strong>AdvancedDataTable</strong>: 高機能データテーブル（フィルタ、ソート、ページネーション）</li>
+                      <li>• <strong>FullWidthBreadcrumb</strong>: パンクズナビゲーション</li>
+                      <li>• <strong>SaleOnSidebar</strong>: サイドバーナビゲーション</li>
                     </ul>
                   </div>
                 </div>
 
+              </CardContent>
+            </Card>
 
+            <Card>
+              <CardHeader>
+                <CardTitle>SaleOn Layout Pattern - サイドバー + メインコンテンツ（URL型）</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">基本構造 - Basic Structure</h4>
+                  <div className="rounded-lg bg-white p-4 text-sm">
+                    <ul className="space-y-2">
+                      <li>• <strong>基本構造</strong>: <code className="bg-background px-2 py-1 rounded">h-[calc(100vh-3.5rem)] flex</code> - ヘッダーを除いた全画面高</li>
+                      <li>• <strong>サイドバー</strong>: <code className="bg-background px-2 py-1 rounded">w-64 bg-background border-r flex flex-col</code> - 固定幅256px</li>
+                      <li>• <strong>メインエリア</strong>: <code className="bg-background px-2 py-1 rounded">flex-1 overflow-auto</code> - 残り幅、スクロール可能</li>
+                      <li>• <strong>URLナビゲーション</strong>: <code className="bg-background px-2 py-1 rounded">Link</code> コンポーネントでページ遷移</li>
+                      <li>• <strong>パンクズエリア</strong>: <code className="bg-background px-2 py-1 rounded">Breadcrumb</code> コンポーネントで階層表示</li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">サイドバー構造 - Sidebar Structure</h4>
+                  <div className="rounded-lg bg-white p-4 text-sm">
+                    <ul className="space-y-2">
+                      <li>• <strong>ナビゲーション項目</strong>: <code className="bg-background px-2 py-1 rounded">w-full block px-4 py-3 text-sm text-left hover:bg-muted rounded transition-colors</code></li>
+                      <li>• <strong>アクティブ状態</strong>: <code className="bg-background px-2 py-1 rounded">bg-brand-100 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300</code></li>
+                      <li>• <strong>非アクティブ状態</strong>: <code className="bg-background px-2 py-1 rounded">text-card-foreground</code></li>
+                      <li>• <strong>アイコン + テキスト</strong>: <code className="bg-background px-2 py-1 rounded">flex items-center gap-3</code> - アイコン左配置、12px間隔</li>
+                      <li>• <strong>URLナビゲーション</strong>: <code className="bg-background px-2 py-1 rounded">href="/path"</code> でページ遷移</li>
+                      <li>• <strong>アイテム間隔</strong>: <code className="bg-background px-2 py-1 rounded">space-y-1</code> - 4px間隔</li>
+                    </ul>
+                  </div>
+                </div>
 
                 <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">プロトタイプレイアウト使用ルール - Prototype Layout Usage Rules</h4>
-                  <div className="rounded-lg bg-muted p-4 text-sm">
+                  <h4 className="text-sm font-medium text-muted-foreground">パンクズエリア（画面幅100%）- Full Width Breadcrumb</h4>
+                  <div className="rounded-lg bg-white p-4 text-sm">
                     <ul className="space-y-2">
-                      <li>• <strong>PrototypeLayout</strong>: プロトタイプページの基本レイアウトとして使用</li>
-                      <li>• <strong>SidebarSection</strong>: サイドバー内で論理的なセクション分けに使用</li>
-                      <li>• <strong>SidebarItemWithIcon</strong>: ナビゲーション項目にアイコンが必要な場合に使用</li>
-                      <li>• <strong>CardGrid</strong>: カードの一覧表示に使用、レスポンシブ対応</li>
-                      <li>• <strong>PrototypeCard</strong>: プロトタイプ専用のカードスタイル、ブランドカラー使用</li>
-                      <li>• <strong>PrototypeIcon</strong>: カード内のアイコン表示、ホバー効果付き</li>
-                      <li>• <strong>Props設定</strong>: maxWidth、columns、gap等を適切に設定</li>
+                      <li>• <strong>画面幅100%</strong>: <code className="bg-background px-2 py-1 rounded">w-screen</code> - ビューポート幅に設定</li>
+                      <li>• <strong>パディング相殺</strong>: <code className="bg-background px-2 py-1 rounded">-ml-6 -mr-6</code> - 親要素のp-6パディングを相殺</li>
+                      <li>• <strong>上マージン</strong>: <code className="bg-background px-2 py-1 rounded">-mt-6</code> - 親要素の上パディングを相殺</li>
+                      <li>• <strong>内部パディング</strong>: <code className="bg-background px-2 py-1 rounded">px-6 py-4</code> - 内部コンテンツの余白</li>
+                      <li>• <strong>背景・ボーダー</strong>: <code className="bg-background px-2 py-1 rounded">bg-background border-b</code> - 背景色と下ボーダー</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">実装例 - Implementation Example</h4>
+                  <div className="bg-background p-3 rounded border">
+                    <code className="text-xs">
+                      &lt;div className="h-[calc(100vh-3.5rem)] flex"&gt;<br/>
+                      &nbsp;&nbsp;&lt;aside className="w-64 bg-background border-r flex flex-col"&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="py-4"&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="space-y-1"&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Link<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href="/prototypes/saleon"<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;className="w-full block px-4 py-3 text-sm text-left hover:bg-muted rounded transition-colors bg-brand-100 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300"<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="flex items-center gap-3"&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span className="text-sm"&gt;🏠&lt;/span&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;ホーム&lt;/span&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Link&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+                      &nbsp;&nbsp;&lt;/aside&gt;<br/>
+                      &nbsp;&nbsp;&lt;main className="flex-1 overflow-auto"&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="p-6"&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="space-y-6"&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="w-screen bg-background border-b px-6 py-4 -ml-6 -mr-6 -mt-6 mb-6"&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Breadcrumb size="sm" items=&#123;[...]&#125; /&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- コンテンツ --&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+                      &nbsp;&nbsp;&lt;/main&gt;<br/>
+                      &lt;/div&gt;
+                    </code>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">使用ルール - Usage Rules</h4>
+                  <div className="rounded-lg bg-white p-4 text-sm">
+                    <ul className="space-y-2">
+                      <li>• <strong>URLナビゲーション</strong>: <code className="bg-background px-2 py-1 rounded">Link</code> コンポーネントでページ遷移</li>
+                      <li>• <strong>パンクズ表示</strong>: <code className="bg-background px-2 py-1 rounded">Breadcrumb</code> コンポーネントで階層表示</li>
+                      <li>• <strong>サイドバー幅</strong>: 固定256px (w-64) で統一</li>
+                      <li>• <strong>メインエリア</strong>: <code className="bg-background px-2 py-1 rounded">flex-1 overflow-auto</code> でスクロール可能</li>
+                      <li>• <strong>アクティブ状態</strong>: ブランドカラーで視覚的に区別</li>
+                      <li>• <strong>アイコン配置</strong>: 左配置、12px間隔(gap-3)で統一</li>
+                      <li>• <strong>ホバー効果</strong>: <code className="bg-background px-2 py-1 rounded">hover:bg-muted</code> で統一</li>
+                      <li>• <strong>パディング</strong>: <code className="bg-background px-2 py-1 rounded">px-4 py-3</code> で統一</li>
+                      <li>• <strong>アイテム間隔</strong>: <code className="bg-background px-2 py-1 rounded">space-y-1</code> で統一</li>
+                      <li>• <strong>パンクズ画面幅</strong>: <code className="bg-background px-2 py-1 rounded">w-screen -ml-6 -mr-6</code> で100%幅</li>
+                      <li>• <strong>適用場面</strong>: URLベースのページ遷移が必要な場合</li>
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>共通化可能なパーツ - Reusable Components</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">1. サイドバーナビゲーション - Sidebar Navigation</h4>
+                  <div className="rounded-lg bg-white p-4 text-sm">
+                    <div className="space-y-2">
+                      <p><strong>提案コンポーネント</strong>: <code className="bg-background px-2 py-1 rounded">SaleOnSidebar</code></p>
+                      <p><strong>Props</strong>:</p>
+                      <ul className="ml-4 space-y-1">
+                        <li>• <code className="bg-background px-2 py-1 rounded">activeItem</code>: 現在アクティブな項目</li>
+                        <li>• <code className="bg-background px-2 py-1 rounded">items</code>: ナビゲーション項目の配列</li>
+                      </ul>
+                      <p><strong>使用例</strong>:</p>
+                      <div className="bg-background p-2 rounded text-xs">
+                        <code>&lt;SaleOnSidebar activeItem="cases" /&gt;</code>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">2. パンクズエリア - Breadcrumb Area</h4>
+                  <div className="rounded-lg bg-white p-4 text-sm">
+                    <div className="space-y-2">
+                      <p><strong>提案コンポーネント</strong>: <code className="bg-background px-2 py-1 rounded">FullWidthBreadcrumb</code></p>
+                      <p><strong>Props</strong>:</p>
+                      <ul className="ml-4 space-y-1">
+                        <li>• <code className="bg-background px-2 py-1 rounded">items</code>: パンクズ項目の配列</li>
+                        <li>• <code className="bg-background px-2 py-1 rounded">size</code>: サイズ（sm, md, lg）</li>
+                      </ul>
+                      <p><strong>使用例</strong>:</p>
+                      <div className="bg-background p-2 rounded text-xs">
+                        <code>&lt;FullWidthBreadcrumb items=&#123;breadcrumbItems&#125; size="sm" /&gt;</code>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">3. ページヘッダー - Page Header</h4>
+                  <div className="rounded-lg bg-white p-4 text-sm">
+                    <div className="space-y-2">
+                      <p><strong>提案コンポーネント</strong>: <code className="bg-background px-2 py-1 rounded">SaleOnPageHeader</code></p>
+                      <p><strong>Props</strong>:</p>
+                      <ul className="ml-4 space-y-1">
+                        <li>• <code className="bg-background px-2 py-1 rounded">title</code>: ページタイトル</li>
+                        <li>• <code className="bg-background px-2 py-1 rounded">actions</code>: アクションボタンの配列</li>
+                        <li>• <code className="bg-background px-2 py-1 rounded">subtitle</code>: サブタイトル（オプション）</li>
+                      </ul>
+                      <p><strong>使用例</strong>:</p>
+                      <div className="bg-background p-2 rounded text-xs">
+                        <code>&lt;SaleOnPageHeader title="案件一覧" actions=&#123;actionButtons&#125; /&gt;</code>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">共通化のメリット - Benefits</h4>
+                  <div className="rounded-lg bg-white p-4 text-sm">
+                    <ul className="space-y-2">
                       <li>• <strong>一貫性</strong>: 同じレイアウトパターンは必ずコンポーネントを使用</li>
+                      <li>• <strong>保守性</strong>: 1箇所の変更で全体に反映</li>
+                      <li>• <strong>再利用性</strong>: 新しいページでも同じパーツを利用可能</li>
+                      <li>• <strong>型安全性</strong>: TypeScriptでPropsの型定義</li>
+                      <li>• <strong>テスト容易性</strong>: 独立したコンポーネントとしてテスト可能</li>
                     </ul>
                   </div>
                 </div>
