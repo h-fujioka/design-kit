@@ -1,115 +1,142 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { ChevronRight, MoreHorizontal } from "lucide-react"
+"use client"
 
 import { cn } from "@/lib/utils"
+import { cva, type VariantProps } from "class-variance-authority"
+import { ChevronRight, Home } from "lucide-react"
+import * as React from "react"
 
-const Breadcrumb = React.forwardRef<
-  HTMLElement,
-  React.ComponentPropsWithoutRef<"nav"> & {
-    separator?: React.ReactNode
-  }
->(({ ...props }, ref) => <nav ref={ref} aria-label="breadcrumb" {...props} />)
-Breadcrumb.displayName = "Breadcrumb"
+const breadcrumbVariants = cva(
+  "flex items-center space-x-1 text-sm",
+  {
+    variants: {
+      variant: {
+        default: "",
+        brand: "text-brand-600",
+      },
+      size: {
+        sm: "text-xs",
+        default: "text-sm",
+        lg: "text-base",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  },
+)
 
-const BreadcrumbList = React.forwardRef<
-  HTMLOListElement,
-  React.ComponentPropsWithoutRef<"ol">
->(({ className, ...props }, ref) => (
-  <ol
-    ref={ref}
-    className={cn(
-      "flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5",
-      className
-    )}
-    {...props}
-  />
-))
-BreadcrumbList.displayName = "BreadcrumbList"
+const breadcrumbItemVariants = cva(
+  "transition-colors",
+  {
+    variants: {
+      variant: {
+        default: "text-muted-foreground hover:text-foreground",
+        brand: "text-brand-600 hover:text-brand-700",
+        current: "text-foreground font-medium",
+        currentBrand: "text-brand-700 font-medium",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  },
+)
 
-const BreadcrumbItem = React.forwardRef<
-  HTMLLIElement,
-  React.ComponentPropsWithoutRef<"li">
->(({ className, ...props }, ref) => (
-  <li
-    ref={ref}
-    className={cn("inline-flex items-center gap-1.5", className)}
-    {...props}
-  />
-))
-BreadcrumbItem.displayName = "BreadcrumbItem"
+const breadcrumbSeparatorVariants = cva(
+  "mx-1 text-muted-foreground",
+  {
+    variants: {
+      variant: {
+        default: "",
+        brand: "text-brand-400",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  },
+)
 
-const BreadcrumbLink = React.forwardRef<
-  HTMLAnchorElement,
-  React.ComponentPropsWithoutRef<"a"> & {
-    asChild?: boolean
-  }
->(({ asChild, className, ...props }, ref) => {
-  const Comp = asChild ? Slot : "a"
+export interface BreadcrumbItem {
+  label: string
+  href?: string
+  icon?: React.ReactNode
+  current?: boolean
+}
+
+interface BreadcrumbProps extends VariantProps<typeof breadcrumbVariants> {
+  items: BreadcrumbItem[]
+  showHome?: boolean
+  homeHref?: string
+  separator?: React.ReactNode
+  className?: string
+}
+
+export function Breadcrumb({
+  items,
+  showHome = false,
+  homeHref = "/",
+  separator,
+  variant,
+  size,
+  className,
+}: BreadcrumbProps) {
+  const defaultSeparator = <ChevronRight className="h-3 w-3" />
+  const actualSeparator = separator || defaultSeparator
+
+  const allItems = showHome 
+    ? [{ label: "ホーム", href: homeHref, icon: <Home className="h-3 w-3" /> }, ...items]
+    : items
 
   return (
-    <Comp
-      ref={ref}
-      className={cn("transition-colors hover:text-foreground", className)}
-      {...props}
-    />
+    <nav className={cn(breadcrumbVariants({ variant, size, className }))} aria-label="パンくずリスト">
+      <ol className="flex items-center space-x-1">
+        {allItems.map((item, index) => {
+          const isLast = index === allItems.length - 1
+          const isCurrent = item.current || isLast
+          
+          return (
+            <li key={index} className="flex items-center">
+              {index > 0 && (
+                <span className={cn(breadcrumbSeparatorVariants({ variant }))}>
+                  {actualSeparator}
+                </span>
+              )}
+              
+              {item.href && !isCurrent ? (
+                <a
+                  href={item.href}
+                  className={cn(
+                    breadcrumbItemVariants({ 
+                      variant: variant === "brand" ? "brand" : "default" 
+                    }),
+                    "flex items-center gap-1 underline"
+                  )}
+                >
+                  {item.icon}
+                  {item.label}
+                </a>
+              ) : (
+                <span
+                  className={cn(
+                    breadcrumbItemVariants({ 
+                      variant: variant === "brand" ? "currentBrand" : "current" 
+                    }),
+                    "flex items-center gap-1"
+                  )}
+                  aria-current={isCurrent ? "page" : undefined}
+                >
+                  {item.icon}
+                  {item.label}
+                </span>
+              )}
+            </li>
+          )
+        })}
+      </ol>
+    </nav>
   )
-})
-BreadcrumbLink.displayName = "BreadcrumbLink"
-
-const BreadcrumbPage = React.forwardRef<
-  HTMLSpanElement,
-  React.ComponentPropsWithoutRef<"span">
->(({ className, ...props }, ref) => (
-  <span
-    ref={ref}
-    role="link"
-    aria-disabled="true"
-    aria-current="page"
-    className={cn("font-normal text-foreground", className)}
-    {...props}
-  />
-))
-BreadcrumbPage.displayName = "BreadcrumbPage"
-
-const BreadcrumbSeparator = ({
-  children,
-  className,
-  ...props
-}: React.ComponentProps<"li">) => (
-  <li
-    role="presentation"
-    aria-hidden="true"
-    className={cn("[&>svg]:w-3.5 [&>svg]:h-3.5", className)}
-    {...props}
-  >
-    {children ?? <ChevronRight />}
-  </li>
-)
-BreadcrumbSeparator.displayName = "BreadcrumbSeparator"
-
-const BreadcrumbEllipsis = ({
-  className,
-  ...props
-}: React.ComponentProps<"span">) => (
-  <span
-    role="presentation"
-    aria-hidden="true"
-    className={cn("flex h-9 w-9 items-center justify-center", className)}
-    {...props}
-  >
-    <MoreHorizontal className="h-4 w-4" />
-    <span className="sr-only">More</span>
-  </span>
-)
-BreadcrumbEllipsis.displayName = "BreadcrumbElipssis"
-
-export {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-  BreadcrumbEllipsis,
 }
+
+export { breadcrumbVariants, type BreadcrumbProps }

@@ -4,13 +4,12 @@ import { Footer } from '@/components/shared/footer';
 import { Header } from '@/components/shared/header';
 import { PageShell } from '@/components/shared/page-shell';
 import {
-    PrototypeLayout,
-    SidebarItem,
-    SidebarItemWithIcon,
-    SidebarSection
+  PrototypeLayout,
+  SidebarItem,
+  SidebarItemWithIcon,
+  SidebarSection
 } from '@/components/shared/prototype-layout';
 import { Badge } from '@/components/ui/badge';
-import { Breadcrumb } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -18,7 +17,6 @@ import { DataTable } from '@/components/ui/data-table';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { PageHeader } from '@/components/ui/page-header';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -29,16 +27,15 @@ import { ColumnDef } from "@tanstack/react-table";
 
 // Lucide Icons for demonstration
 import {
-    AlertTriangle,
-    Check,
-    ChevronLeft, ChevronRight,
-    Edit,
-    Home,
-    Plus,
-    Search,
-    Settings,
-    Trash2,
-    X
+  AlertTriangle,
+  Check,
+  ChevronLeft, ChevronRight,
+  Edit,
+  Plus,
+  Search,
+  Settings,
+  Trash2,
+  X
 } from 'lucide-react';
 
 // サンプルデータ型
@@ -159,135 +156,77 @@ export default function StyleguidePage() {
           <Separator />
 
           <div className="grid gap-6">
-            <Card variant="brand">
-              <CardHeader>
-                <CardTitle>Design Rules - デザインルール</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="space-y-4">
-                  <h4 className="text-sm font-medium text-muted-foreground">カラー使用ルール - Color Usage Rules</h4>
-                  <div className="rounded-lg bg-muted p-4 text-sm">
-                    <ul className="space-y-3">
-                      <li className="flex items-start gap-2">
-                        <div className="w-2 h-2 rounded-full bg-destructive mt-2 flex-shrink-0"></div>
-                        <div>
-                          <strong>禁止事項 - Prohibited</strong>
-                          <p className="text-muted-foreground mt-1">styleguideに定義されていないカラーの使用は禁止されています。カスタムカラーやTailwindのデフォルトカラーを直接使用することはできません。</p>
-                        </div>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="w-2 h-2 rounded-full bg-brand-500 mt-2 flex-shrink-0"></div>
-                        <div>
-                          <strong>原則 - Principle</strong>
-                          <p className="text-muted-foreground mt-1">原則として、視覚設計にはセマンティックトークンを使用してください。</p>
-                        </div>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="w-2 h-2 rounded-full bg-brand-300 mt-2 flex-shrink-0"></div>
-                        <div>
-                          <strong>コンポーネントバリアント - Component Variants</strong>
-                          <p className="text-muted-foreground mt-1">コンポーネントのvariantプロパティ（brand, brandOutline, brandGhost等）を使用して、一貫したカラー適用を行ってください。</p>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  
-                  <h4 className="text-sm font-medium text-muted-foreground">使用可能なカラー - Available Colors</h4>
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <div className="rounded-lg bg-muted p-4 text-sm">
-                      <h5 className="font-medium mb-2">Brand Colors - プリミティブトークン（抽出用）</h5>
-                      <p className="text-xs text-muted-foreground mb-2">用途: デザイントークンの定義・抽出用</p>
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 rounded bg-brand-500"></div>
-                          <code className="text-xs">brand-500</code>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 rounded bg-brand-100"></div>
-                          <code className="text-xs">brand-100</code>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 rounded bg-brand-900"></div>
-                          <code className="text-xs">brand-900</code>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="rounded-lg bg-muted p-4 text-sm">
-                      <h5 className="font-medium mb-2">Semantic Colors - セマンティックトークン（推奨）</h5>
-                      <p className="text-xs text-muted-foreground mb-2">用途: 視覚設計での使用</p>
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 rounded bg-destructive"></div>
-                          <code className="text-xs">destructive</code>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 rounded bg-muted"></div>
-                          <code className="text-xs">muted</code>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 rounded bg-background border"></div>
-                          <code className="text-xs">background</code>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <h4 className="text-sm font-medium text-muted-foreground">実装例 - Implementation Examples</h4>
-                  <div className="rounded-lg bg-muted p-4 text-sm">
-                    <div className="space-y-3">
-                      <div>
-                        <h5 className="font-medium mb-2">✅ 正しい使用例 - Correct Usage</h5>
-                        <div className="bg-background p-3 rounded border">
-                          <code className="text-xs">
-                            &lt;Button variant="brand"&gt;ブランドボタン&lt;/Button&gt;<br/>
-                            &lt;Card variant="brand"&gt;ブランドカード&lt;/Card&gt;<br/>
-                            &lt;Badge variant="destructive"&gt;エラー&lt;/Badge&gt;<br/>
-                            &lt;div className="text-muted"&gt;ミュートテキスト&lt;/div&gt;<br/>
-                            &lt;div className="text-primary"&gt;メインテキスト&lt;/div&gt;<br/>
-                            &lt;div className="text-success"&gt;成功メッセージ&lt;/div&gt;
-                          </code>
-                        </div>
-                      </div>
-                      <div>
-                        <h5 className="font-medium mb-2">❌ 間違った使用例 - Incorrect Usage</h5>
-                        <div className="bg-background p-3 rounded border">
-                          <code className="text-xs text-destructive">
-                            &lt;div className="bg-blue-500"&gt;❌ カスタムカラー&lt;/div&gt;<br/>
-                            &lt;div className="bg-red-600"&gt;❌ 未定義カラー&lt;/div&gt;<br/>
-                            &lt;div className="text-purple-400"&gt;❌ 未定義テキストカラー&lt;/div&gt;<br/>
-                            &lt;div className="bg-brand-500"&gt;❌ プリミティブトークン直接使用&lt;/div&gt;<br/>
-                            &lt;div className="text-brand-100"&gt;❌ プリミティブトークン直接使用&lt;/div&gt;
-                          </code>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
             <Card>
               <CardHeader>
                 <CardTitle>Breadcrumb Navigation - パンくずリスト</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="space-y-4">
-                  <Breadcrumb
-                    items={[
-                      { label: 'ホーム', href: '/', icon: <Home className="h-3 w-3" /> },
-                      { label: 'コンポーネント', href: '/components' },
-                      { label: 'ボタン' },
-                    ]}
-                  />
-                </div>
-                <div className="rounded-lg bg-muted p-4 text-sm">
-                  <p className="font-medium mb-2">使用ルール</p>
-                  <ul className="space-y-1 text-xs">
-                    <li>• <code className="bg-background px-1 py-0.5 rounded">items</code> プロパティで配列を指定</li>
-                    <li>• <code className="bg-background px-1 py-0.5 rounded">href</code> でリンク先を指定</li>
-                    <li>• <code className="bg-background px-1 py-0.5 rounded">icon</code> でアイコンを指定</li>
-                    <li>• 最後のアイテムは自動的に現在ページとして表示</li>
-                  </ul>
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">Standard Breadcrumb - 標準パンくずリスト</h4>
+                  <div className="space-y-4">
+                    {/* サンプル1: 基本的なパンくずリスト */}
+                    <div className="space-y-2">
+                      <p className="text-xs text-muted-foreground">基本的なパンくずリスト</p>
+                      <nav className="text-xs">
+                        <ol className="flex items-center space-x-1">
+                          <li>
+                            <a href="/" className="text-brand-600 hover:text-brand-700 transition-colors underline">
+                              ホーム
+                            </a>
+                          </li>
+                          <li className="flex items-center">
+                            <span className="mx-1 text-muted-foreground">/</span>
+                            <span className="text-muted-foreground">Styleguide</span>
+                          </li>
+                        </ol>
+                      </nav>
+                    </div>
+                    
+                    {/* サンプル2: 3階層のパンくずリスト */}
+                    <div className="space-y-2">
+                      <p className="text-xs text-muted-foreground">3階層のパンくずリスト</p>
+                      <nav className="text-xs">
+                        <ol className="flex items-center space-x-1">
+                          <li>
+                            <a href="/" className="text-brand-600 hover:text-brand-700 transition-colors underline">
+                              ホーム
+                            </a>
+                          </li>
+                          <li className="flex items-center">
+                            <span className="mx-1 text-muted-foreground">/</span>
+                            <a href="/components" className="text-brand-600 hover:text-brand-700 transition-colors underline">
+                              コンポーネント
+                            </a>
+                          </li>
+                          <li className="flex items-center">
+                            <span className="mx-1 text-muted-foreground">/</span>
+                            <span className="text-muted-foreground">ボタン</span>
+                          </li>
+                        </ol>
+                      </nav>
+                    </div>
+                    
+                    {/* サンプル3: アイコン付きパンくずリスト */}
+                    <div className="space-y-2">
+                      <p className="text-xs text-muted-foreground">アイコン付きパンくずリスト</p>
+                      <nav className="text-xs">
+                        <ol className="flex items-center space-x-1">
+                          <li>
+                            <a href="/" className="text-brand-600 hover:text-brand-700 transition-colors underline flex items-center gap-1">
+                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                              </svg>
+                              ホーム
+                            </a>
+                          </li>
+                          <li className="flex items-center">
+                            <span className="mx-1 text-muted-foreground">/</span>
+                            <span className="text-muted-foreground">Styleguide</span>
+                          </li>
+                        </ol>
+                      </nav>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -586,24 +525,6 @@ export default function StyleguidePage() {
                     variant="brand"
                     showColumnVisibility={true}
                     showPagination={true}
-                    showAdvancedFilters={true}
-                    filterOptions={{
-                      status: [
-                        { label: '進行中', value: '進行中' },
-                        { label: '完了', value: '完了' },
-                        { label: '計画中', value: '計画中' },
-                      ],
-                      customFilters: [
-                        {
-                          key: 'amount',
-                          label: '予算',
-                          options: [
-                            { label: '100万円未満', value: 'low' },
-                            { label: '100万円以上', value: 'high' },
-                          ],
-                        },
-                      ],
-                    }}
                   />
                   <p className="text-xs text-muted-foreground">
                     機能: ✅ ソート ✅ 検索フィルター ✅ 列表示切り替え ✅ 行選択 ✅ ページネーション (TanStack Table)
@@ -1082,50 +1003,6 @@ export default function StyleguidePage() {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">Hierarchical Spacing System - ヒエラルキー構造を意識したマージンルール</h4>
-                  <div className="rounded-lg bg-muted p-4 text-sm">
-                    <ul className="space-y-2">
-                      <li>• <strong>レベル1 - ページセクション間</strong>: <code className="bg-background px-2 py-1 rounded">space-y-600</code> (24px) - ページ全体の主要セクション間</li>
-                      <li>• <strong>レベル2 - サブセクション間</strong>: <code className="bg-background px-2 py-1 rounded">space-y-400</code> (16px) - セクション内のサブセクション間</li>
-                      <li>• <strong>レベル3 - コンポーネント間</strong>: <code className="bg-background px-2 py-1 rounded">space-y-300</code> (12px) - 関連コンポーネント間</li>
-                      <li>• <strong>レベル4 - 要素間</strong>: <code className="bg-background px-2 py-1 rounded">space-y-200</code> (8px) - 密接に関連する要素間</li>
-                      <li>• <strong>レベル5 - インライン要素間</strong>: <code className="bg-background px-2 py-1 rounded">space-y-100</code> (4px) - インライン要素の自然な間隔</li>
-                    </ul>
-                  </div>
-                  
-                  <div className="rounded-lg bg-muted p-4 text-sm">
-                    <h5 className="font-medium mb-3">実装例 - Implementation Example</h5>
-                    <div className="bg-background p-3 rounded border">
-                      <code className="text-xs">
-                        &lt;main className="polaris-main"&gt;{/* レベル1: 24px間隔 */}<br/>
-                        &nbsp;&nbsp;&lt;section className="polaris-section"&gt;{/* レベル2: 16px間隔 */}<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;PageHeader title="案件管理" /&gt;{/* セクション内要素 */}<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;DataTable /&gt;{/* セクション内要素（16px間隔） */}<br/>
-                        &nbsp;&nbsp;&lt;/section&gt;<br/>
-                        &nbsp;&nbsp;&lt;section className="polaris-section"&gt;{/* レベル2: 16px間隔 */}<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="polaris-component-group"&gt;{/* レベル3: 12px間隔 */}<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Card&gt;カード1&lt;/Card&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Card&gt;カード2&lt;/Card&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
-                        &nbsp;&nbsp;&lt;/section&gt;<br/>
-                        &lt;/main&gt;
-                      </code>
-                    </div>
-                  </div>
-                  
-                  <div className="rounded-lg bg-muted p-4 text-sm">
-                    <h5 className="font-medium mb-3">使用ルール - Usage Rules</h5>
-                    <ul className="space-y-2">
-                      <li>• <strong>階層の一貫性</strong>: 同じレベルの要素は同じ間隔を使用</li>
-                      <li>• <strong>視覚的階層</strong>: 重要度に応じて間隔を調整（重要セクションはより大きな間隔）</li>
-                      <li>• <strong>レスポンシブ対応</strong>: モバイルでは密な間隔、デスクトップでは広い間隔</li>
-                      <li>• <strong>コンテンツの関係性</strong>: 関連性の高い要素は小さな間隔、低い要素は大きな間隔</li>
-                      <li>• <strong>読みやすさ</strong>: 空きすぎず、詰まりすぎない適度な間隔を維持</li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
                   <h4 className="text-sm font-medium text-muted-foreground">VC Compass Layout - サイドバー + メインコンテンツ</h4>
                   <div className="rounded-lg bg-muted p-4 text-sm">
                     <ul className="space-y-2">
@@ -1205,10 +1082,7 @@ export default function StyleguidePage() {
                           </>
                         }
                       >
-                        <div className="p-4">
-                          <h2 className="text-lg font-semibold mb-2">メインコンテンツ</h2>
-                          <p className="text-muted-foreground">ここにメインコンテンツが表示されます</p>
-                        </div>
+                        {/* メインコンテンツはタイトルとテキストのみ */}
                       </PrototypeLayout>
                     </div>
                   </div>
@@ -1243,163 +1117,6 @@ export default function StyleguidePage() {
                       <li>• <strong>Props設定</strong>: maxWidth、columns、gap等を適切に設定</li>
                       <li>• <strong>一貫性</strong>: 同じレイアウトパターンは必ずコンポーネントを使用</li>
                     </ul>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Page Header - ページヘッダー</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">Page Header with Action - アクション付きページヘッダー</h4>
-                  <div className="rounded-lg bg-muted p-4 text-sm">
-                    <PageHeader
-                      title="ページタイトル"
-                      description="ページの説明文"
-                      action={
-                        <Button variant="brand" className="flex items-center gap-2">
-                          <Plus className="h-4 w-4" />
-                          アクションボタン
-                        </Button>
-                      }
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">Page Header without Action - アクションなしページヘッダー</h4>
-                  <div className="rounded-lg bg-muted p-4 text-sm">
-                    <PageHeader
-                      title="ページタイトル"
-                      description="ページの説明文"
-                      showAction={false}
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">Size Variants - サイズバリエーション</h4>
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <p className="text-xs text-muted-foreground">Small</p>
-                      <div className="rounded-lg bg-muted p-4 text-sm">
-                        <PageHeader
-                          size="sm"
-                          title="小さいヘッダー"
-                          description="コンパクトなレイアウト用"
-                          action={<Button size="sm">アクション</Button>}
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-xs text-muted-foreground">Default</p>
-                      <div className="rounded-lg bg-muted p-4 text-sm">
-                        <PageHeader
-                          size="default"
-                          title="標準ヘッダー"
-                          description="一般的なページ用"
-                          action={<Button>アクション</Button>}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">使用ルール - Usage Rules</h4>
-                  <div className="rounded-lg bg-muted p-4 text-sm">
-                    <ul className="space-y-2">
-                      <li>• <strong>基本構造</strong>: <code className="bg-background px-2 py-1 rounded">PageHeader</code> コンポーネントを使用</li>
-                      <li>• <strong>必須プロパティ</strong>: <code className="bg-background px-2 py-1 rounded">title</code> は必須</li>
-                      <li>• <strong>オプションプロパティ</strong>: <code className="bg-background px-2 py-1 rounded">description</code>, <code className="bg-background px-2 py-1 rounded">action</code> は任意</li>
-                      <li>• <strong>表示制御</strong>: <code className="bg-background px-2 py-1 rounded">showDescription</code>, <code className="bg-background px-2 py-1 rounded">showAction</code> で表示/非表示を制御</li>
-                      <li>• <strong>サイズバリエーション</strong>: <code className="bg-background px-2 py-1 rounded">size</code> で sm, default を指定</li>
-                      <li>• <strong>セクション内要素</strong>: PageHeaderとその下のコンテンツ（DataTable、Card等）は同じセクション内の要素として認識</li>
-                      <li>• <strong>間隔ルール</strong>: 下のコンテンツとの間隔は <code className="bg-background px-2 py-1 rounded">polaris-section</code> のレベル2（16px）を適用</li>
-                      <li>• <strong>レスポンシブ対応</strong>: 自動的にレスポンシブレイアウトに対応</li>
-                      <li>• <strong>アクセシビリティ</strong>: 適切なセマンティックHTMLとARIA属性を自動設定</li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">実装例 - Implementation Examples</h4>
-                  <div className="rounded-lg bg-muted p-4 text-sm">
-                    <div className="space-y-4">
-                      <div>
-                        <h5 className="font-medium mb-2">完全版（タイトル + 説明文 + アクション）</h5>
-                        <div className="bg-background p-3 rounded border">
-                          <code className="text-xs">
-                            &lt;PageHeader<br/>
-                            &nbsp;&nbsp;title="案件管理"<br/>
-                            &nbsp;&nbsp;description="営業案件の一覧と管理"<br/>
-                            &nbsp;&nbsp;action=&#123;<br/>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;Button variant="brand"&gt;<br/>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新規案件<br/>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/Button&gt;<br/>
-                            &nbsp;&nbsp;&#125;<br/>
-                            /&gt;
-                          </code>
-                        </div>
-                      </div>
-                      <div>
-                        <h5 className="font-medium mb-2">説明文なし（タイトル + アクション）</h5>
-                        <div className="bg-background p-3 rounded border">
-                          <code className="text-xs">
-                            &lt;PageHeader<br/>
-                            &nbsp;&nbsp;title="設定"<br/>
-                            &nbsp;&nbsp;showDescription=&#123;false&#125;<br/>
-                            &nbsp;&nbsp;action=&#123;<br/>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;Button variant="outline"&gt;保存&lt;/Button&gt;<br/>
-                            &nbsp;&nbsp;&#125;<br/>
-                            /&gt;
-                          </code>
-                        </div>
-                      </div>
-                      <div>
-                        <h5 className="font-medium mb-2">アクションなし（タイトル + 説明文）</h5>
-                        <div className="bg-background p-3 rounded border">
-                          <code className="text-xs">
-                            &lt;PageHeader<br/>
-                            &nbsp;&nbsp;title="ダッシュボード"<br/>
-                            &nbsp;&nbsp;description="システムの概要と統計情報"<br/>
-                            &nbsp;&nbsp;showAction=&#123;false&#125;<br/>
-                            /&gt;
-                          </code>
-                        </div>
-                      </div>
-                      <div>
-                        <h5 className="font-medium mb-2">ミニマル（タイトルのみ）</h5>
-                        <div className="bg-background p-3 rounded border">
-                          <code className="text-xs">
-                            &lt;PageHeader<br/>
-                            &nbsp;&nbsp;title="プロフィール"<br/>
-                            &nbsp;&nbsp;showDescription=&#123;false&#125;<br/>
-                            &nbsp;&nbsp;showAction=&#123;false&#125;<br/>
-                            /&gt;
-                          </code>
-                        </div>
-                      </div>
-                      <div>
-                        <h5 className="font-medium mb-2">セクション内要素としての使用例</h5>
-                        <div className="bg-background p-3 rounded border">
-                          <code className="text-xs">
-                            &lt;section className="polaris-section"&gt;<br/>
-                            &nbsp;&nbsp;&lt;PageHeader<br/>
-                            &nbsp;&nbsp;&nbsp;&nbsp;title="案件管理"<br/>
-                            &nbsp;&nbsp;&nbsp;&nbsp;showDescription=&#123;false&#125;<br/>
-                            &nbsp;&nbsp;&nbsp;&nbsp;action=&#123;&lt;Button&gt;新規案件&lt;/Button&gt;&#125;<br/>
-                            &nbsp;&nbsp;/&gt;<br/>
-                            &nbsp;&nbsp;&lt;DataTable /&gt;{/* 16px間隔で配置 */}<br/>
-                            &lt;/section&gt;
-                          </code>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </CardContent>

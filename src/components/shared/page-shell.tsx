@@ -3,13 +3,16 @@ import { Container } from './container';
 interface PageShellProps {
   children: React.ReactNode;
   className?: string;
+  maxWidth?: 'constrained' | 'full';
 }
 
-export function PageShell({ children, className }: PageShellProps) {
+export function PageShell({ children, className, maxWidth = 'constrained' }: PageShellProps) {
+  const containerClass = maxWidth === 'full' ? 'container-full' : 'container-constrained';
+  
   return (
     <div className="min-h-screen">
       <main className="polaris-main">
-        <Container className={className}>
+        <Container className={`${containerClass} ${className || ''}`}>
           <div className="polaris-grid">
             {children}
           </div>

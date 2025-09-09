@@ -345,13 +345,23 @@
   /* Container with Shopify-inspired padding */
   .container {
     @apply mx-auto px-400 md:px-600 lg:px-800;
-    max-width: 1200px;
+    max-width: 1200px !important;
   }
 
   .container-py {
     @apply py-400 md:py-600 lg:py-800;
   }
 
+  /* Container width variants */
+  .container-constrained {
+    @apply mx-auto px-400 md:px-600 lg:px-800;
+    max-width: 1200px !important;
+  }
+
+  .container-full {
+    @apply mx-auto px-400 md:px-600 lg:px-800;
+    max-width: 100% !important;
+  }
   /* Soft card style */
   .card-soft {
     @apply bg-card rounded-lg shadow-[0_10px_30px_oklch(0_0_0_/_0.06)];
@@ -405,7 +415,7 @@
   }
 
   .polaris-main {
-    @apply py-800;
+    /* 余白はcontainer-pyで管理 */
   }
 
   .polaris-grid {

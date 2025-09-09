@@ -21,10 +21,12 @@ export function MarkdownRenderer({ content, className = '', variant = 'default' 
         rehypePlugins={[
           rehypeRaw,
           [rehypeSanitize, {
-            allowedTags: [...(rehypeSanitize.defaultSchema?.allowedTags || []), 'div'],
+            allowedTags: ['div', 'span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'code', 'pre', 'blockquote'],
             allowedAttributes: {
-              ...rehypeSanitize.defaultSchema?.allowedAttributes,
-              div: ['class', 'className']
+              div: ['class', 'className'],
+              span: ['class', 'className'],
+              a: ['href', 'target', 'rel'],
+              code: ['class', 'className']
             }
           }]
         ]}

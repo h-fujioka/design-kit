@@ -1,0 +1,243 @@
+"use client";
+
+import { Footer } from '@/components/shared/footer';
+import { Header } from '@/components/shared/header';
+import { PageShell } from '@/components/shared/page-shell';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Bookmark, Calendar, DollarSign, Plus, Search, User } from 'lucide-react';
+import { useState } from 'react';
+
+interface Case {
+  id: string;
+  title: string;
+  company: string;
+  contact: string;
+  status: 'active' | 'proposal' | 'negotiation' | 'closed-won' | 'closed-lost';
+  value: number;
+  probability: number;
+  lastActivity: string;
+  isBookmarked: boolean;
+}
+
+const mockCases: Case[] = [
+  {
+    id: '1',
+    title: 'CRMシステム導入案件',
+    company: '株式会社テックソリューション',
+    contact: '田中 太郎',
+    status: 'proposal',
+    value: 2500000,
+    probability: 70,
+    lastActivity: '2024-01-15',
+    isBookmarked: true,
+  },
+  {
+    id: '2',
+    title: 'マーケティング自動化ツール',
+    company: 'デジタルマーケティング株式会社',
+    contact: '佐藤 花子',
+    status: 'negotiation',
+    value: 1800000,
+    probability: 85,
+    lastActivity: '2024-01-14',
+    isBookmarked: false,
+  },
+  {
+    id: '3',
+    title: '人事管理システム刷新',
+    company: 'グローバル企業株式会社',
+    contact: '山田 次郎',
+    status: 'active',
+    value: 3200000,
+    probability: 60,
+    lastActivity: '2024-01-13',
+    isBookmarked: true,
+  },
+  {
+    id: '4',
+    title: '在庫管理システム',
+    company: '物流ソリューション株式会社',
+    contact: '鈴木 一郎',
+    status: 'closed-won',
+    value: 1500000,
+    probability: 100,
+    lastActivity: '2024-01-10',
+    isBookmarked: false,
+  },
+];
+
+const statusLabels = {
+  active: 'アクティブ',
+  proposal: '提案中',
+  negotiation: '交渉中',
+  'closed-won': '受注',
+  'closed-lost': '失注',
+};
+
+const statusColors = {
+  active: 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300',
+  proposal: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300',
+  negotiation: 'bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-300',
+  'closed-won': 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300',
+  'closed-lost': 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300',
+};
+
+export function CasesPage() {
+  const [cases] = useState<Case[]>(mockCases);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [bookmarkFilter, setBookmarkFilter] = useState<string>('all');
+
+  const filteredCases = cases.filter(caseItem => {
+    const matchesSearch = caseItem.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         caseItem.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         caseItem.contact.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === 'all' || caseItem.status === statusFilter;
+    const matchesBookmark = bookmarkFilter === 'all' || 
+                           (bookmarkFilter === 'bookmarked' && caseItem.isBookmarked) ||
+                           (bookmarkFilter === 'not-bookmarked' && !caseItem.isBookmarked);
+    
+    return matchesSearch && matchesStatus && matchesBookmark;
+  });
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('ja-JP', {
+      style: 'currency',
+      currency: 'JPY',
+      minimumFractionDigits: 0,
+    }).format(amount);
+  };
+
+  return (
+    <>
+      <Header />
+      <PageShell>
+        <section className="space-y-8">
+          {/* ページタイトル */}
+          <div className="flex items-center justify-between">
+            <div className="space-y-2">
+              <h1 className="text-2xl font-bold tracking-tight">案件管理</h1>
+              <p className="text-muted-foreground">営業案件の一覧と管理</p>
+            </div>
+            <Button variant="brand" className="flex items-center gap-2">
+              <Plus className="h-4 w-4" />
+              新規案件
+            </Button>
+          </div>
+
+          {/* フィルター・検索 */}
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="案件名、企業名、担当者で検索..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Select value={statusFilter} onValueChange={setStatusFilter}>
+                    <SelectTrigger className="w-40">
+                      <SelectValue placeholder="ステータス" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">すべてのステータス</SelectItem>
+                      <SelectItem value="active">アクティブ</SelectItem>
+                      <SelectItem value="proposal">提案中</SelectItem>
+                      <SelectItem value="negotiation">交渉中</SelectItem>
+                      <SelectItem value="closed-won">受注</SelectItem>
+                      <SelectItem value="closed-lost">失注</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Select value={bookmarkFilter} onValueChange={setBookmarkFilter}>
+                    <SelectTrigger className="w-40">
+                      <SelectValue placeholder="ブックマーク" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">すべて</SelectItem>
+                      <SelectItem value="bookmarked">ブックマーク済み</SelectItem>
+                      <SelectItem value="not-bookmarked">未ブックマーク</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* 案件一覧 */}
+          <div className="grid gap-6">
+        {filteredCases.map((caseItem) => (
+          <Card key={caseItem.id} className="hover:shadow-md transition-shadow">
+            <CardContent className="p-5">
+              <div className="flex items-start justify-between">
+                <div className="flex-1 space-y-2">
+                  <div className="flex items-center gap-3">
+                    <h3 className="text-lg font-semibold">{caseItem.title}</h3>
+                    {caseItem.isBookmarked && (
+                      <Bookmark className="h-4 w-4 text-yellow-500 fill-current" />
+                    )}
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-2">
+                      <User className="h-4 w-4" />
+                      <span>{caseItem.company}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <User className="h-4 w-4" />
+                      <span>{caseItem.contact}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4" />
+                      <span>最終活動: {caseItem.lastActivity}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
+                      <DollarSign className="h-4 w-4 text-green-600" />
+                      <span className="font-semibold">{formatCurrency(caseItem.value)}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-muted-foreground">受注確率:</span>
+                      <span className="font-semibold">{caseItem.probability}%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-end gap-2">
+                  <Badge className={statusColors[caseItem.status]}>
+                    {statusLabels[caseItem.status]}
+                  </Badge>
+                  <Button variant="outline" size="sm">
+                    詳細
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+          {filteredCases.length === 0 && (
+            <Card>
+              <CardContent className="p-6 text-center">
+                <p className="text-muted-foreground">条件に一致する案件が見つかりませんでした。</p>
+              </CardContent>
+            </Card>
+          )}
+        </section>
+      </PageShell>
+      <Footer />
+    </>
+  );
+}
