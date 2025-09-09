@@ -1,7 +1,7 @@
 "use client"
 
-import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
@@ -144,14 +144,7 @@ function TableCaption({
 }
 
 export {
-  Table,
-  TableHeader,
-  TableBody,
-  TableFooter,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableCaption,
-  tableVariants,
-  tableHeaderVariants,
+    Table, TableBody, TableCaption, TableCell, TableFooter,
+    TableHead, TableHeader, tableHeaderVariants, TableRow, tableVariants
 }
+

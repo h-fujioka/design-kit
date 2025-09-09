@@ -548,30 +548,30 @@ export default function StyleguidePage() {
                   <Table variant="brand">
                     <TableHeader variant="brand">
                       <TableRow>
-                        <TableHead className="w-[100px]">ID</TableHead>
-                        <TableHead>名前</TableHead>
-                        <TableHead>役職</TableHead>
-                        <TableHead className="text-right">評価</TableHead>
+                        <TableHead className="w-[100px] px-4">ID</TableHead>
+                        <TableHead className="px-4">名前</TableHead>
+                        <TableHead className="px-4">役職</TableHead>
+                        <TableHead className="text-right px-4">評価</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       <TableRow>
-                        <TableCell className="font-medium">001</TableCell>
-                        <TableCell>田中太郎</TableCell>
-                        <TableCell>エンジニア</TableCell>
-                        <TableCell className="text-right">A</TableCell>
+                        <TableCell className="font-medium px-4">001</TableCell>
+                        <TableCell className="px-4">田中太郎</TableCell>
+                        <TableCell className="px-4">エンジニア</TableCell>
+                        <TableCell className="text-right px-4">A</TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell className="font-medium">002</TableCell>
-                        <TableCell>佐藤花子</TableCell>
-                        <TableCell>デザイナー</TableCell>
-                        <TableCell className="text-right">A+</TableCell>
+                        <TableCell className="font-medium px-4">002</TableCell>
+                        <TableCell className="px-4">佐藤花子</TableCell>
+                        <TableCell className="px-4">デザイナー</TableCell>
+                        <TableCell className="text-right px-4">A+</TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell className="font-medium">003</TableCell>
-                        <TableCell>山田次郎</TableCell>
-                        <TableCell>プロダクトマネージャー</TableCell>
-                        <TableCell className="text-right">B+</TableCell>
+                        <TableCell className="font-medium px-4">003</TableCell>
+                        <TableCell className="px-4">山田次郎</TableCell>
+                        <TableCell className="px-4">プロダクトマネージャー</TableCell>
+                        <TableCell className="text-right px-4">B+</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -619,7 +619,7 @@ export default function StyleguidePage() {
               <CardContent className="space-y-6">
                 <div className="space-y-3">
                   <h4 className="text-sm font-medium text-muted-foreground">Standard Tabs - 標準タブ</h4>
-                  <Tabs defaultValue="brand-overview" className="w-full">
+                  <Tabs defaultValue="brand-overview">
                     <TabsList variant="brand">
                       <TabsTrigger variant="brand" value="brand-overview">Overview</TabsTrigger>
                       <TabsTrigger variant="brand" value="brand-analytics">Analytics</TabsTrigger>
@@ -1083,7 +1083,19 @@ export default function StyleguidePage() {
               <CardContent className="space-y-6">
                 <div className="space-y-3">
                   <h4 className="text-sm font-medium text-muted-foreground">Hierarchical Spacing System - ヒエラルキー構造を意識したマージンルール</h4>
+                  
+                  <div className="rounded-lg bg-muted p-4 text-sm mb-4">
+                    <h5 className="font-medium mb-2">設計原則 - Design Principles</h5>
+                    <ul className="space-y-2">
+                      <li>• <strong>親要素管理</strong>: 間隔は親要素の<code className="bg-background px-2 py-1 rounded">gap</code>または<code className="bg-background px-2 py-1 rounded">space-y</code>で管理</li>
+                      <li>• <strong>コンポーネント分離</strong>: コンポーネント自体はマージンを持たず、機能とスタイルのみに集中</li>
+                      <li>• <strong>一貫性</strong>: すべての間隔が階層システムに従って統一管理</li>
+                      <li>• <strong>柔軟性</strong>: 異なるコンテキストで異なる間隔を適用可能</li>
+                    </ul>
+                  </div>
+                  
                   <div className="rounded-lg bg-muted p-4 text-sm">
+                    <h5 className="font-medium mb-2">間隔レベル - Spacing Levels</h5>
                     <ul className="space-y-2">
                       <li>• <strong>レベル1 - ページセクション間</strong>: <code className="bg-background px-2 py-1 rounded">space-y-600</code> (24px) - ページ全体の主要セクション間</li>
                       <li>• <strong>レベル2 - サブセクション間</strong>: <code className="bg-background px-2 py-1 rounded">space-y-400</code> (16px) - セクション内のサブセクション間</li>
@@ -1091,25 +1103,68 @@ export default function StyleguidePage() {
                       <li>• <strong>レベル4 - 要素間</strong>: <code className="bg-background px-2 py-1 rounded">space-y-200</code> (8px) - 密接に関連する要素間</li>
                       <li>• <strong>レベル5 - インライン要素間</strong>: <code className="bg-background px-2 py-1 rounded">space-y-100</code> (4px) - インライン要素の自然な間隔</li>
                     </ul>
+                    <div className="mt-3 p-3 bg-background rounded border">
+                      <p className="text-xs text-muted-foreground mb-2"><strong>ショートカットクラス:</strong></p>
+                      <ul className="text-xs space-y-1">
+                        <li>• <code className="bg-background px-1 py-0.5 rounded">polaris-main</code> = <code className="bg-background px-1 py-0.5 rounded">space-y-600</code> (レベル1)</li>
+                        <li>• <code className="bg-background px-1 py-0.5 rounded">polaris-section</code> = <code className="bg-background px-1 py-0.5 rounded">space-y-400</code> (レベル2)</li>
+                        <li>• <code className="bg-background px-1 py-0.5 rounded">polaris-component-group</code> = <code className="bg-background px-1 py-0.5 rounded">space-y-300</code> (レベル3)</li>
+                      </ul>
+                    </div>
                   </div>
                   
                   <div className="rounded-lg bg-muted p-4 text-sm">
-                    <h5 className="font-medium mb-3">実装例 - Implementation Example</h5>
-                    <div className="bg-background p-3 rounded border">
-                      <code className="text-xs">
-                        &lt;main className="polaris-main"&gt;{/* レベル1: 24px間隔 */}<br/>
-                        &nbsp;&nbsp;&lt;section className="polaris-section"&gt;{/* レベル2: 16px間隔 */}<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;PageHeader title="案件管理" /&gt;{/* セクション内要素 */}<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;DataTable /&gt;{/* セクション内要素（16px間隔） */}<br/>
-                        &nbsp;&nbsp;&lt;/section&gt;<br/>
-                        &nbsp;&nbsp;&lt;section className="polaris-section"&gt;{/* レベル2: 16px間隔 */}<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="polaris-component-group"&gt;{/* レベル3: 12px間隔 */}<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Card&gt;カード1&lt;/Card&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Card&gt;カード2&lt;/Card&gt;<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
-                        &nbsp;&nbsp;&lt;/section&gt;<br/>
-                        &lt;/main&gt;
-                      </code>
+                    <h5 className="font-medium mb-3">実装例 - Implementation Examples</h5>
+                    <div className="space-y-4">
+                      <div>
+                        <h6 className="text-xs font-medium text-muted-foreground mb-2">基本レイアウト構造</h6>
+                        <div className="bg-background p-3 rounded border">
+                          <code className="text-xs">
+                            &lt;main className="space-y-600"&gt;{/* レベル1: 24px間隔 */}<br/>
+                            &nbsp;&nbsp;&lt;section className="space-y-400"&gt;{/* レベル2: 16px間隔 */}<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;PageHeader /&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="space-y-300"&gt;{/* レベル3: 12px間隔 */}<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Card&gt;カード1&lt;/Card&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Card&gt;カード2&lt;/Card&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+                            &nbsp;&nbsp;&lt;/section&gt;<br/>
+                            &lt;/main&gt;
+                          </code>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <h6 className="text-xs font-medium text-muted-foreground mb-2">ショートカットクラス使用例</h6>
+                        <div className="bg-background p-3 rounded border">
+                          <code className="text-xs">
+                            &lt;main className="polaris-main"&gt;{/* レベル1: 24px間隔 */}<br/>
+                            &nbsp;&nbsp;&lt;section className="polaris-section"&gt;{/* レベル2: 16px間隔 */}<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;PageHeader /&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="polaris-component-group"&gt;{/* レベル3: 12px間隔 */}<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Card&gt;カード1&lt;/Card&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Card&gt;カード2&lt;/Card&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+                            &nbsp;&nbsp;&lt;/section&gt;<br/>
+                            &lt;/main&gt;
+                          </code>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <h6 className="text-xs font-medium text-muted-foreground mb-2">グリッドレイアウト例</h6>
+                        <div className="bg-background p-3 rounded border">
+                          <code className="text-xs">
+                            &lt;div className="space-y-400"&gt;{/* レベル2: 16px間隔 */}<br/>
+                            &nbsp;&nbsp;&lt;h2&gt;セクションタイトル&lt;/h2&gt;<br/>
+                            &nbsp;&nbsp;&lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"&gt;{/* 20px間隔 */}<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;Card&gt;カード1&lt;/Card&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;Card&gt;カード2&lt;/Card&gt;<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;Card&gt;カード3&lt;/Card&gt;<br/>
+                            &nbsp;&nbsp;&lt;/div&gt;<br/>
+                            &lt;/div&gt;
+                          </code>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   

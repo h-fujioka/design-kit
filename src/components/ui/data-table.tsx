@@ -103,6 +103,11 @@ function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    initialState: {
+      pagination: {
+        pageSize: 20,
+      },
+    },
     state: {
       sorting,
       columnFilters,
@@ -365,7 +370,7 @@ function DataTable<TData, TValue>({
         )}
       </div>
 
-      <div className="mt-3">
+      <div className="mt-300">
         {/* テーブル */}
         <div className="rounded-md border">
           <Table variant={variant}>
@@ -374,7 +379,7 @@ function DataTable<TData, TValue>({
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     return (
-                      <TableHead key={header.id} className="px-2">
+                      <TableHead key={header.id} className="px-3">
                         {header.isPlaceholder
                           ? null
                           : flexRender(
@@ -399,7 +404,7 @@ function DataTable<TData, TValue>({
                     )}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} className="px-2">
+                      <TableCell key={cell.id} className="px-3">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()

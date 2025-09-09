@@ -362,6 +362,7 @@
     @apply mx-auto px-400 md:px-600 lg:px-800;
     max-width: 100% !important;
   }
+
   /* Soft card style */
   .card-soft {
     @apply bg-card rounded-lg shadow-[0_10px_30px_oklch(0_0_0_/_0.06)];
@@ -398,7 +399,11 @@
   }
 
   .polaris-section {
-    @apply space-y-600;
+    @apply space-y-400;
+  }
+
+  .polaris-component-group {
+    @apply space-y-300;
   }
 
   .polaris-page {
@@ -415,7 +420,7 @@
   }
 
   .polaris-main {
-    /* 余白はcontainer-pyで管理 */
+    @apply space-y-600;
   }
 
   .polaris-grid {

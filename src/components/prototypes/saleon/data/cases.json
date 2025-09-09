@@ -1,0 +1,262 @@
+[
+  {
+    "id": "1",
+    "title": "契約書レビュー依頼（業務委託契約）",
+    "company": "株式会社アルファ",
+    "status": "closing",
+    "customerContact": "佐藤 太郎",
+    "salesRep": {
+      "name": "田中 一郎",
+      "avatar": "TI"
+    },
+    "lastEmailReceived": "2025/05/27 06:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "2",
+    "title": "新規株主総会支援",
+    "company": "Beta Solutions",
+    "status": "active",
+    "customerContact": "John Smith",
+    "salesRep": {
+      "name": "鈴木 花子",
+      "avatar": "SH"
+    },
+    "lastEmailReceived": "2025/05/24 13:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "3",
+    "title": "海外取引契約の法務チェック",
+    "company": "株式会社ガンマ",
+    "status": "closing",
+    "customerContact": "山田 花",
+    "salesRep": {
+      "name": "高橋 健",
+      "avatar": "TK"
+    },
+    "lastEmailReceived": "2025/05/24 02:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "4",
+    "title": "労務コンプライアンス調査",
+    "company": "Delta Tech",
+    "status": "proposal",
+    "customerContact": "Michael Lee",
+    "salesRep": {
+      "name": "中村 美咲",
+      "avatar": "NM"
+    },
+    "lastEmailReceived": "2025/05/25 06:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "5",
+    "title": "M&Aデューデリジェンス",
+    "company": "株式会社イプシロン",
+    "status": "closed-won",
+    "customerContact": "木村 誠",
+    "salesRep": {
+      "name": "佐々木 涼",
+      "avatar": "SS"
+    },
+    "lastEmailReceived": "2025/05/23 06:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "6",
+    "title": "海外子会社法務支援",
+    "company": "Zeta株式会社",
+    "status": "lead",
+    "customerContact": "田村 優",
+    "salesRep": {
+      "name": "藤田 智",
+      "avatar": "FT"
+    },
+    "lastEmailReceived": "2025/05/26 09:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "7",
+    "title": "個人情報保護規程整備",
+    "company": "Omega Ltd.",
+    "status": "active",
+    "customerContact": "Alice Brown",
+    "salesRep": {
+      "name": "井上 翔",
+      "avatar": "IS"
+    },
+    "lastEmailReceived": "2025/05/20 16:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "8",
+    "title": "知的財産権侵害対応",
+    "company": "株式会社カッパ",
+    "status": "closing",
+    "customerContact": "佐々木 次郎",
+    "salesRep": {
+      "name": "森 直樹",
+      "avatar": "MN"
+    },
+    "lastEmailReceived": "2025/05/28 07:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "9",
+    "title": "新規法令対応研修",
+    "company": "Lambda Logistics",
+    "status": "proposal",
+    "customerContact": "Karen Johnson",
+    "salesRep": {
+      "name": "青木 大輔",
+      "avatar": "AD"
+    },
+    "lastEmailReceived": "2025/05/22 08:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "10",
+    "title": "内部通報制度構築支援",
+    "company": "株式会社ミュー",
+    "status": "closed-won",
+    "customerContact": "吉田 奈々",
+    "salesRep": {
+      "name": "長谷川 剛",
+      "avatar": "HG"
+    },
+    "lastEmailReceived": "2025/05/21 14:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "11",
+    "title": "労働組合交渉サポート",
+    "company": "株式会社シータ",
+    "status": "proposal",
+    "customerContact": "David Kim",
+    "salesRep": {
+      "name": "松本 幸子",
+      "avatar": "MS"
+    },
+    "lastEmailReceived": "2025/05/29 06:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "12",
+    "title": "上場準備に伴う法務支援",
+    "company": "Omicron Corp.",
+    "status": "active",
+    "customerContact": "斎藤 健太",
+    "salesRep": {
+      "name": "山口 智子",
+      "avatar": "YT"
+    },
+    "lastEmailReceived": "2025/05/24 17:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "13",
+    "title": "反社チェック・調査",
+    "company": "株式会社パイ",
+    "status": "closing",
+    "customerContact": "Emily Davis",
+    "salesRep": {
+      "name": "小林 学",
+      "avatar": "KG"
+    },
+    "lastEmailReceived": "2025/05/20 10:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "14",
+    "title": "ライセンス契約レビュー",
+    "company": "Rho Analytics",
+    "status": "closed-won",
+    "customerContact": "岡本 洋",
+    "salesRep": {
+      "name": "石井 美佳",
+      "avatar": "IM"
+    },
+    "lastEmailReceived": "2025/05/23 08:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "15",
+    "title": "国際仲裁対応",
+    "company": "株式会社シグマ",
+    "status": "active",
+    "customerContact": "Chris Wilson",
+    "salesRep": {
+      "name": "福田 拓",
+      "avatar": "FT"
+    },
+    "lastEmailReceived": "2025/05/26 12:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "16",
+    "title": "株式譲渡契約サポート",
+    "company": "Tau Global",
+    "status": "proposal",
+    "customerContact": "村上 亮",
+    "salesRep": {
+      "name": "安藤 美穂",
+      "avatar": "AM"
+    },
+    "lastEmailReceived": "2025/05/25 09:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "17",
+    "title": "企業再編に伴う法務対応",
+    "company": "株式会社フィー",
+    "status": "lead",
+    "customerContact": "Sophia Chen",
+    "salesRep": {
+      "name": "石川 太郎",
+      "avatar": "IT"
+    },
+    "lastEmailReceived": "2025/05/28 08:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "18",
+    "title": "不祥事対応・危機管理",
+    "company": "Upsilon Data",
+    "status": "active",
+    "customerContact": "松田 真由美",
+    "salesRep": {
+      "name": "川口 誠",
+      "avatar": "KM"
+    },
+    "lastEmailReceived": "2025/05/22 07:00",
+    "isBookmarked": false
+  },
+  {
+    "id": "19",
+    "title": "環境規制コンプライアンス",
+    "company": "株式会社ゼータ",
+    "status": "closing",
+    "customerContact": "Daniel Martinez",
+    "salesRep": {
+      "name": "大野 未来",
+      "avatar": "OM"
+    },
+    "lastEmailReceived": "2025/05/20 12:01",
+    "isBookmarked": false
+  },
+  {
+    "id": "20",
+    "title": "海外現地法人設立支援",
+    "company": "Kappa Legal Advisory",
+    "status": "closed-won",
+    "customerContact": "竹内 優子",
+    "salesRep": {
+      "name": "平田 和也",
+      "avatar": "HK"
+    },
+    "lastEmailReceived": "2025/05/23 09:00",
+    "isBookmarked": false
+  }
+]
