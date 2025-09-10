@@ -84,6 +84,84 @@
   --info: 221.2 83.2% 53.3%;
   --info-foreground: 210 40% 98%;
 
+  /* ========================================
+   * BACKGROUND COLORS - 背景カラー（セマンティック）
+   * ======================================== */
+
+  /* Primary Background - プライマリー背景 */
+  --primary-background: oklch(0.95 0.15 0);
+  --primary-background-foreground: oklch(0.18 0.03 240);
+
+  /* Secondary Background - セカンダリー背景 */
+  --secondary-background: oklch(0.94 0.01 240);
+  --secondary-background-foreground: oklch(0.18 0.03 240);
+
+  /* Tertiary Background - ターシャリー背景 */
+  --tertiary-background: oklch(0.87 0.02 240);
+  --tertiary-background-foreground: oklch(0.18 0.03 240);
+
+  /* ========================================
+   * INTERACTIVE COLORS - インタラクティブカラー（セマンティック）
+   * ======================================== */
+
+  /* Primary Interactive - プライマリーインタラクティブ */
+  --primary-interactive: oklch(0.4 0.06 240);
+  --primary-interactive-foreground: oklch(0.97 0.005 240);
+
+  /* Secondary Interactive - セカンダリーインタラクティブ */
+  --secondary-interactive: oklch(0.94 0.01 240);
+  --secondary-interactive-foreground: oklch(0.18 0.03 240);
+
+  /* Accent Interactive - アクセントインタラクティブ */
+  --accent-interactive: oklch(0.67 0.04 240);
+  --accent-interactive-foreground: oklch(0.97 0.005 240);
+
+  /* Disabled Interactive - 無効インタラクティブ */
+  --disabled-interactive: oklch(0.97 0.005 240);
+  --disabled-interactive-foreground: oklch(0.32 0.05 240);
+
+  /* ========================================
+   * BORDER COLORS - 境界線カラー（セマンティック）
+   * ======================================== */
+
+  /* Primary Border - プライマリー境界線 */
+  --primary-border: oklch(0.87 0.02 240);
+
+  /* Secondary Border - セカンダリー境界線 */
+  --secondary-border: oklch(0.8 0.03 240);
+
+  /* Focus Border - フォーカス境界線 */
+  --focus-border: oklch(0.5 0.05 240);
+
+  /* ========================================
+   * TEXT COLORS - テキストカラー（セマンティック）
+   * ======================================== */
+
+  /* Primary Text - プライマリーテキスト */
+  --primary-text: oklch(0.32 0.05 240);
+
+  /* Secondary Text - セカンダリーテキスト */
+  --secondary-text: oklch(0.5 0.05 240);
+
+  /* Muted Text - ミュートテキスト */
+  --muted-text: oklch(0.67 0.04 240);
+
+  /* Caption Text - キャプションテキスト */
+  --caption-text: oklch(0.8 0.03 240);
+
+  /* ========================================
+   * LINK COLORS - リンクカラー（セマンティック）
+   * ======================================== */
+
+  /* Primary Link - プライマリーリンク */
+  --primary-link: oklch(0.4 0.06 240);
+
+  /* Primary Link Hover - プライマリーリンクホバー */
+  --primary-link-hover: oklch(0.32 0.05 240);
+
+  /* Primary Link Disabled - プライマリーリンク無効 */
+  --primary-link-disabled: oklch(0.8 0.03 240);
+
   /* Shopify Polaris 4px-based spacing scale */
   --spacing-0: 0;
   --spacing-1: 0.25rem;
@@ -291,6 +369,46 @@
    * ダークモード セマンティックカラー オーバーライド
    * ======================================== */
 
+  /* Main Colors - メインカラー（ダークモード） */
+  --main: 0.5 0.05 240;
+  /* brand-500 - より明るく */
+  --main-foreground: 0.18 0.03 240;
+  /* brand-900 - ダークテキスト */
+  --main-hover: 0.4 0.06 240;
+  /* brand-600 */
+  --main-active: 0.32 0.05 240;
+  /* brand-700 */
+
+  /* Text Colors - テキストカラー（ダークモード） */
+  --text-primary: 0.97 0.005 240;
+  /* brand-50 - 明るいテキスト */
+  --text-secondary: 0.8 0.03 240;
+  /* brand-300 - セカンダリテキスト */
+  --text-muted: 0.67 0.04 240;
+  /* brand-400 - ミュートテキスト */
+  --text-caption: 0.5 0.05 240;
+  /* brand-500 - キャプションテキスト */
+
+  /* Link Colors - リンクカラー（ダークモード） */
+  --link: 0.5 0.05 240;
+  /* brand-500 - より明るいリンク */
+  --link-hover: 0.4 0.06 240;
+  /* brand-600 */
+  --link-visited: 0.67 0.04 240;
+  /* brand-400 */
+  --link-disabled: 0.32 0.05 240;
+  /* brand-700 */
+
+  /* Background Colors - 背景カラー（ダークモード） */
+  --background-primary: 0.18 0.03 240;
+  /* brand-900 - ダーク背景 */
+  --background-secondary: 0.25 0.04 240;
+  /* brand-800 - セカンダリ背景 */
+  --background-tertiary: 0.32 0.05 240;
+  /* brand-700 - ターシャリ背景 */
+  --background-elevated: 0.25 0.04 240;
+  /* brand-800 - エレベート背景 */
+
   /* Primary Colors - プライマリーカラー */
   --primary: 210 40% 98%;
   --primary-foreground: 222.2 84% 4.9%;
@@ -323,6 +441,55 @@
   --destructive-foreground: 210 40% 98%;
   --warning: 38 92% 50%;
   --warning-foreground: 48 96% 89%;
+  --success: 142 76% 36%;
+  --success-foreground: 355 100% 97%;
+  --info: 221.2 83.2% 53.3%;
+  --info-foreground: 210 40% 98%;
+
+  /* ========================================
+   * SEMANTIC COLORS - セマンティックカラー（brandカラーをextend）
+   * ======================================== */
+
+  /* Main Colors - メインカラー */
+  --main: 0.4 0.06 240;
+  /* brand-600 */
+  --main-foreground: 0.97 0.005 240;
+  /* brand-50 */
+  --main-hover: 0.32 0.05 240;
+  /* brand-700 */
+  --main-active: 0.25 0.04 240;
+  /* brand-800 */
+
+  /* Text Colors - テキストカラー */
+  --text-primary: 0.18 0.03 240;
+  /* brand-900 */
+  --text-secondary: 0.32 0.05 240;
+  /* brand-700 */
+  --text-muted: 0.5 0.05 240;
+  /* brand-500 */
+  --text-caption: 0.67 0.04 240;
+  /* brand-400 */
+
+  /* Link Colors - リンクカラー */
+  --link: 0.4 0.06 240;
+  /* brand-600 */
+  --link-hover: 0.32 0.05 240;
+  /* brand-700 */
+  --link-visited: 0.5 0.05 240;
+  /* brand-500 */
+  --link-disabled: 0.8 0.03 240;
+  /* brand-300 */
+
+  /* Background Colors - 背景カラー */
+  --background-primary: 0.97 0.005 240;
+  /* brand-50 */
+  --background-secondary: 0.94 0.01 240;
+  /* brand-100 */
+  --background-tertiary: 0.87 0.02 240;
+  /* brand-200 */
+  --background-elevated: 1 0 0;
+  /* white */
+
 }
 
 @layer base {
@@ -338,6 +505,7 @@
     @apply bg-[hsl(var(--background))] text-[hsl(var(--foreground))] antialiased;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
+
 }
 
 @layer components {

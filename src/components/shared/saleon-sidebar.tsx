@@ -49,7 +49,10 @@ const defaultItems: SidebarItem[] = [
 
 export function SaleOnSidebar({ activeItem, items = defaultItems }: SaleOnSidebarProps) {
   return (
-    <aside className="w-64 bg-background border-r flex flex-col">
+    <aside 
+      className="w-64 border-r flex flex-col"
+      style={{ backgroundColor: 'oklch(1 0 0)' }}
+    >
       <div className="py-4">
         <div className="space-y-1">
           {items.map((item) => {

@@ -19,7 +19,10 @@ export function FullWidthBreadcrumb({
   className = ''
 }: FullWidthBreadcrumbProps) {
   return (
-    <div className={`w-screen bg-background border-b px-6 py-4 -ml-6 -mr-6 -mt-6 mb-6 ${className}`}>
+    <div 
+      className={`w-screen border-b px-6 py-4 -ml-6 -mr-6 -mt-6 ${className}`}
+      style={{ backgroundColor: 'oklch(1 0 0)' }}
+    >
       <Breadcrumb size={size} items={items} />
     </div>
   );

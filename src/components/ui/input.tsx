@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -8,8 +8,8 @@ const inputVariants = cva(
   {
     variants: {
       variant: {
-        default: 'border-input dark:bg-input/30 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
-        brand: 'border-brand-200 bg-brand-50/50 placeholder:text-brand-600 focus-visible:border-brand-400 focus-visible:ring-brand-400/20 dark:border-brand-800 dark:bg-brand-900/20 dark:placeholder:text-brand-400 dark:focus-visible:border-brand-600 dark:focus-visible:ring-brand-600/20',
+        default: 'border-input bg-white dark:bg-white focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
+        brand: 'border-brand-200 bg-white placeholder:text-brand-600 focus-visible:border-brand-400 focus-visible:ring-brand-400/20 dark:border-brand-800 dark:bg-white dark:placeholder:text-brand-400 dark:focus-visible:border-brand-600 dark:focus-visible:ring-brand-600/20',
         error: 'border-destructive bg-destructive/5 placeholder:text-destructive/60 focus-visible:border-destructive focus-visible:ring-destructive/20 dark:bg-destructive/10 dark:placeholder:text-destructive/40',
       },
       size: {

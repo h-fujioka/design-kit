@@ -3,7 +3,6 @@
 import { Footer } from '@/components/shared/footer';
 import { FullWidthBreadcrumb } from '@/components/shared/full-width-breadcrumb';
 import { Header } from '@/components/shared/header';
-import { PageShell } from '@/components/shared/page-shell';
 import { SaleOnPageHeader } from '@/components/shared/saleon-page-header';
 import { SaleOnSidebar } from '@/components/shared/saleon-sidebar';
 import { AdvancedDataTable } from '@/components/ui/advanced-data-table';
@@ -95,7 +94,7 @@ const columns: ColumnDef<Case>[] = [
       <div className="flex items-center gap-2">
         <Link 
           href={`/prototypes/saleon/cases/${row.original.id}`}
-          className="font-medium text-brand-600 hover:text-brand-800 hover:underline"
+          className="text-sm font-medium text-link hover:text-link-hover hover:underline"
         >
           {row.getValue("title")}
         </Link>
@@ -109,7 +108,7 @@ const columns: ColumnDef<Case>[] = [
     accessorKey: "company",
     header: "企業名",
     cell: ({ row }) => (
-      <span className="font-medium">{row.getValue("company")}</span>
+      <span className="text-sm font-medium text-gray-900">{row.getValue("company")}</span>
     ),
   },
   {
@@ -131,7 +130,7 @@ const columns: ColumnDef<Case>[] = [
     accessorKey: "customerContact",
     header: "顧客主担当者",
     cell: ({ row }) => (
-      <span>{row.getValue("customerContact")}</span>
+      <span className="text-gray-600">{row.getValue("customerContact")}</span>
     ),
   },
   {
@@ -141,10 +140,10 @@ const columns: ColumnDef<Case>[] = [
       const salesRep = row.getValue("salesRep") as Case['salesRep'];
       return (
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-full bg-brand-100 flex items-center justify-center text-xs font-medium text-brand-800">
+          <div className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-xs font-medium text-gray-900">
             {salesRep.avatar}
           </div>
-          <span>{salesRep.name}</span>
+          <span className="text-sm text-gray-900">{salesRep.name}</span>
         </div>
       );
     },
@@ -154,8 +153,8 @@ const columns: ColumnDef<Case>[] = [
     header: "最終メール受信日時",
     cell: ({ row }) => (
       <div className="flex items-center gap-2">
-        <Mail className="h-4 w-4 text-muted" />
-        <span className="text-sm">{row.getValue("lastEmailReceived")}</span>
+        <Mail className="h-4 w-4 text-gray-500" />
+        <span className="text-xs text-gray-600">{row.getValue("lastEmailReceived")}</span>
       </div>
     ),
   },
@@ -170,93 +169,98 @@ export function CasesPage() {
   return (
     <>
       <Header />
-      <PageShell maxWidth="full">
-        <main className="polaris-main">
-          {/* ページタイトル */}
-          <PageHeader
-            title="案件一覧"
-            showDescription={false}
-            action={
-              <Button variant="brand" className="flex items-center gap-2">
-                <Plus className="h-4 w-4" />
-                新規案件
-              </Button>
-            }
-          />
+      <div 
+        className="min-h-screen"
+        style={{ backgroundColor: 'oklch(0.97 0.005 240)' }}
+      >
+        <div className="container-full">
+          <main className="polaris-main">
+            {/* ページタイトル */}
+            <PageHeader
+              title="案件一覧"
+              showDescription={false}
+              action={
+                <Button variant="brand" className="flex items-center gap-2">
+                  <Plus className="h-4 w-4" />
+                  新規案件
+                </Button>
+              }
+            />
 
-          {/* レベル1: ページセクション間 (24px) */}
-          <section className="polaris-section">
-            {/* タブとフィルタエリアを横並び */}
-            <div className="flex items-center justify-between gap-4 mb-4">
-              <Tabs value={activeTab} onValueChange={setActiveTab}>
-                <TabsList variant="brand">
-                  <TabsTrigger variant="brand" value="assigned">担当案件</TabsTrigger>
-                  <TabsTrigger variant="brand" value="all">すべて</TabsTrigger>
-                </TabsList>
-              </Tabs>
-              
-              {/* フィルタエリア（タブの右側に配置） */}
-              <div className="flex items-center gap-2">
-                {/* 検索バー */}
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    variant="brand"
-                    placeholder="案件名、企業名、担当者で検索..."
-                    className="pl-10 w-80"
-                  />
+            {/* レベル1: ページセクション間 (24px) */}
+            <section className="polaris-section space-y-400">
+              {/* タブとフィルタエリアを横並び */}
+              <div className="flex items-center justify-between gap-4">
+                <Tabs value={activeTab} onValueChange={setActiveTab}>
+                  <TabsList variant="brand">
+                    <TabsTrigger variant="brand" value="assigned">担当案件</TabsTrigger>
+                    <TabsTrigger variant="brand" value="all">すべて</TabsTrigger>
+                  </TabsList>
+                </Tabs>
+                
+                {/* フィルタエリア（タブの右側に配置） */}
+                <div className="flex items-center gap-2">
+                  {/* 検索バー */}
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+                    <Input
+                      variant="brand"
+                      placeholder="案件名、企業名、担当者で検索..."
+                      className="pl-10 w-80"
+                    />
+                  </div>
+                  
+                  {/* ステータスフィルタ */}
+                  <Select>
+                    <SelectTrigger variant="brand" className="w-32">
+                      <SelectValue placeholder="ステータス" />
+                    </SelectTrigger>
+                    <SelectContent variant="brand">
+                      <SelectItem variant="brand" value="all">すべて</SelectItem>
+                      <SelectItem variant="brand" value="active">進行中</SelectItem>
+                      <SelectItem variant="brand" value="proposal">提案中</SelectItem>
+                      <SelectItem variant="brand" value="closing">クロージング</SelectItem>
+                      <SelectItem variant="brand" value="closed-won">契約済</SelectItem>
+                      <SelectItem variant="brand" value="lead">リード獲得</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  
+                  {/* 列表示セレクタ */}
+                  <Select defaultValue="columns">
+                    <SelectTrigger variant="brand" className="w-32">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent variant="brand">
+                      <SelectItem variant="brand" value="columns">列表示</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
-                
-                {/* ステータスフィルタ */}
-                <Select>
-                  <SelectTrigger variant="brand" className="w-32">
-                    <SelectValue placeholder="ステータス" />
-                  </SelectTrigger>
-                  <SelectContent variant="brand">
-                    <SelectItem variant="brand" value="all">すべて</SelectItem>
-                    <SelectItem variant="brand" value="active">進行中</SelectItem>
-                    <SelectItem variant="brand" value="proposal">提案中</SelectItem>
-                    <SelectItem variant="brand" value="closing">クロージング</SelectItem>
-                    <SelectItem variant="brand" value="closed-won">契約済</SelectItem>
-                    <SelectItem variant="brand" value="lead">リード獲得</SelectItem>
-                  </SelectContent>
-                </Select>
-                
-                {/* 列表示セレクタ */}
-                <Select defaultValue="columns">
-                  <SelectTrigger variant="brand" className="w-32">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent variant="brand">
-                    <SelectItem variant="brand" value="columns">列表示</SelectItem>
-                  </SelectContent>
-                </Select>
               </div>
-            </div>
-            
-            {/* テーブルコンテンツ */}
-            <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsContent value="assigned">
-                <AdvancedDataTable
-                  columns={columns}
-                  data={cases}
-                  {...advancedDataTablePresets.cases}
-                  onSelectionChange={setSelectedCases}
-                />
-              </TabsContent>
               
-              <TabsContent value="all">
-                <AdvancedDataTable
-                  columns={columns}
-                  data={cases}
-                  {...advancedDataTablePresets.cases}
-                  onSelectionChange={setSelectedCases}
-                />
-              </TabsContent>
-            </Tabs>
-          </section>
-        </main>
-      </PageShell>
+              {/* テーブルコンテンツ */}
+              <Tabs value={activeTab} onValueChange={setActiveTab}>
+                <TabsContent value="assigned">
+                  <AdvancedDataTable
+                    columns={columns}
+                    data={cases}
+                    {...advancedDataTablePresets.cases}
+                    onSelectionChange={setSelectedCases}
+                  />
+                </TabsContent>
+                
+                <TabsContent value="all">
+                  <AdvancedDataTable
+                    columns={columns}
+                    data={cases}
+                    {...advancedDataTablePresets.cases}
+                    onSelectionChange={setSelectedCases}
+                  />
+                </TabsContent>
+              </Tabs>
+            </section>
+          </main>
+        </div>
+      </div>
       <Footer />
     </>
   );
@@ -270,12 +274,18 @@ export function CasesPageWithSidebar() {
 
 
   return (
-    <div className="h-[calc(100vh-3.5rem)] flex">
+    <div 
+      className="h-[calc(100vh-3.5rem)] flex"
+      style={{ backgroundColor: 'oklch(0.97 0.005 240)' }}
+    >
       {/* 左サイドバー - ナビゲーション */}
       <SaleOnSidebar activeItem="cases" />
 
       {/* メインコンテンツエリア */}
-      <main className="flex-1 overflow-auto overflow-x-hidden">
+      <main 
+        className="flex-1 overflow-auto overflow-x-hidden"
+        style={{ backgroundColor: 'oklch(0.97 0.005 240)' }}
+      >
         <div className="p-6 overflow-x-hidden">
           <div className="polaris-section">
             {/* パンクズエリア */}
@@ -300,7 +310,7 @@ export function CasesPageWithSidebar() {
 
 
             {/* タブとフィルタエリアを横並び */}
-            <div className="flex items-center justify-between gap-4 mb-4">
+            <div className="flex items-center justify-between gap-4">
               <Tabs value={activeTab} onValueChange={setActiveTab}>
                 <TabsList variant="brand">
                   <TabsTrigger variant="brand" value="assigned">担当案件</TabsTrigger>
@@ -312,7 +322,7 @@ export function CasesPageWithSidebar() {
               <div className="flex items-center gap-2">
                 {/* 検索バー */}
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
                   <Input
                     variant="brand"
                     placeholder="案件名、企業名、担当者で検索..."

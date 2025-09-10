@@ -5,9 +5,15 @@ import Link from 'next/link';
 export function SaleOnDashboard() {
 
   return (
-    <div className="h-[calc(100vh-3.5rem)] flex">
+    <div 
+      className="h-[calc(100vh-3.5rem)] flex"
+      style={{ backgroundColor: 'oklch(0.97 0.005 240)' }}
+    >
       {/* 左サイドバー - ナビゲーション */}
-      <aside className="w-64 bg-background border-r flex flex-col">
+      <aside 
+        className="w-64 border-r flex flex-col"
+        style={{ backgroundColor: 'oklch(1 0 0)' }}
+      >
          <div className="py-4">
            <div className="space-y-1">
              <Link 
@@ -62,11 +68,11 @@ export function SaleOnDashboard() {
       {/* メインコンテンツエリア */}
       <main className="flex-1 overflow-auto">
         <div className="flex items-center justify-center h-full">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-muted-foreground mb-4">
+          <div className="text-center space-y-400">
+            <h1 className="text-xl font-bold text-muted-foreground">
               SaleOn Dashboard
             </h1>
-            <p className="text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               コンテンツは準備中です
             </p>
           </div>

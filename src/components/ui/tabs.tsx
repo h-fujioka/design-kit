@@ -11,9 +11,10 @@ const tabsListVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-muted text-muted-foreground',
+        default: 'text-muted-foreground',
         brand: 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300',
         outline: 'border border-input bg-transparent',
+        underline: 'bg-transparent border-b border-gray-200 rounded-none h-auto',
       },
     },
     defaultVariants: {
@@ -27,9 +28,10 @@ const tabsTriggerVariants = cva(
   {
     variants: {
       variant: {
-        default: 'text-foreground dark:text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30',
-        brand: 'text-brand-600 dark:text-brand-400 data-[state=active]:bg-white data-[state=active]:text-brand-700 data-[state=active]:shadow-sm focus-visible:border-brand-400 focus-visible:ring-brand-400/20 dark:data-[state=active]:bg-brand-800 dark:data-[state=active]:text-brand-100 dark:focus-visible:border-brand-600 dark:focus-visible:ring-brand-600/20',
-        outline: 'text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:border-input focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring',
+        default: 'text-foreground dark:text-muted-foreground data-[state=active]:bg-white data-[state=active]:text-foreground data-[state=active]:shadow-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring dark:data-[state=active]:border-input dark:data-[state=active]:bg-white',
+        brand: 'text-brand-600 data-[state=active]:bg-white data-[state=active]:text-brand-700 data-[state=active]:shadow-sm focus-visible:border-brand-400 focus-visible:ring-brand-400/20 dark:data-[state=active]:bg-brand-800 dark:data-[state=active]:text-brand-100 dark:focus-visible:border-brand-600 dark:focus-visible:ring-brand-600/20',
+        outline: 'text-muted-foreground data-[state=active]:bg-white data-[state=active]:text-foreground data-[state=active]:border-input focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring',
+        underline: 'text-gray-600 border-b-2 border-transparent rounded-none h-auto py-3 px-4 font-bold data-[state=active]:text-brand-600 data-[state=active]:border-b-brand-600 data-[state=active]:border-t-0 data-[state=active]:border-l-0 data-[state=active]:border-r-0 data-[state=active]:bg-transparent hover:text-gray-800 hover:border-b-gray-300 hover:border-t-0 hover:border-l-0 hover:border-r-0 focus-visible:ring-0 focus-visible:outline-none',
       },
     },
     defaultVariants: {
@@ -60,6 +62,7 @@ function TabsList({
     <TabsPrimitive.List
       data-slot="tabs-list"
       className={cn(tabsListVariants({ variant, className }))}
+      style={variant === 'default' ? { backgroundColor: 'oklch(0.87 0.02 240)' } : undefined}
       {...props}
     />
   );

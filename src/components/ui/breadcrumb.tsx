@@ -6,17 +6,17 @@ import { ChevronRight, Home } from "lucide-react"
 import * as React from "react"
 
 const breadcrumbVariants = cva(
-  "flex items-center space-x-1 text-sm",
+  "flex items-center space-x-1 text-xs",
   {
     variants: {
       variant: {
         default: "",
-        brand: "text-brand-600",
+        brand: "text-link",
       },
       size: {
         sm: "text-xs",
-        default: "text-sm",
-        lg: "text-base",
+        default: "text-xs",
+        lg: "text-sm",
       },
     },
     defaultVariants: {
@@ -32,7 +32,7 @@ const breadcrumbItemVariants = cva(
     variants: {
       variant: {
         default: "text-muted-foreground hover:text-foreground",
-        brand: "text-brand-600 hover:text-brand-700",
+        brand: "text-link hover:text-link-hover",
         current: "text-foreground font-medium",
         currentBrand: "text-brand-700 font-medium",
       },

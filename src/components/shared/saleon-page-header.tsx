@@ -18,7 +18,7 @@ export function SaleOnPageHeader({
   return (
     <div className={`flex items-center justify-between ${className}`}>
       <div>
-        <h1 className="text-2xl font-bold">{title}</h1>
+        <h1 className="text-xl font-bold">{title}</h1>
         {subtitle && (
           <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
         )}

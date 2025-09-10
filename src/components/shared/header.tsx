@@ -73,7 +73,7 @@ export function Header() {
   const breadcrumbs = getBreadcrumbs();
 
   return (
-    <header className="bg-background/60 supports-[backdrop-filter]:bg-background/50 sticky top-0 z-40 border-b backdrop-blur w-full">
+    <header className="bg-white/60 supports-[backdrop-filter]:bg-white/50 sticky top-0 z-40 border-b backdrop-blur w-full">
       <div className="w-full flex items-center justify-start py-4 px-4 md:px-6 lg:px-8">
         {breadcrumbs && (
           <nav className="text-xs">
@@ -86,7 +86,7 @@ export function Header() {
                   ) : (
                     <Link 
                       href={breadcrumb.href} 
-                      className="text-brand-600 hover:text-brand-700 transition-colors underline"
+                      className="text-link hover:text-link-hover transition-colors underline"
                     >
                       {breadcrumb.label}
                     </Link>

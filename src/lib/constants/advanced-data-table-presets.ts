@@ -40,7 +40,7 @@ export const advancedDataTablePresets = {
     emptyMessage: "案件が見つかりません",
   },
 
-  // スタイルガイド用設定
+  // スタイルガイド用設定（機能を多く表示）
   styleguide: {
     searchKey: "name",
     searchPlaceholder: "案件名、企業名、担当者で検索...",
@@ -70,6 +70,25 @@ export const advancedDataTablePresets = {
         ],
       },
     ] as CustomFilter[],
+    emptyMessage: "案件が見つかりません",
+  },
+
+  // スタイルガイド用設定（シンプル版）
+  styleguideSimple: {
+    searchKey: "name",
+    searchPlaceholder: "案件名、企業名、担当者で検索...",
+    variant: "brand" as const,
+    enableGlobalFilter: false,
+    enableColumnFilters: false,
+    enableSorting: true,
+    enableMultiSort: true,
+    enablePagination: true,
+    pageSize: 10,
+    enableRowSelection: true,
+    enableMultiRowSelection: true,
+    enableColumnVisibility: false,
+    enableColumnResizing: false,
+    enableExport: false,
     emptyMessage: "案件が見つかりません",
   },
 } as const;

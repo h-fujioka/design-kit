@@ -19,23 +19,28 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
+import { advancedDataTablePresets } from "@/lib/constants/advanced-data-table-presets";
 import { ColumnDef } from "@tanstack/react-table";
 
-// Lucide Icons for demonstration
 import {
   AlertTriangle,
   Check,
   ChevronLeft, ChevronRight,
   Edit,
+  File,
+  FileText,
+  Folder,
   Home,
+  MessageCircle,
+  Pin,
   Plus,
   Search,
   Settings,
   Trash2,
-  X
+  X,
+  Zap
 } from 'lucide-react';
 
-// サンプルデータ型
 type SampleData = {
   id: string
   name: string
@@ -87,7 +92,7 @@ const sampleColumns: ColumnDef<SampleData>[] = [
     cell: ({ row }) => (
       <span className={
         row.getValue("status") === "完了" ? "text-success" :
-        row.getValue("status") === "進行中" ? "text-info" : "text-brand-500"
+        row.getValue("status") === "進行中" ? "text-info" : "text-muted"
       }>
         {row.getValue("status")}
       </span>
@@ -146,7 +151,7 @@ export default function StyleguidePage() {
                   <li>• Appleインスパイアのカラーパレット</li>
                   <li>• レスポンシブデザインパターン</li>
                   <li>• アクセシビリティファーストアプローチ</li>
-                  <li>• セマンティックカラーシステム（プリミティブカラーよりセマンティックカラーを使用）</li>
+                  <li>• 統一されたカラーパレット（ブランドカラーと標準Tailwindカラーの組み合わせ）</li>
                   <li>• コンポーネントバリアントルール（brand, brandOutline, brandGhost, brandLink, brandAccentの一貫した使用）</li>
                 </ul>
               </CardContent>
@@ -172,20 +177,6 @@ export default function StyleguidePage() {
                           <p className="text-muted-foreground mt-1">styleguideに定義されていないカラーの使用は禁止されています。カスタムカラーやTailwindのデフォルトカラーを直接使用することはできません。</p>
                         </div>
                       </li>
-                      <li className="flex items-start gap-2">
-                        <div className="w-2 h-2 rounded-full bg-brand-500 mt-2 flex-shrink-0"></div>
-                        <div>
-                          <strong>原則 - Principle</strong>
-                          <p className="text-muted-foreground mt-1">原則として、視覚設計にはセマンティックトークンを使用してください。</p>
-                        </div>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="w-2 h-2 rounded-full bg-brand-300 mt-2 flex-shrink-0"></div>
-                        <div>
-                          <strong>コンポーネントバリアント - Component Variants</strong>
-                          <p className="text-muted-foreground mt-1">コンポーネントのvariantプロパティ（brand, brandOutline, brandGhost等）を使用して、一貫したカラー適用を行ってください。</p>
-                        </div>
-                      </li>
                     </ul>
                   </div>
                   
@@ -196,22 +187,20 @@ export default function StyleguidePage() {
                       <p className="text-xs text-muted-foreground mb-2">用途: デザイントークンの定義・抽出用</p>
                       <div className="space-y-2">
                         <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 rounded bg-brand-500"></div>
+                          <div className="w-4 h-4 rounded bg-main"></div>
                           <code className="text-xs">brand-500</code>
                         </div>
                         <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 rounded bg-brand-100"></div>
+                          <div className="w-4 h-4 rounded bg-background-secondary"></div>
                           <code className="text-xs">brand-100</code>
                         </div>
                         <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 rounded bg-brand-900"></div>
+                          <div className="w-4 h-4 rounded bg-text-primary"></div>
                           <code className="text-xs">brand-900</code>
                         </div>
                       </div>
                     </div>
                     <div className="rounded-lg bg-muted p-4 text-sm">
-                      <h5 className="font-medium mb-2">Semantic Colors - セマンティックトークン（推奨）</h5>
-                      <p className="text-xs text-muted-foreground mb-2">用途: 視覚設計での使用</p>
                       <div className="space-y-2">
                         <div className="flex items-center gap-2">
                           <div className="w-4 h-4 rounded bg-destructive"></div>
@@ -364,15 +353,15 @@ export default function StyleguidePage() {
                   <h4 className="text-sm font-medium text-muted-foreground">サイズ</h4>
                   <div className="grid grid-cols-3 gap-3">
                     <div className="flex items-center gap-2 p-2 rounded-lg bg-muted">
-                      <Plus className="w-4 h-4 text-brand-600" />
+                      <Plus className="w-4 h-4 text-link" />
                       <span className="text-xs">w-4 h-4</span>
                     </div>
                     <div className="flex items-center gap-2 p-2 rounded-lg bg-muted">
-                      <Edit className="w-5 h-5 text-brand-600" />
+                      <Edit className="w-5 h-5 text-link" />
                       <span className="text-xs">w-5 h-5</span>
                     </div>
                     <div className="flex items-center gap-2 p-2 rounded-lg bg-muted">
-                      <Settings className="w-6 h-6 text-brand-600" />
+                      <Settings className="w-6 h-6 text-link" />
                       <span className="text-xs">w-6 h-6</span>
                     </div>
                   </div>
@@ -382,7 +371,7 @@ export default function StyleguidePage() {
                   <h4 className="text-sm font-medium text-muted-foreground">よく使うアイコン</h4>
                   <div className="grid grid-cols-8 gap-2">
                     <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted">
-                      <Plus className="w-4 h-4 text-brand-600" />
+                      <Plus className="w-4 h-4 text-link" />
                       <span className="text-xs">Plus</span>
                     </div>
                     <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted">
@@ -390,27 +379,27 @@ export default function StyleguidePage() {
                       <span className="text-xs">Edit</span>
                     </div>
                     <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted">
-                      <Trash2 className="w-4 h-4 text-brand-600" />
+                      <Trash2 className="w-4 h-4 text-link" />
                       <span className="text-xs">Trash2</span>
                     </div>
                     <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted">
-                      <Search className="w-4 h-4 text-brand-600" />
+                      <Search className="w-4 h-4 text-link" />
                       <span className="text-xs">Search</span>
                     </div>
                     <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted">
-                      <Check className="w-4 h-4 text-brand-600" />
+                      <Check className="w-4 h-4 text-link" />
                       <span className="text-xs">Check</span>
                     </div>
                     <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted">
-                      <X className="w-4 h-4 text-brand-600" />
+                      <X className="w-4 h-4 text-link" />
                       <span className="text-xs">X</span>
                     </div>
                     <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted">
-                      <ChevronLeft className="w-4 h-4 text-brand-600" />
+                      <ChevronLeft className="w-4 h-4 text-link" />
                       <span className="text-xs">Left</span>
                     </div>
                     <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted">
-                      <ChevronRight className="w-4 h-4 text-brand-600" />
+                      <ChevronRight className="w-4 h-4 text-link" />
                       <span className="text-xs">Right</span>
                     </div>
                   </div>
@@ -420,20 +409,20 @@ export default function StyleguidePage() {
                   <h4 className="text-sm font-medium text-muted-foreground">色指定</h4>
                   <div className="rounded-lg bg-muted p-3 grid grid-cols-2 gap-3 text-sm">
                     <div className="flex items-center gap-2">
-                      <Plus className="w-4 h-4 text-brand-600" />
-                      <code className="text-xs">text-brand-600</code>
+                      <Plus className="w-4 h-4 text-link" />
+                      <code className="text-xs">text-link</code>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Trash2 className="w-4 h-4 text-brand-600" />
-                      <code className="text-xs">text-brand-600</code>
+                      <Trash2 className="w-4 h-4 text-link" />
+                      <code className="text-xs">text-link</code>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-brand-600" />
-                      <code className="text-xs">text-brand-600</code>
+                      <Check className="w-4 h-4 text-link" />
+                      <code className="text-xs">text-link</code>
                     </div>
                     <div className="flex items-center gap-2">
-                      <AlertTriangle className="w-4 h-4 text-brand-600" />
-                      <code className="text-xs">text-brand-600</code>
+                      <AlertTriangle className="w-4 h-4 text-link" />
+                      <code className="text-xs">text-link</code>
                     </div>
                   </div>
                 </div>
@@ -456,7 +445,7 @@ export default function StyleguidePage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card variant="brand">
               <CardHeader>
                 <CardTitle>Form Elements - フォーム要素</CardTitle>
               </CardHeader>
@@ -480,7 +469,7 @@ export default function StyleguidePage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card variant="brand">
               <CardHeader>
                 <CardTitle>Advanced Form Elements - 追加フォーム要素</CardTitle>
               </CardHeader>
@@ -541,21 +530,8 @@ export default function StyleguidePage() {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">Background Colors適用 - Background Colors Application</h4>
-                  <div className="rounded-lg bg-white p-4 text-sm">
-                    <p className="text-muted-foreground mb-2">
-                      テーブルコンポーネントには、Background Colorsセクションで定義したセマンティックカラーを適用しています。
-                    </p>
-                    <ul className="space-y-1">
-                      <li>• <strong>Table Head</strong>: <code className="bg-background px-2 py-1 rounded">[&_th]:bg-white</code> - White Background（白背景）を適用</li>
-                      <li>• <strong>Table Body</strong>: <code className="bg-background px-2 py-1 rounded">[&_tr]:bg-white</code> - White Background（白背景）を適用</li>
-                      <li>• <strong>Hover State</strong>: <code className="bg-background px-2 py-1 rounded">[&_tr:hover]:bg-white</code> - ホバー時も白背景を維持</li>
-                    </ul>
-                  </div>
-                </div>
-                <div className="space-y-3">
                   <h4 className="text-sm font-medium text-muted-foreground">Table - テーブル</h4>
-                  <Table variant="brand" className="[&_th]:bg-white">
+                  <Table variant="brand" className="[&_th]:bg-elevated">
                     <TableHeader variant="brand">
                       <TableRow>
                         <TableHead className="w-[100px] px-4">ID</TableHead>
@@ -591,27 +567,13 @@ export default function StyleguidePage() {
                   <AdvancedDataTable
                     columns={sampleColumns}
                     data={sampleData}
-                    searchKey="name"
-                    searchPlaceholder="案件名、企業名、担当者で検索..."
-                    variant="brand"
-                    enableGlobalFilter={false}
-                    enableColumnFilters={false}
-                    enableSorting={true}
-                    enableMultiSort={true}
-                    enablePagination={true}
-                    pageSize={10}
-                    enableRowSelection={true}
-                    enableMultiRowSelection={true}
-                    enableColumnVisibility={false}
-                    enableColumnResizing={false}
-                    enableExport={false}
+                    {...advancedDataTablePresets.styleguideSimple}
                     onSelectionChange={(selectedRows) => {
                       console.log('Selected rows:', selectedRows);
                     }}
-                    emptyMessage="案件が見つかりません"
                   />
                   <p className="text-xs text-muted-foreground">
-                    機能: ❌ グローバル検索 ❌ カラムフィルタ ✅ ソート（単一・複数） ❌ 列表示切り替え ✅ ページネーション (TanStack Table)
+                    機能: ❌ グローバル検索 ❌ カラムフィルタ ✅ ソート（単一・複数） ❌ 列表示切り替え ✅ ページネーション ✅ 行選択 (TanStack Table)
                   </p>
                 </div>
               </CardContent>
@@ -623,33 +585,109 @@ export default function StyleguidePage() {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">Standard Tabs - 標準タブ</h4>
-                  <Tabs defaultValue="brand-overview">
-                    <TabsList variant="brand">
-                      <TabsTrigger variant="brand" value="brand-overview">Overview</TabsTrigger>
-                      <TabsTrigger variant="brand" value="brand-analytics">Analytics</TabsTrigger>
-                      <TabsTrigger variant="brand" value="brand-settings">Settings</TabsTrigger>
+                  <h4 className="text-sm font-medium text-muted-foreground">Basic Tabs - 基本タブ</h4>
+                  <Tabs defaultValue="overview" className="space-y-300">
+                    <TabsList variant="default">
+                      <TabsTrigger variant="default" value="overview">Overview</TabsTrigger>
+                      <TabsTrigger variant="default" value="analytics">Analytics</TabsTrigger>
+                      <TabsTrigger variant="default" value="settings">Settings</TabsTrigger>
                     </TabsList>
-                    <TabsContent value="brand-overview" className="space-y-4">
-                      <Card variant="brand">
+                    <TabsContent value="overview" className="space-y-4">
+                      <Card variant="outline">
                         <CardContent>
                           <p>
-                            Brand-themed tab content with brand colors.
+                            Basic tab content with default styling. アクティブタブは白背景で強調表示され、フォーカス時は3pxのリングが表示されます。
                           </p>
                         </CardContent>
                       </Card>
                     </TabsContent>
-                    <TabsContent value="brand-analytics">
-                      <Card variant="brand">
+                    <TabsContent value="analytics">
+                      <Card variant="outline">
                         <CardContent>
-                          <p>Analytics data and charts would go here.</p>
+                          <p>Analytics data and charts would go here. タブコンテンツは統一された間隔で表示されます。</p>
                         </CardContent>
                       </Card>
                     </TabsContent>
-                    <TabsContent value="brand-settings">
-                      <Card variant="brand">
+                    <TabsContent value="settings">
+                      <Card variant="outline">
                         <CardContent>
-                          <p>Configuration options and preferences.</p>
+                          <p>Configuration options and preferences. 各タブコンテンツは独立したセクションとして機能します。</p>
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
+                  </Tabs>
+                </div>
+                
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">Underline Tabs - アンダーライインタブ</h4>
+                  <Tabs defaultValue="messages" className="space-y-300">
+                    <TabsList variant="underline" className="grid w-full grid-cols-6">
+                      <TabsTrigger variant="underline" value="messages" className="flex items-center gap-2">
+                        <MessageCircle className="h-4 w-4" />
+                        メッセージ
+                      </TabsTrigger>
+                      <TabsTrigger variant="underline" value="untitled" className="flex items-center gap-2">
+                        <FileText className="h-4 w-4" />
+                        タイトル未定
+                      </TabsTrigger>
+                      <TabsTrigger variant="underline" value="workflow" className="flex items-center gap-2">
+                        <Zap className="h-4 w-4" />
+                        ワークフロー
+                      </TabsTrigger>
+                      <TabsTrigger variant="underline" value="files" className="flex items-center gap-2">
+                        <File className="h-4 w-4" />
+                        ファイル
+                      </TabsTrigger>
+                      <TabsTrigger variant="underline" value="related" className="flex items-center gap-2">
+                        <Folder className="h-4 w-4" />
+                        関連ページ
+                      </TabsTrigger>
+                      <TabsTrigger variant="underline" value="pin" className="flex items-center gap-2">
+                        <Pin className="h-4 w-4" />
+                        ピン
+                      </TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="messages" className="space-y-4">
+                      <Card variant="outline">
+                        <CardContent>
+                          <p>
+                            アンダーライインタブは、アクティブなタブに紫色のアンダーラインで強調表示されます。アイコンとテキストの組み合わせで視認性を向上させています。
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
+                    <TabsContent value="untitled">
+                      <Card variant="outline">
+                        <CardContent>
+                          <p>タイトル未定のコンテンツエリアです。各タブは独立したセクションとして機能します。</p>
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
+                    <TabsContent value="workflow">
+                      <Card variant="outline">
+                        <CardContent>
+                          <p>ワークフローの管理画面です。プロセスの可視化と管理機能を提供します。</p>
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
+                    <TabsContent value="files">
+                      <Card variant="outline">
+                        <CardContent>
+                          <p>ファイル管理エリアです。ドキュメントのアップロード、ダウンロード、整理が可能です。</p>
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
+                    <TabsContent value="related">
+                      <Card variant="outline">
+                        <CardContent>
+                          <p>関連ページの一覧です。関連するドキュメントやページへのリンクを表示します。</p>
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
+                    <TabsContent value="pin">
+                      <Card variant="outline">
+                        <CardContent>
+                          <p>ピン留めされたアイテムの管理です。重要な項目を固定表示できます。</p>
                         </CardContent>
                       </Card>
                     </TabsContent>
@@ -798,7 +836,7 @@ export default function StyleguidePage() {
                       <div className={`h-16 rounded-lg ${color.class}`} />
                       <div className="text-center">
                         <div className="text-sm font-medium">Brand {color.name}</div>
-                        <div className="text-xs text-muted-foreground">{color.class}</div>
+                        <div className="text-xs text-muted-foreground">brand-{color.name}</div>
                       </div>
                     </div>
                   ))}
@@ -806,167 +844,6 @@ export default function StyleguidePage() {
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Semantic Colors - セマンティックカラー</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-muted-foreground">
-                  用途別に定義されたセマンティックカラー。各カラーは特定の機能や状態を表現し、一貫したユーザーエクスペリエンスを提供します。
-                </p>
-                
-                <div className="space-y-6">
-                  <div className="space-y-3">
-                    <h4 className="text-sm font-medium text-muted-foreground">Action Colors - アクションカラー</h4>
-                    <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-                      {[
-                        { name: 'Primary Action', usage: 'プライマリーアクション', bgClass: 'bg-brand-600', textClass: 'text-white' },
-                        { name: 'Secondary Action', usage: 'セカンダリーアクション', bgClass: 'bg-brand-100', textClass: 'text-brand-900' },
-                        { name: 'Accent Action', usage: 'アクセントアクション', bgClass: 'bg-brand-400', textClass: 'text-white' },
-                        { name: 'Disabled Action', usage: '無効アクション', bgClass: 'bg-brand-50', textClass: 'text-brand-700' },
-                      ].map((color) => (
-                        <div key={color.name} className="space-y-2">
-                          <div 
-                            className={`h-16 rounded-lg flex items-center justify-center ${color.bgClass}`}
-                          >
-                            <span className={`text-sm font-medium ${color.textClass}`}>{color.name}</span>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-sm font-medium">{color.name}</div>
-                            <div className="text-xs text-muted-foreground">{color.usage}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <h4 className="text-sm font-medium text-muted-foreground">Status Colors - 状態カラー</h4>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-                      {[
-                        { name: 'Success', usage: '成功、完了、承認状態', bgClass: 'bg-green-500', textClass: 'text-white', textUsage: 'text-success' },
-                        { name: 'Warning', usage: '警告、注意が必要な状態', bgClass: 'bg-yellow-500', textClass: 'text-black', textUsage: 'text-warning' },
-                        { name: 'Error', usage: 'エラー、削除、危険なアクション', bgClass: 'bg-red-500', textClass: 'text-white', textUsage: 'text-destructive' },
-                        { name: 'Info', usage: '情報、進行中状態', bgClass: 'bg-blue-500', textClass: 'text-white', textUsage: 'text-info' },
-                      ].map((color) => (
-                        <div key={color.name} className="space-y-2">
-                          <div 
-                            className={`h-16 rounded-lg flex items-center justify-center ${color.bgClass}`}
-                          >
-                            <span className={`text-sm font-medium ${color.textClass}`}>{color.name}</span>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-sm font-medium">{color.name}</div>
-                            <div className="text-xs text-muted-foreground">{color.usage}</div>
-                            <div className="text-xs text-muted-foreground font-mono">{color.textUsage}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <h4 className="text-sm font-medium text-muted-foreground">Background Colors - 背景カラー</h4>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                      {[
-                        { name: 'White Background', usage: '白背景（テーブル・カード等）', bgClass: 'bg-white', textClass: 'text-gray-900' },
-                        { name: 'Primary Background', usage: 'プライマリー背景', bgClass: 'bg-brand-50', textClass: 'text-brand-900' },
-                        { name: 'Secondary Background', usage: 'セカンダリー背景', bgClass: 'bg-brand-100', textClass: 'text-brand-900' },
-                      ].map((color) => (
-                        <div key={color.name} className="space-y-2">
-                          <div 
-                            className={`h-16 rounded-lg flex items-center justify-center ${color.bgClass}`}
-                          >
-                            <span className={`text-sm font-medium ${color.textClass}`}>{color.name}</span>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-sm font-medium">{color.name}</div>
-                            <div className="text-xs text-muted-foreground">{color.usage}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <h4 className="text-sm font-medium text-muted-foreground">Border Colors - 境界線カラー</h4>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                      {[
-                        { name: 'Primary Border', usage: 'プライマリー境界線', bgClass: 'bg-brand-200', textClass: 'text-brand-900' },
-                        { name: 'Input Background', usage: '入力フィールド背景', bgClass: 'bg-brand-100', textClass: 'text-brand-900' },
-                        { name: 'Focus Ring', usage: 'フォーカスリング', bgClass: 'bg-brand-500', textClass: 'text-white' },
-                      ].map((color) => (
-                        <div key={color.name} className="space-y-2">
-                          <div 
-                            className={`h-16 rounded-lg flex items-center justify-center ${color.bgClass}`}
-                          >
-                            <span className={`text-sm font-medium ${color.textClass}`}>{color.name}</span>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-sm font-medium">{color.name}</div>
-                            <div className="text-xs text-muted-foreground">{color.usage}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <h4 className="text-sm font-medium text-muted-foreground">Text Colors - テキストカラー</h4>
-                    <div className="space-y-6">
-                      <div className="space-y-3">
-                        <h5 className="text-sm font-medium">Text Colors - テキストカラー</h5>
-                        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-                          {[
-                            { name: 'Primary Text', usage: 'メインテキスト', bgClass: 'bg-brand-700', textClass: 'text-white', textUsage: 'text-primary' },
-                            { name: 'Muted Text', usage: 'ミュートテキスト', bgClass: 'bg-brand-600', textClass: 'text-white', textUsage: 'text-muted' },
-                            { name: 'Caption Text', usage: 'キャプションテキスト', bgClass: 'bg-brand-500', textClass: 'text-white', textUsage: 'text-caption' },
-                          ].map((color) => (
-                            <div key={color.name} className="space-y-2">
-                              <div 
-                                className={`h-16 rounded-lg flex items-center justify-center ${color.bgClass}`}
-                              >
-                                <span className={`text-sm font-medium ${color.textClass}`}>{color.name}</span>
-                              </div>
-                              <div className="text-center">
-                                <div className="text-sm font-medium">{color.name}</div>
-                                <div className="text-xs text-muted-foreground">{color.usage}</div>
-                                <div className="text-xs text-muted-foreground font-mono">{color.textUsage}</div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <h5 className="text-sm font-medium">Interactive Text Colors - インタラクティブテキストカラー</h5>
-                        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-                          {[
-                            { name: 'Primary Link', usage: 'プライマリーリンク', bgClass: 'bg-brand-600', textClass: 'text-white', textUsage: 'text-link' },
-                            { name: 'Primary Hover', usage: 'プライマリーホバー', bgClass: 'bg-brand-700', textClass: 'text-white', textUsage: 'text-link-hover' },
-                            { name: 'Primary Disabled', usage: 'プライマリー無効', bgClass: 'bg-brand-200', textClass: 'text-brand-400', textUsage: 'text-disabled' },
-                          ].map((color) => (
-                            <div key={color.name} className="space-y-2">
-                              <div 
-                                className={`h-16 rounded-lg flex items-center justify-center ${color.bgClass}`}
-                              >
-                                <span className={`text-sm font-medium ${color.textClass}`}>{color.name}</span>
-                              </div>
-                              <div className="text-center">
-                                <div className="text-sm font-medium">{color.name}</div>
-                                <div className="text-xs text-muted-foreground">{color.usage}</div>
-                                <div className="text-xs text-muted-foreground font-mono">{color.textUsage}</div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </CardContent>
-            </Card>
 
             <Card>
               <CardHeader>
@@ -1021,7 +898,7 @@ export default function StyleguidePage() {
                       <p className="text-xs font-medium text-success">✅ 正しい例</p>
                       <Card variant="brand" className="scale-90 gap-3">
                         <CardContent className="text-center">
-                          <div className="w-12 h-12 bg-brand-100 dark:bg-brand-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
+                          <div className="w-12 h-12 bg-background-secondary dark:bg-background-tertiary rounded-full flex items-center justify-center mx-auto mb-3">
                             <span className="text-lg">🎯</span>
                           </div>
                         </CardContent>
@@ -1065,17 +942,17 @@ export default function StyleguidePage() {
                   階層構造を明確にするフォントサイズスケール
                 </p>
                 <div className="space-y-2">
-                  <h1 className="text-2xl font-bold">Heading 1 - text-2xl (24px)</h1>
-                  <h2 className="text-xl font-semibold">Heading 2 - text-xl (20px)</h2>
-                  <h3 className="text-lg font-medium">Heading 3 - text-lg (18px)</h3>
-                  <h4 className="text-base font-semibold">Card Title - text-base (16px)</h4>
-                  <p className="text-base">
-                    Regular paragraph text - text-base (16px)
+                  <h1 className="text-xl font-bold">Heading 1 - text-xl (20px)</h1>
+                  <h2 className="text-base font-semibold">Heading 2 - text-base (16px)</h2>
+                  <h3 className="text-base font-medium">Heading 3 - text-base (16px)</h3>
+                  <h4 className="text-sm font-semibold">Card Title - text-sm (14px)</h4>
+                  <p className="text-sm">
+                    Regular paragraph text - text-sm (14px)
                   </p>
-                  <p className="text-brand-500 text-sm">
-                    Card Description / Small text - text-sm (14px)
+                  <p className="text-muted text-xs">
+                    Card Description / Small text - text-xs (12px)
                   </p>
-                  <p className="text-brand-400 text-xs">
+                  <p className="text-caption text-xs">
                     Extra small text / Caption - text-xs (12px)
                   </p>
                 </div>
@@ -1196,7 +1073,7 @@ export default function StyleguidePage() {
                       <li>• <strong>グリッド構造</strong>: <code className="bg-background px-2 py-1 rounded">grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5</code></li>
                       <li>• <strong>レスポンシブ</strong>: 2列(モバイル) → 3列(タブレット) → 4列(デスクトップ)</li>
                       <li>• <strong>カード間隔</strong>: <code className="bg-background px-2 py-1 rounded">gap-5</code> (20px)</li>
-                      <li>• <strong>カードスタイル</strong>: <code className="bg-background px-2 py-1 rounded">rounded-xl border py-5 shadow-sm bg-brand-50/50 border-brand-100</code></li>
+                      <li>• <strong>カードスタイル</strong>: <code className="bg-background px-2 py-1 rounded">rounded-xl border py-5 shadow-sm bg-background-secondary border-brand-100</code></li>
                       <li>• <strong>ホバー効果</strong>: <code className="bg-background px-2 py-1 rounded">hover:shadow-lg hover:scale-105 transition-all duration-200</code></li>
                     </ul>
                   </div>
@@ -1282,6 +1159,174 @@ export default function StyleguidePage() {
 
             <Card>
               <CardHeader>
+                <CardTitle>Content Width Patterns - コンテンツ幅パターン</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">パターン1: 制限幅レイアウト（max-width: 1280px）</h4>
+                  <div className="rounded-lg bg-muted p-4 text-sm">
+                    <h5 className="font-medium mb-3">特徴 - Features</h5>
+                    <ul className="space-y-2">
+                      <li>• <strong>最大幅制限</strong>: <code className="bg-background px-2 py-1 rounded">max-w-7xl</code> (1280px) でコンテンツ幅を制限</li>
+                      <li>• <strong>中央配置</strong>: <code className="bg-background px-2 py-1 rounded">mx-auto</code> で画面中央に配置</li>
+                      <li>• <strong>レスポンシブパディング</strong>: <code className="bg-background px-2 py-1 rounded">px-4 sm:px-6 lg:px-8</code> で画面サイズに応じた余白</li>
+                      <li>• <strong>読みやすさ重視</strong>: 長いテキストや複雑なコンテンツに最適</li>
+                      <li>• <strong>集中しやすい</strong>: コンテンツが中央に集約され、集中しやすいレイアウト</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="rounded-lg bg-muted p-4 text-sm">
+                    <h5 className="font-medium mb-3">実装例 - Implementation Example</h5>
+                    <div className="bg-background p-3 rounded border">
+                      <code className="text-xs">
+                        &lt;main className="flex-1 overflow-auto bg-white"&gt;<br/>
+                        &nbsp;&nbsp;&lt;div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6"&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="space-y-6"&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- パンクズエリア（100%幅） --&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;FullWidthBreadcrumb ... /&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- ページヘッダー --&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SaleOnPageHeader ... /&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- メインコンテンツ（制限幅内） --&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="bg-white rounded-lg border ..."&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- タイムラインUI --&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+                        &nbsp;&nbsp;&lt;/div&gt;<br/>
+                        &lt;/main&gt;
+                      </code>
+                    </div>
+                  </div>
+                  
+                  <div className="rounded-lg bg-muted p-4 text-sm">
+                    <h5 className="font-medium mb-3">使用場面 - Use Cases</h5>
+                    <ul className="space-y-2">
+                      <li>• <strong>詳細ページ</strong>: 案件詳細、プロフィール詳細など</li>
+                      <li>• <strong>フォームページ</strong>: 複雑な入力フォーム</li>
+                      <li>• <strong>記事・ブログ</strong>: 長文コンテンツ</li>
+                      <li>• <strong>設定ページ</strong>: 複数の設定項目</li>
+                      <li>• <strong>タイムライン</strong>: 時系列のコンテンツ表示</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">パターン2: フル幅レイアウト（100%）</h4>
+                  <div className="rounded-lg bg-muted p-4 text-sm">
+                    <h5 className="font-medium mb-3">特徴 - Features</h5>
+                    <ul className="space-y-2">
+                      <li>• <strong>画面幅100%</strong>: <code className="bg-background px-2 py-1 rounded">w-full</code> で画面幅を最大限活用</li>
+                      <li>• <strong>パディング制御</strong>: <code className="bg-background px-2 py-1 rounded">p-6</code> で適切な余白を確保</li>
+                      <li>• <strong>情報密度重視</strong>: 多くの情報を一度に表示</li>
+                      <li>• <strong>効率性重視</strong>: データテーブルやダッシュボードに最適</li>
+                      <li>• <strong>スキャンしやすい</strong>: 横方向の情報を素早く確認可能</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="rounded-lg bg-muted p-4 text-sm">
+                    <h5 className="font-medium mb-3">実装例 - Implementation Example</h5>
+                    <div className="bg-background p-3 rounded border">
+                      <code className="text-xs">
+                        &lt;main className="flex-1 overflow-auto bg-white"&gt;<br/>
+                        &nbsp;&nbsp;&lt;div className="p-6"&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="space-y-6"&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- パンクズエリア（100%幅） --&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;FullWidthBreadcrumb ... /&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- ページヘッダー --&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SaleOnPageHeader ... /&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- メインコンテンツ（フル幅） --&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="space-y-6"&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- データテーブル --&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;AdvancedDataTable ... /&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+                        &nbsp;&nbsp;&lt;/div&gt;<br/>
+                        &lt;/main&gt;
+                      </code>
+                    </div>
+                  </div>
+                  
+                  <div className="rounded-lg bg-muted p-4 text-sm">
+                    <h5 className="font-medium mb-3">使用場面 - Use Cases</h5>
+                    <ul className="space-y-2">
+                      <li>• <strong>一覧ページ</strong>: 案件一覧、ユーザー一覧など</li>
+                      <li>• <strong>ダッシュボード</strong>: 統計情報、グラフ表示</li>
+                      <li>• <strong>データテーブル</strong>: 大量のデータ表示</li>
+                      <li>• <strong>管理画面</strong>: システム管理、設定一覧</li>
+                      <li>• <strong>比較画面</strong>: 複数項目の比較表示</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">使い分けの指針 - Usage Guidelines</h4>
+                  <div className="rounded-lg bg-muted p-4 text-sm">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <h5 className="font-medium mb-2 text-blue-600">制限幅レイアウトを選ぶ場合</h5>
+                        <ul className="space-y-1 text-sm">
+                          <li>• 長文のテキストコンテンツ</li>
+                          <li>• 集中して読む必要がある</li>
+                          <li>• 複雑なフォームや設定</li>
+                          <li>• 時系列のコンテンツ</li>
+                          <li>• 詳細情報の表示</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h5 className="font-medium mb-2 text-green-600">フル幅レイアウトを選ぶ場合</h5>
+                        <ul className="space-y-1 text-sm">
+                          <li>• 大量のデータ表示</li>
+                          <li>• 素早い情報のスキャン</li>
+                          <li>• 比較・検索が主目的</li>
+                          <li>• ダッシュボード・統計</li>
+                          <li>• 管理・一覧画面</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">実装コンポーネント - Implementation Components</h4>
+                  <div className="rounded-lg bg-muted p-4 text-sm">
+                    <div className="space-y-4">
+                      <div>
+                        <h5 className="font-medium mb-2">MaxWidthContainer コンポーネント</h5>
+                        <div className="bg-background p-3 rounded border">
+                          <code className="text-xs">
+                            interface MaxWidthContainerProps &#123;<br/>
+                            &nbsp;&nbsp;children: ReactNode;<br/>
+                            &nbsp;&nbsp;maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';<br/>
+                            &nbsp;&nbsp;className?: string;<br/>
+                            &#125;<br/><br/>
+                            // 使用例<br/>
+                            &lt;MaxWidthContainer maxWidth="2xl" className="py-6"&gt;<br/>
+                            &nbsp;&nbsp;&lt;!-- コンテンツ --&gt;<br/>
+                            &lt;/MaxWidthContainer&gt;
+                          </code>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <h5 className="font-medium mb-2">Tailwindクラス対応</h5>
+                        <ul className="space-y-1 text-sm">
+                          <li>• <code className="bg-background px-2 py-1 rounded">max-w-6xl</code> = 1200px (制限幅)</li>
+                          <li>• <code className="bg-background px-2 py-1 rounded">w-full</code> = 100% (フル幅)</li>
+                          <li>• <code className="bg-background px-2 py-1 rounded">mx-auto</code> = 中央配置</li>
+                          <li>• <code className="bg-background px-2 py-1 rounded">px-4 sm:px-6 lg:px-8</code> = レスポンシブパディング</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
                 <CardTitle>SaleOn Layout Pattern - サイドバー + メインコンテンツ（URL型）</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -1303,7 +1348,7 @@ export default function StyleguidePage() {
                   <div className="rounded-lg bg-white p-4 text-sm">
                     <ul className="space-y-2">
                       <li>• <strong>ナビゲーション項目</strong>: <code className="bg-background px-2 py-1 rounded">w-full block px-4 py-3 text-sm text-left hover:bg-muted rounded transition-colors</code></li>
-                      <li>• <strong>アクティブ状態</strong>: <code className="bg-background px-2 py-1 rounded">bg-brand-100 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300</code></li>
+                      <li>• <strong>アクティブ状態</strong>: <code className="bg-background px-2 py-1 rounded">bg-background-secondary dark:bg-background-tertiary text-text-secondary dark:text-text-secondary</code></li>
                       <li>• <strong>非アクティブ状態</strong>: <code className="bg-background px-2 py-1 rounded">text-card-foreground</code></li>
                       <li>• <strong>アイコン + テキスト</strong>: <code className="bg-background px-2 py-1 rounded">flex items-center gap-3</code> - アイコン左配置、12px間隔</li>
                       <li>• <strong>URLナビゲーション</strong>: <code className="bg-background px-2 py-1 rounded">href="/path"</code> でページ遷移</li>
@@ -1335,7 +1380,7 @@ export default function StyleguidePage() {
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="space-y-1"&gt;<br/>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Link<br/>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href="/prototypes/saleon"<br/>
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;className="w-full block px-4 py-3 text-sm text-left hover:bg-muted rounded transition-colors bg-brand-100 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300"<br/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;className="w-full block px-4 py-3 text-sm text-left hover:bg-muted rounded transition-colors bg-background-secondary dark:bg-background-tertiary text-text-secondary dark:text-text-secondary"<br/>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;<br/>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="flex items-center gap-3"&gt;<br/>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span className="text-sm"&gt;🏠&lt;/span&gt;<br/>
@@ -1517,99 +1562,7 @@ export default function StyleguidePage() {
                 </div>
 
 
-                <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">使用ルール - Usage Rules</h4>
-                  <div className="rounded-lg bg-muted p-4 text-sm">
-                    <ul className="space-y-2">
-                      <li>• <strong>基本構造</strong>: <code className="bg-background px-2 py-1 rounded">PageHeader</code> コンポーネントを使用</li>
-                      <li>• <strong>必須プロパティ</strong>: <code className="bg-background px-2 py-1 rounded">title</code> は必須</li>
-                      <li>• <strong>オプションプロパティ</strong>: <code className="bg-background px-2 py-1 rounded">description</code>, <code className="bg-background px-2 py-1 rounded">action</code> は任意</li>
-                      <li>• <strong>表示制御</strong>: <code className="bg-background px-2 py-1 rounded">showDescription</code>, <code className="bg-background px-2 py-1 rounded">showAction</code> で表示/非表示を制御</li>
-                      <li>• <strong>サイズバリエーション</strong>: <code className="bg-background px-2 py-1 rounded">size</code> で sm, default を指定</li>
-                      <li>• <strong>セクション内要素</strong>: PageHeaderとその下のコンテンツ（DataTable、Card等）は同じセクション内の要素として認識</li>
-                      <li>• <strong>間隔ルール</strong>: 下のコンテンツとの間隔は <code className="bg-background px-2 py-1 rounded">polaris-section</code> のレベル2（16px）を適用</li>
-                      <li>• <strong>レスポンシブ対応</strong>: 自動的にレスポンシブレイアウトに対応</li>
-                      <li>• <strong>アクセシビリティ</strong>: 適切なセマンティックHTMLとARIA属性を自動設定</li>
-                    </ul>
-                  </div>
-                </div>
 
-                <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-muted-foreground">実装例 - Implementation Examples</h4>
-                  <div className="rounded-lg bg-muted p-4 text-sm">
-                    <div className="space-y-4">
-                      <div>
-                        <h5 className="font-medium mb-2">完全版（タイトル + 説明文 + アクション）</h5>
-                        <div className="bg-background p-3 rounded border">
-                          <code className="text-xs">
-                            &lt;PageHeader<br/>
-                            &nbsp;&nbsp;title="案件管理"<br/>
-                            &nbsp;&nbsp;description="営業案件の一覧と管理"<br/>
-                            &nbsp;&nbsp;action=&#123;<br/>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;Button variant="brand"&gt;<br/>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新規案件<br/>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/Button&gt;<br/>
-                            &nbsp;&nbsp;&#125;<br/>
-                            /&gt;
-                          </code>
-                        </div>
-                      </div>
-                      <div>
-                        <h5 className="font-medium mb-2">説明文なし（タイトル + アクション）</h5>
-                        <div className="bg-background p-3 rounded border">
-                          <code className="text-xs">
-                            &lt;PageHeader<br/>
-                            &nbsp;&nbsp;title="設定"<br/>
-                            &nbsp;&nbsp;showDescription=&#123;false&#125;<br/>
-                            &nbsp;&nbsp;action=&#123;<br/>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;Button variant="outline"&gt;保存&lt;/Button&gt;<br/>
-                            &nbsp;&nbsp;&#125;<br/>
-                            /&gt;
-                          </code>
-                        </div>
-                      </div>
-                      <div>
-                        <h5 className="font-medium mb-2">アクションなし（タイトル + 説明文）</h5>
-                        <div className="bg-background p-3 rounded border">
-                          <code className="text-xs">
-                            &lt;PageHeader<br/>
-                            &nbsp;&nbsp;title="ダッシュボード"<br/>
-                            &nbsp;&nbsp;description="システムの概要と統計情報"<br/>
-                            &nbsp;&nbsp;showAction=&#123;false&#125;<br/>
-                            /&gt;
-                          </code>
-                        </div>
-                      </div>
-                      <div>
-                        <h5 className="font-medium mb-2">ミニマル（タイトルのみ）</h5>
-                        <div className="bg-background p-3 rounded border">
-                          <code className="text-xs">
-                            &lt;PageHeader<br/>
-                            &nbsp;&nbsp;title="プロフィール"<br/>
-                            &nbsp;&nbsp;showDescription=&#123;false&#125;<br/>
-                            &nbsp;&nbsp;showAction=&#123;false&#125;<br/>
-                            /&gt;
-                          </code>
-                        </div>
-                      </div>
-                      <div>
-                        <h5 className="font-medium mb-2">セクション内要素としての使用例</h5>
-                        <div className="bg-background p-3 rounded border">
-                          <code className="text-xs">
-                            &lt;section className="polaris-section"&gt;<br/>
-                            &nbsp;&nbsp;&lt;PageHeader<br/>
-                            &nbsp;&nbsp;&nbsp;&nbsp;title="案件管理"<br/>
-                            &nbsp;&nbsp;&nbsp;&nbsp;showDescription=&#123;false&#125;<br/>
-                            &nbsp;&nbsp;&nbsp;&nbsp;action=&#123;&lt;Button&gt;新規案件&lt;/Button&gt;&#125;<br/>
-                            &nbsp;&nbsp;/&gt;<br/>
-                            &nbsp;&nbsp;&lt;DataTable /&gt;{/* 16px間隔で配置 */}<br/>
-                            &lt;/section&gt;
-                          </code>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </CardContent>
             </Card>
           </div>

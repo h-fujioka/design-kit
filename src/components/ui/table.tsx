@@ -10,8 +10,8 @@ const tableVariants = cva(
   {
     variants: {
       variant: {
-        default: "",
-        brand: "[&_thead]:bg-brand-50 dark:[&_thead]:bg-brand-900/20 [&_th]:border-brand-200 dark:[&_th]:border-brand-700",
+        default: "[&_thead]:bg-white dark:[&_thead]:bg-white",
+        brand: "[&_thead]:bg-white dark:[&_thead]:bg-white [&_th]:border-brand-200 dark:[&_th]:border-brand-700",
       },
     },
     defaultVariants: {
@@ -45,7 +45,7 @@ const tableHeaderVariants = cva(
     variants: {
       variant: {
         default: "",
-        brand: "bg-brand-50 dark:bg-brand-900/20 border-brand-200 dark:border-brand-700",
+        brand: "bg-white dark:bg-white border-brand-200 dark:border-brand-700",
       },
     },
     defaultVariants: {
@@ -109,7 +109,7 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
     <th
       data-slot="table-head"
       className={cn(
-        "text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+        "text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] bg-white",
         className
       )}
       {...props}
@@ -122,7 +122,7 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
     <td
       data-slot="table-cell"
       className={cn(
-        "p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+        "p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] bg-white",
         className
       )}
       {...props}

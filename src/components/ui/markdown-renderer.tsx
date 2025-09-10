@@ -170,7 +170,7 @@ export function MarkdownRenderer({ content, className = '', variant = 'default' 
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 underline transition-colors"
+              className="text-link hover:text-link-hover underline transition-colors"
               style={{ fontSize: '16px' }}
             >
               {children}

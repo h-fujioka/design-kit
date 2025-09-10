@@ -304,7 +304,7 @@ function AdvancedDataTable<TData, TValue>({
       {/* テーブル */}
       <div className="rounded-md border">
         <Table variant={variant}>
-          <TableHeader>
+          <TableHeader variant={variant}>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -344,7 +344,7 @@ function AdvancedDataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                   className={cn(
                     variant === "brand" && row.getIsSelected() && 
-                    "bg-brand-50 dark:bg-brand-900/20"
+                    "bg-white dark:bg-white"
                   )}
                 >
                   {row.getVisibleCells().map((cell) => (

@@ -1,9 +1,9 @@
 "use client"
 
-import * as React from "react"
 import * as SelectPrimitive from "@radix-ui/react-select"
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 import { cva, type VariantProps } from "class-variance-authority"
+import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
+import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
@@ -30,8 +30,8 @@ const selectTriggerVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50",
-        brand: "border-brand-200 bg-brand-50/50 focus-visible:border-brand-400 focus-visible:ring-brand-400/20 dark:border-brand-800 dark:bg-brand-900/20 dark:hover:bg-brand-900/30 dark:focus-visible:border-brand-600 dark:focus-visible:ring-brand-600/20",
+        default: "border-input bg-white focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-white dark:hover:bg-white",
+        brand: "border-brand-200 bg-white focus-visible:border-brand-400 focus-visible:ring-brand-400/20 dark:border-brand-800 dark:bg-white dark:hover:bg-white dark:focus-visible:border-brand-600 dark:focus-visible:ring-brand-600/20",
         error: "border-destructive bg-destructive/5 focus-visible:border-destructive focus-visible:ring-destructive/20 dark:bg-destructive/10",
       },
     },
@@ -71,7 +71,7 @@ const selectContentVariants = cva(
     variants: {
       variant: {
         default: "bg-popover text-popover-foreground",
-        brand: "bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-brand-200 dark:border-brand-700",
+        brand: "bg-white dark:bg-white text-gray-900 dark:text-gray-900 border-brand-200 dark:border-brand-700",
       },
     },
     defaultVariants: {
@@ -135,7 +135,7 @@ const selectItemVariants = cva(
     variants: {
       variant: {
         default: "focus:bg-accent focus:text-accent-foreground",
-        brand: "focus:bg-brand-50 dark:focus:bg-brand-900/20 focus:text-brand-900 dark:focus:text-brand-100 hover:bg-brand-50/50 dark:hover:bg-brand-900/10",
+        brand: "focus:bg-white dark:focus:bg-white focus:text-brand-900 dark:focus:text-brand-900 hover:bg-white dark:hover:bg-white",
       },
     },
     defaultVariants: {
@@ -216,17 +216,12 @@ function SelectScrollDownButton({
 }
 
 export {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectScrollDownButton,
-  SelectScrollUpButton,
-  SelectSeparator,
-  SelectTrigger,
-  SelectValue,
-  selectTriggerVariants,
-  selectContentVariants,
-  selectItemVariants,
+    Select,
+    SelectContent, selectContentVariants, SelectGroup,
+    SelectItem, selectItemVariants, SelectLabel,
+    SelectScrollDownButton,
+    SelectScrollUpButton,
+    SelectSeparator,
+    SelectTrigger, selectTriggerVariants, SelectValue
 }
+

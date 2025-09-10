@@ -2439,7 +2439,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                 <li>
                   <button 
                     onClick={() => setCurrentScreen('categories')}
-                    className="text-brand-600 hover:text-brand-700 transition-colors underline"
+                    className="text-link hover:text-link-hover transition-colors underline"
                   >
                     スキルライブラリ
                   </button>
@@ -2448,7 +2448,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                   <span className="mx-1 text-muted-foreground">/</span>
                   <button 
                     onClick={handleBackToSkills}
-                    className="text-brand-600 hover:text-brand-700 transition-colors underline"
+                    className="text-link hover:text-link-hover transition-colors underline"
                   >
                     {selectedCategory?.name}
                   </button>
@@ -2931,7 +2931,7 @@ A: 中小企業庁の調査データと自社で行った潜在顧客へのヒ�
                             )}
                             <button
                               onClick={() => handleInvestorClick(investor)}
-                              className="text-sm font-medium text-foreground dark:text-foreground hover:text-brand-600 underline text-left"
+                              className="text-sm font-medium text-foreground dark:text-foreground hover:text-link-hover underline text-left"
                             >
                               {investor.name}
                             </button>

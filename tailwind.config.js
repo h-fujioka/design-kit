@@ -63,7 +63,7 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Brand colors
+        // Brand colors (Primitive tokens - for design system definition only)
         brand: {
           50: "oklch(0.97 0.005 240)",
           100: "oklch(0.94 0.01 240)",
@@ -76,6 +76,33 @@ module.exports = {
           800: "oklch(0.25 0.04 240)",
           900: "oklch(0.18 0.03 240)",
         },
+        // Semantic Colors - セマンティックカラー（brandカラーをextend）
+        // Main Colors - メインカラー
+        main: "oklch(0.4 0.06 240)", // brand-600
+        mainForeground: "oklch(0.97 0.005 240)", // brand-50
+        mainHover: "oklch(0.32 0.05 240)", // brand-700
+        mainActive: "oklch(0.25 0.04 240)", // brand-800
+
+        // Text Colors - テキストカラー
+        textPrimary: "oklch(0.18 0.03 240)", // brand-900
+        textSecondary: "oklch(0.32 0.05 240)", // brand-700
+        textMuted: "oklch(0.5 0.05 240)", // brand-500
+        textCaption: "oklch(0.67 0.04 240)", // brand-400
+
+        // Link Colors - リンクカラー
+        link: "oklch(0.4 0.06 240)", // brand-600
+        linkHover: "oklch(0.32 0.05 240)", // brand-700
+        linkVisited: "oklch(0.5 0.05 240)", // brand-500
+        linkDisabled: "oklch(0.8 0.03 240)", // brand-300
+
+        // Background Colors - 背景カラー
+        backgroundPrimary: "oklch(0.97 0.005 240)", // brand-50
+        backgroundSecondary: "oklch(0.94 0.01 240)", // brand-100
+        backgroundTertiary: "oklch(0.87 0.02 240)", // brand-200
+        backgroundElevated: "oklch(1 0 0)", // white
+
+        // Simple elevated color for better usability
+        elevated: "oklch(1 0 0)", // white
       },
       borderRadius: {
         lg: "var(--radius)",

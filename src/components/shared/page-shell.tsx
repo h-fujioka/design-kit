@@ -11,7 +11,7 @@ export function PageShell({ children, className, maxWidth = 'constrained' }: Pag
   
   return (
     <div className="min-h-screen">
-      <main className="polaris-main">
+      <main className="polaris-main bg-gray-50">
         <Container className={`${containerClass} ${className || ''}`}>
           <div className="polaris-grid">
             {children}
@@ -31,7 +31,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
         </Container>
       </header>
 
-      <main className="polaris-main">
+      <main className="polaris-main bg-gray-50">
         <Container>
           <div className="polaris-grid">
             {children}

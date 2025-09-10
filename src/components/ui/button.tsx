@@ -1,6 +1,6 @@
-import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -16,9 +16,9 @@ const buttonVariants = cva(
         destructive:
           'bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
         outline:
-          'border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50',
+          'border bg-white shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-white dark:border-input dark:hover:bg-input/50',
         brandOutline:
-          'border border-[oklch(0.87_0.02_240)] bg-background text-[oklch(0.32_0.05_240)] shadow-xs hover:bg-[oklch(0.97_0.005_240)] hover:text-[oklch(0.25_0.04_240)] dark:border-[oklch(0.25_0.04_240)] dark:text-[oklch(0.8_0.03_240)] dark:hover:bg-[oklch(0.18_0.03_240/0.5)]',
+          'border border-[oklch(0.87_0.02_240)] bg-white text-[oklch(0.32_0.05_240)] shadow-xs hover:bg-[oklch(0.97_0.005_240)] hover:text-[oklch(0.25_0.04_240)] dark:border-[oklch(0.25_0.04_240)] dark:bg-white dark:text-[oklch(0.8_0.03_240)] dark:hover:bg-[oklch(0.18_0.03_240/0.5)]',
         secondary:
           'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
         ghost:
